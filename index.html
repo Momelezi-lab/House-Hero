@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <!-- Tailwind with dark mode config -->
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center relative">
+    <!-- 🌗 Dark Mode Toggle Button -->
+    <button
+      id="toggle-dark"
+      class="absolute top-4 right-4 text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 p-2 rounded-full hover:scale-110 transition"
+      title="Toggle Dark Mode"
+    >
+      🌙
+    </button>
+
+    <!-- Full-width black bar -->
+
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md relative z-10 mt-20">
+      <form id="login-form" action="/login" method="POST" class="space-y-4">
+        <div class="w-full bg-green-500 py-4 rounded-t-lg mb-6">
+            <h1 class="text-3xl font-bold text-center text-black">houseHero</h1>
+        </div>
+        <div>
+          <label for="username" class="block text-gray-700 dark:text-gray-300">Username</label>
+          <input
+            type="text"
+            name="username"
+            required
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label for="password" class="block text-gray-700 dark:text-gray-300">Password</label>
+          <input
+            type="password"
+            name="password"
+            required
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div class="flex gap-4">
+          <button
+            type="submit"
+            class="w-1/2 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            id="google-login"
+            class="w-1/2 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
+          >
+            Sign Up
+          </button>
+        </div>
+
+        <div class="text-center">
+          <a href="#" class="text-sm text-blue-500 dark:text-blue-400 hover:underline">
+            Forgot Password?
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Toggle Script -->
+    <script>
+      const toggleBtn = document.getElementById('toggle-dark');
+      toggleBtn.addEventListener('click', () => {
+        const html = document.documentElement;
+        html.classList.toggle('dark');
+        toggleBtn.textContent = html.classList.contains('dark') ? '🌙' : '☀️';
+      });
+    </script>
+  </body>
+</html>
+
