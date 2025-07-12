@@ -1,86 +1,98 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <!-- Tailwind with dark mode config -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>HouseHero | Home</title>
+    
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         darkMode: 'class',
       };
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Web App Meta -->
+    <meta name="theme-color" content="#22c55e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
-  <body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center relative">
-    <!-- 🌗 Dark Mode Toggle Button -->
+
+  <body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="relative bg-green-400 dark:bg-green-600 px-4 py-8 text-center">
+      <!-- Top-right ☰ icon linking to login -->
+      <a href="login.html" class="absolute top-4 right-4 text-3xl text-white hover:scale-110 transition">☰</a>
+
+      <!-- Centered text -->
+      <div class="flex flex-col items-center justify-center">
+        <h1 class="text-3xl font-bold text-white">Welcome! 🛠️</h1>
+        <p class="text-lg mt-1 text-white">how can we rescue you?</p>
+      </div>
+    </header>
+
+    <!-- Main Service Section -->
+    <main class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      <!-- Cleaning Card -->
+      <a href="book-cleaning.html" class="block bg-green-400 dark:bg-green-600 p-4 rounded-lg flex items-start gap-4 shadow hover:bg-green-500 dark:hover:bg-green-700 transition">
+        <span class="text-3xl">🧹</span>
+        <div>
+          <h2 class="font-bold text-white">Cleaning Services</h2>
+          <p class="text-white text-sm italic">
+            Need a spotless home or office? Book a pro cleaner in minutes.
+          </p>
+        </div>
+      </a>
+
+      <!-- Locksmith Card -->
+      <a href="book-locksmith.html" class="block bg-green-400 dark:bg-green-600 p-4 rounded-lg flex items-start gap-4 shadow hover:bg-green-500 dark:hover:bg-green-700 transition">
+        <span class="text-3xl">🔐</span>
+        <div>
+          <h2 class="font-bold text-white">Locksmith Services</h2>
+          <p class="text-white text-sm italic">
+            Locked out or need new keys? Get instant help from trusted locksmiths.
+          </p>
+        </div>
+      </a>
+
+      <!-- Plumbing Card -->
+      <a href="book-plumbing.html" class="block bg-green-400 dark:bg-green-600 p-4 rounded-lg flex items-start gap-4 shadow hover:bg-green-500 dark:hover:bg-green-700 transition">
+        <span class="text-3xl">🚰</span>
+        <div>
+          <h2 class="font-bold text-white">Plumbing Services</h2>
+          <p class="text-white text-sm italic">
+            Leaky taps, blocked drains, or burst pipes? Book a reliable plumber fast.
+          </p>
+        </div>
+      </a>
+
+      <!-- Appliance Repairs Card -->
+      <a href="book-appliance.html" class="block bg-green-400 dark:bg-green-600 p-4 rounded-lg flex items-start gap-4 shadow hover:bg-green-500 dark:hover:bg-green-700 transition">
+        <span class="text-3xl">🛠️</span>
+        <div>
+          <h2 class="font-bold text-white">Appliance Repairs</h2>
+          <p class="text-white text-sm italic">
+            Broken fridge, oven, or washer? We'll send a tech to fix it right.
+          </p>
+        </div>
+      </a>
+    </main>
+
+    <!-- Dark Mode Toggle -->
     <button
       id="toggle-dark"
-      class="absolute top-4 right-4 text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 p-2 rounded-full hover:scale-110 transition"
+      class="fixed bottom-4 right-4 text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 p-3 rounded-full hover:scale-110 transition z-50 shadow-lg"
       title="Toggle Dark Mode"
     >
-      🌙
+      ☀️
     </button>
 
-    <!-- Full-width black bar -->
-
-    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md relative z-10 mt-20">
-      <form id="login-form" action="/login" method="POST" class="space-y-4">
-        <div class="w-full bg-green-500 py-4 rounded-t-lg mb-6">
-            <h1 class="text-3xl font-bold text-center text-black">houseHero</h1>
-        </div>
-        <div>
-          <label for="username" class="block text-gray-700 dark:text-gray-300">Username</label>
-          <input
-            type="text"
-            name="username"
-            required
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div>
-          <label for="password" class="block text-gray-700 dark:text-gray-300">Password</label>
-          <input
-            type="password"
-            name="password"
-            required
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div class="flex gap-4">
-          <button
-            type="submit"
-            class="w-1/2 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
-          >
-            Login
-          </button>
-          <button
-            type="button"
-            id="google-login"
-            class="w-1/2 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
-          >
-            Sign Up
-          </button>
-        </div>
-
-        <div class="text-center">
-          <a href="#" class="text-sm text-blue-500 dark:text-blue-400 hover:underline">
-            Forgot Password?
-          </a>
-        </div>
-      </form>
-    </div>
-
-    <!-- Toggle Script -->
-    <script>
-      const toggleBtn = document.getElementById('toggle-dark');
-      toggleBtn.addEventListener('click', () => {
-        const html = document.documentElement;
-        html.classList.toggle('dark');
-        toggleBtn.textContent = html.classList.contains('dark') ? '🌙' : '☀️';
-      });
-    </script>
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
   </body>
 </html>
-
