@@ -4,93 +4,60 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HouseHero | Login</title>
-    
-    <!-- Tailwind with dark mode config -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-      };
-    </script>
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
-  
-  <body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center relative">
-    <!-- Back Button -->
-    <a href="index.html" class="absolute top-4 left-4 text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 p-2 rounded-full hover:scale-110 transition">
-      ← Back
-    </a>
-
-    <!-- Dark Mode Toggle Button -->
-    <button
-      id="toggle-dark"
-      class="absolute top-4 right-4 text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 p-2 rounded-full hover:scale-110 transition"
-      title="Toggle Dark Mode"
-    >
+  <body class="light login-body" style="background: #fff">
+    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
       ☀️
     </button>
-
-    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md mx-4">
-      <div class="w-full bg-green-500 dark:bg-green-600 py-4 rounded-t-lg mb-6">
-    <h1 class="text-3xl font-bold text-center text-white">houseHero</h1>
-  </div>
-      
-      <form id="login-form" class="space-y-4">
-        <div>
-          <label for="username" class="block text-gray-700 dark:text-gray-300 mb-2">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
+    <div class="login-centered-container">
+      <header class="login-header-banner-full">
+        <div class="login-logo-row">
+          <span class="login-logo-text">house</span>
+          <span class="login-logo-icon"
+            ><i class="fa-solid fa-person-running fa-2x"></i
+          ></span>
+          <span class="login-logo-text">ero</span>
         </div>
-        
-        <div>
-          <label for="password" class="block text-gray-700 dark:text-gray-300 mb-2">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-        </div>
-
-        <div class="flex gap-4">
-          <button
-            type="submit"
-            class="w-1/2 bg-green-500 dark:bg-green-600 text-white py-2 rounded-lg hover:bg-green-600 dark:hover:bg-green-700 transition duration-300"
-          >
-            Login
-          </button>
-          <button
-            type="button"
-            id="signup-btn"
-            class="w-1/2 bg-green-500 dark:bg-green-600 text-white py-2 rounded-lg hover:bg-green-600 dark:hover:bg-green-700 transition duration-300"
-          >
+      </header>
+      <form id="login-form" class="login-form">
+        <label for="username" class="form-label">username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          required
+          class="form-input"
+        />
+        <label for="password" class="form-label">password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          class="form-input"
+        />
+        <div class="form-actions">
+          <button type="button" id="signup-btn" class="btn login-btn">
             Sign Up
           </button>
-        </div>
-
-        <div class="text-center">
-          <a href="#" class="text-sm text-green-500 dark:text-green-400 hover:underline">
-            Forgot Password?
-          </a>
+          <button type="submit" class="btn login-btn">Login</button>
         </div>
       </form>
+      <div class="login-links">
+        <a href="#" class="login-link">forgot password?</a>
+        <a href="#" class="login-link">privacy</a>
+      </div>
     </div>
-
-    <!-- JavaScript -->
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
     <script>
-      // Form submission
-      document.getElementById('login-form').addEventListener('submit', (e) => {
+      document.getElementById("login-form").addEventListener("submit", (e) => {
         e.preventDefault();
-        alert('Login functionality would be implemented here');
+        window.location.href = "index.html";
       });
     </script>
   </body>

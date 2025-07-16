@@ -2,97 +2,81 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>HouseHero | Home</title>
-    
-    <!-- TailwindCSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-      };
-    </script>
-
     <!-- Web App Meta -->
     <meta name="theme-color" content="#22c55e" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
-
-  <body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen flex flex-col">
-
-    <!-- Header -->
-    <header class="relative bg-green-400 dark:bg-green-600 px-4 py-8 text-center">
-      <!-- Top-right ☰ icon linking to login -->
-      <a href="login.html" class="absolute top-4 right-4 text-3xl text-white hover:scale-110 transition">☰</a>
-
-      <!-- Centered text -->
-      <div class="flex flex-col items-center justify-center">
-        <h1 class="text-3xl font-bold text-white">Welcome! 🛠️</h1>
-        <p class="text-lg mt-1 text-white">how can we rescue you?</p>
-      </div>
-    </header>
-
-    <!-- Main Service Section -->
-    <main class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-      <!-- Cleaning Card -->
-      <a href="book-cleaning.html" class="block bg-green-400 dark:bg-green-600 p-4 rounded-lg flex items-start gap-4 shadow hover:bg-green-500 dark:hover:bg-green-700 transition">
-        <span class="text-3xl">🧹</span>
-        <div>
-          <h2 class="font-bold text-white">Cleaning Services</h2>
-          <p class="text-white text-sm italic">
-            Need a spotless home or office? Book a pro cleaner in minutes.
-          </p>
-        </div>
-      </a>
-
-      <!-- Locksmith Card -->
-      <a href="book-locksmith.html" class="block bg-green-400 dark:bg-green-600 p-4 rounded-lg flex items-start gap-4 shadow hover:bg-green-500 dark:hover:bg-green-700 transition">
-        <span class="text-3xl">🔐</span>
-        <div>
-          <h2 class="font-bold text-white">Locksmith Services</h2>
-          <p class="text-white text-sm italic">
-            Locked out or need new keys? Get instant help from trusted locksmiths.
-          </p>
-        </div>
-      </a>
-
-      <!-- Plumbing Card -->
-      <a href="book-plumbing.html" class="block bg-green-400 dark:bg-green-600 p-4 rounded-lg flex items-start gap-4 shadow hover:bg-green-500 dark:hover:bg-green-700 transition">
-        <span class="text-3xl">🚰</span>
-        <div>
-          <h2 class="font-bold text-white">Plumbing Services</h2>
-          <p class="text-white text-sm italic">
-            Leaky taps, blocked drains, or burst pipes? Book a reliable plumber fast.
-          </p>
-        </div>
-      </a>
-
-      <!-- Appliance Repairs Card -->
-      <a href="book-mechanic.html" class="block bg-green-400 dark:bg-green-600 p-4 rounded-lg flex items-start gap-4 shadow hover:bg-green-500 dark:hover:bg-green-700 transition">
-        <span class="text-3xl">🛠️</span>
-        <div>
-          <h2 class="font-bold text-white">Mechanic Services</h2>
-          <p class="text-white text-sm italic">
-            Car broken? . Book a mechanic to get you back on the road.
-          </p>
-        </div>
-      </a>
-    </main>
-
-    <!-- Dark Mode Toggle -->
-    <button
-      id="toggle-dark"
-      class="fixed bottom-4 right-4 text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 p-3 rounded-full hover:scale-110 transition z-50 shadow-lg"
-      title="Toggle Dark Mode"
-    >
+  <body class="light">
+    <a href="#" class="menu-icon" id="menu-toggle">☰</a>
+    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
       ☀️
     </button>
-
+    <div class="bar bar-top"></div>
+    <header class="cleaning-header">
+      <h1 class="cleaning-title">Welcome! 🛠️</h1>
+      <p class="subtitle">How can we rescue you today?</p>
+    </header>
+    <!-- Sidebar Menu -->
+    <aside id="sidebar-menu" class="sidebar-menu">
+      <button class="close-btn" id="close-menu">×</button>
+      <div class="sidebar-profile">
+        <img
+          src="https://randomuser.me/api/portraits/men/1.jpg"
+          alt="User Avatar"
+          class="sidebar-avatar"
+        />
+        <div class="sidebar-name">Apiwe Fuzile</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link">🏠 home</a>
+        <a href="profile.html" class="sidebar-link">profile</a>
+        <a href="settings.html" class="sidebar-link">settings</a>
+        <a href="complaints.html" class="sidebar-link">complaints</a>
+        <a href="contact.html" class="sidebar-link">get in touch</a>
+        <a href="faq.html" class="sidebar-link">F.A.Q</a>
+        <a href="#" class="sidebar-link logout-link">⎋ logout</a>
+      </nav>
+    </aside>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    <!-- Main Service Grid -->
+    <main class="cleaning-grid-container">
+      <div class="cleaning-grid">
+        <a href="cleaning-option.html" class="cleaning-option">
+          <i class="fa-solid fa-broom cleaning-icon"></i>
+          <div class="cleaning-label">Cleaning Services</div>
+          <div class="cleaning-description">Professional deep cleaning</div>
+        </a>
+        <a href="book-locksmith.html" class="cleaning-option">
+          <i class="fa-solid fa-key cleaning-icon"></i>
+          <div class="cleaning-label">Locksmith Services</div>
+          <div class="cleaning-description">24/7 emergency locksmith</div>
+        </a>
+        <a href="book-plumbing.html" class="cleaning-option">
+          <i class="fa-solid fa-wrench cleaning-icon"></i>
+          <div class="cleaning-label">Plumbing Services</div>
+          <div class="cleaning-description">Expert plumbing solutions</div>
+        </a>
+        <a href="book-mechanic.html" class="cleaning-option">
+          <i class="fa-solid fa-car cleaning-icon"></i>
+          <div class="cleaning-label">Mechanic Services</div>
+          <div class="cleaning-description">Mobile car repair service</div>
+        </a>
+      </div>
+    </main>
+    <div class="bar bar-bottom"></div>
     <!-- JavaScript -->
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>

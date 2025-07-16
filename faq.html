@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>HouseHero | FAQ</title>
+    <!-- Web App Meta -->
+    <meta name="theme-color" content="#22c55e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="light">
+    <!-- Header -->
+    <header class="header">
+      <a href="#" class="menu-icon" id="menu-toggle">☰</a>
+      <div class="header-content">
+        <h1 class="main-title">FAQ</h1>
+        <p class="subtitle">Frequently Asked Questions</p>
+      </div>
+    </header>
+    <!-- Sidebar Menu -->
+    <aside id="sidebar-menu" class="sidebar-menu">
+      <button class="close-btn" id="close-menu">×</button>
+      <div class="sidebar-profile">
+        <img
+          src="https://randomuser.me/api/portraits/men/1.jpg"
+          alt="User Avatar"
+          class="sidebar-avatar"
+        />
+        <div class="sidebar-name">Apiwe Fuzile</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link">🏠 home</a>
+        <a href="profile.html" class="sidebar-link">profile</a>
+        <a href="settings.html" class="sidebar-link">settings</a>
+        <a href="complaints.html" class="sidebar-link">complaints</a>
+        <a href="contact.html" class="sidebar-link">get in touch</a>
+        <a href="faq.html" class="sidebar-link">F.A.Q</a>
+        <a href="#" class="sidebar-link logout-link">⎋ logout</a>
+      </nav>
+    </aside>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-section">
+      <!-- Search Section -->
+      <div class="faq-search-section">
+        <div class="search-container">
+          <input
+            type="text"
+            id="faq-search"
+            placeholder="Search for questions..."
+            class="faq-search-input"
+          />
+          <button class="search-btn" onclick="searchFAQ()">🔍</button>
+        </div>
+      </div>
+
+      <!-- FAQ Categories -->
+      <div class="faq-categories">
+        <button class="category-btn active" data-category="all">
+          All Questions
+        </button>
+        <button class="category-btn" data-category="booking">Booking</button>
+        <button class="category-btn" data-category="pricing">Pricing</button>
+        <button class="category-btn" data-category="cancellation">
+          Cancellation
+        </button>
+        <button class="category-btn" data-category="safety">Safety</button>
+        <button class="category-btn" data-category="payment">Payment</button>
+        <button class="category-btn" data-category="account">Account</button>
+      </div>
+
+      <!-- FAQ Content -->
+      <div class="faq-content">
+        <!-- Booking Section -->
+        <div class="faq-section" id="booking">
+          <h2 class="section-title">Booking Services</h2>
+
+          <div class="faq-item" data-category="booking">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>How do I book a service?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Booking a service is easy! Simply select the service you need
+                from our home page, choose your preferred date and time, fill in
+                your details, and confirm your booking. You'll receive a
+                confirmation email and SMS with all the details.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="booking">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>How far in advance should I book?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                We recommend booking at least 24 hours in advance for most
+                services. For weekend appointments or during peak seasons,
+                booking 2-3 days ahead is advisable. Emergency services like
+                locksmiths can often be arranged within a few hours.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="booking">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Can I book multiple services at once?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Yes! You can book multiple services in a single session. Simply
+                add each service to your cart and schedule them for the same day
+                or different days. We also offer package deals for multiple
+                services.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="booking">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>What information do I need to provide when booking?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                You'll need to provide your name, phone number, email address,
+                service address, preferred date and time, and any specific
+                requirements or instructions for the service. For some services,
+                we may also need access information or special instructions.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing Section -->
+        <div class="faq-section" id="pricing">
+          <h2 class="section-title">Pricing & Costs</h2>
+
+          <div class="faq-item" data-category="pricing">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>How are service prices calculated?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Our pricing is based on several factors including the type of
+                service, duration, property size, location, and any special
+                requirements. We provide transparent pricing with no hidden
+                fees. You'll see the exact cost before confirming your booking.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="pricing">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Do you offer any discounts or promotions?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Yes! We regularly offer promotions including first-time customer
+                discounts, referral bonuses, and seasonal deals. We also offer
+                package discounts when booking multiple services. Check our app
+                or website for current offers.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="pricing">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Are there any additional fees?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Our quoted prices include all standard service costs. Additional
+                fees may apply for emergency services outside business hours,
+                travel to remote locations, or if additional materials are
+                required. Any extra costs will be clearly communicated before
+                the service begins.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="pricing">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Can I get a quote before booking?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Absolutely! You can get an instant quote by entering your
+                service details on our website or app. For complex services, you
+                can also request a detailed quote by contacting our support
+                team. We're committed to transparent pricing.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cancellation Section -->
+        <div class="faq-section" id="cancellation">
+          <h2 class="section-title">Cancellation & Rescheduling</h2>
+
+          <div class="faq-item" data-category="cancellation">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>What is your cancellation policy?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                You can cancel or reschedule your booking free of charge up to
+                24 hours before the scheduled service time. Cancellations within
+                24 hours may incur a small fee. Emergency cancellations due to
+                unforeseen circumstances are handled on a case-by-case basis.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="cancellation">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>How do I cancel or reschedule my booking?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                You can cancel or reschedule through your account dashboard, by
+                calling our support team, or through the confirmation email/SMS.
+                Simply provide your booking reference number and we'll help you
+                make the changes.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="cancellation">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>What happens if the service provider cancels?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                If a service provider needs to cancel, we'll notify you
+                immediately and work to reschedule with another qualified
+                provider. If we can't find a suitable replacement, you'll
+                receive a full refund and we'll help you book for another time.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Safety Section -->
+        <div class="faq-section" id="safety">
+          <h2 class="section-title">Safety & Security</h2>
+
+          <div class="faq-item" data-category="safety">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>How do you ensure the safety of your service providers?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                All our service providers undergo thorough background checks,
+                identity verification, and skill assessments. They carry
+                identification badges and are tracked during service visits. We
+                also have insurance coverage for all services provided.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="safety">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>What if I'm not satisfied with the service quality?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                We stand behind the quality of our services. If you're not
+                satisfied, contact us within 24 hours and we'll work to resolve
+                the issue. This may include a re-service, partial refund, or
+                other appropriate compensation.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="safety">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Are your service providers insured?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Yes, all our service providers are fully insured. This includes
+                liability insurance and workers' compensation coverage. Your
+                property and our service providers are protected during all
+                service visits.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="safety">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>What COVID-19 safety measures do you have in place?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Our service providers follow strict COVID-19 protocols including
+                wearing masks, maintaining social distance, using hand
+                sanitizer, and disinfecting equipment. They also complete daily
+                health screenings before starting work.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="faq-section" id="payment">
+          <h2 class="section-title">Payment & Billing</h2>
+
+          <div class="faq-item" data-category="payment">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>What payment methods do you accept?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                We accept all major credit cards (Visa, MasterCard, American
+                Express), debit cards, bank transfers, and digital wallets like
+                PayPal and Apple Pay. Payment is processed securely through our
+                platform.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="payment">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>When do I pay for the service?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Payment is processed after the service is completed and you've
+                confirmed satisfaction. For some services, a small deposit may
+                be required at booking. You'll receive an invoice within 24
+                hours of service completion.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="payment">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Can I get a refund if I'm not satisfied?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Yes, we offer a satisfaction guarantee. If you're not completely
+                satisfied with the service, contact us within 24 hours and we'll
+                work to resolve the issue. This may include a full or partial
+                refund depending on the circumstances.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="payment">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Do you offer payment plans?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                For larger projects or recurring services, we do offer payment
+                plans. These can be arranged through our support team. Standard
+                services are typically paid in full after completion.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Section -->
+        <div class="faq-section" id="account">
+          <h2 class="section-title">Account & Profile</h2>
+
+          <div class="faq-item" data-category="account">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>How do I create an account?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Creating an account is simple! Click the "Sign Up" button on our
+                website or app, enter your email address, create a password, and
+                verify your email. You can also sign up using your Google or
+                Facebook account for convenience.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="account">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>How do I update my profile information?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                You can update your profile information by going to your account
+                settings. Click on your profile picture or name, then select
+                "Edit Profile" to update your personal information, contact
+                details, and preferences.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="account">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Can I have multiple addresses saved?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Yes! You can save multiple addresses in your account. This is
+                useful if you need services at different locations like your
+                home, office, or rental property. You can manage these addresses
+                in your account settings.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="account">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>How do I delete my account?</h3>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                To delete your account, go to your account settings and select
+                "Delete Account." You'll need to confirm your decision and
+                provide a reason. Please note that this action is permanent and
+                cannot be undone.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Still Need Help Section -->
+      <div class="help-section">
+        <h2 class="section-title">Still Need Help?</h2>
+        <p>
+          Can't find the answer you're looking for? Our support team is here to
+          help!
+        </p>
+
+        <div class="help-options">
+          <a href="contact.html" class="btn-primary">Contact Support</a>
+          <a href="complaints.html" class="btn-secondary">Submit a Complaint</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Dark Mode Toggle -->
+    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
+      ☀️
+    </button>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script>
+      // FAQ page specific JavaScript
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeFAQ();
+      });
+
+      function initializeFAQ() {
+        // Category filtering
+        const categoryBtns = document.querySelectorAll(".category-btn");
+        categoryBtns.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const category = this.dataset.category;
+            filterByCategory(category);
+
+            // Update active button
+            categoryBtns.forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById("faq-search");
+        searchInput.addEventListener("input", function () {
+          searchFAQ();
+        });
+
+        // Handle hash navigation
+        if (window.location.hash) {
+          const targetSection = window.location.hash.substring(1);
+          const targetElement = document.getElementById(targetSection);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: "smooth" });
+            // Filter to show only that category
+            filterByCategory(targetSection);
+            categoryBtns.forEach((btn) => {
+              btn.classList.remove("active");
+              if (btn.dataset.category === targetSection) {
+                btn.classList.add("active");
+              }
+            });
+          }
+        }
+      }
+
+      function toggleFAQ(element) {
+        const answer = element.nextElementSibling;
+        const toggle = element.querySelector(".faq-toggle");
+
+        if (answer.style.maxHeight) {
+          answer.style.maxHeight = null;
+          toggle.textContent = "+";
+        } else {
+          answer.style.maxHeight = answer.scrollHeight + "px";
+          toggle.textContent = "−";
+        }
+      }
+
+      function filterByCategory(category) {
+        const faqItems = document.querySelectorAll(".faq-item");
+
+        faqItems.forEach((item) => {
+          if (category === "all" || item.dataset.category === category) {
+            item.style.display = "block";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      }
+
+      function searchFAQ() {
+        const searchTerm = document
+          .getElementById("faq-search")
+          .value.toLowerCase();
+        const faqItems = document.querySelectorAll(".faq-item");
+
+        faqItems.forEach((item) => {
+          const question = item.querySelector("h3").textContent.toLowerCase();
+          const answer = item
+            .querySelector(".faq-answer p")
+            .textContent.toLowerCase();
+
+          if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+            item.style.display = "block";
+            // Highlight search term
+            if (searchTerm) {
+              highlightText(item, searchTerm);
+            }
+          } else {
+            item.style.display = "none";
+          }
+        });
+
+        // Update category buttons
+        const categoryBtns = document.querySelectorAll(".category-btn");
+        categoryBtns.forEach((btn) => btn.classList.remove("active"));
+        document.querySelector('[data-category="all"]').classList.add("active");
+      }
+
+      function highlightText(element, searchTerm) {
+        const question = element.querySelector("h3");
+        const answer = element.querySelector(".faq-answer p");
+
+        // Remove existing highlights
+        question.innerHTML = question.innerHTML
+          .replace(/<mark>/g, "")
+          .replace(/<\/mark>/g, "");
+        answer.innerHTML = answer.innerHTML
+          .replace(/<mark>/g, "")
+          .replace(/<\/mark>/g, "");
+
+        // Add new highlights
+        const questionText = question.textContent;
+        const answerText = answer.textContent;
+
+        question.innerHTML = questionText.replace(
+          new RegExp(searchTerm, "gi"),
+          (match) => `<mark>${match}</mark>`
+        );
+        answer.innerHTML = answerText.replace(
+          new RegExp(searchTerm, "gi"),
+          (match) => `<mark>${match}</mark>`
+        );
+      }
+
+      // Expand FAQ item when navigating via hash
+      function expandFAQByHash() {
+        if (window.location.hash) {
+          const targetId = window.location.hash.substring(1);
+          const targetItem = document.querySelector(
+            `[data-category="${targetId}"]`
+          );
+          if (targetItem) {
+            const question = targetItem.querySelector(".faq-question");
+            toggleFAQ(question);
+          }
+        }
+      }
+
+      // Call on page load
+      setTimeout(expandFAQByHash, 500);
+    </script>
+  </body>
+</html>
