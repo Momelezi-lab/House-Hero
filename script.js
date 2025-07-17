@@ -2,10 +2,13 @@
 
 // Dark mode functionality
 document.addEventListener("DOMContentLoaded", () => {
-  // Redirect to login if not authenticated
+  // Redirect to login if not authenticated, but skip admin pages
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const isLoginPage = window.location.pathname.endsWith("login.html");
-  if (!isLoggedIn && !isLoginPage) {
+  const isAdminPage =
+    window.location.pathname.endsWith("admin-dashboard.html") ||
+    window.location.pathname.endsWith("admin-bookings.html");
+  if (!isLoggedIn && !isLoginPage && !isAdminPage) {
     window.location.href = "login.html";
     return;
   }
@@ -359,5 +362,571 @@ if ("serviceWorker" in navigator) {
     //   .catch(registrationError => {
     //     console.log('SW registration failed: ', registrationError);
     //   });
+  });
+}
+
+// Admin Dashboard Analytics Chart
+function renderAdminAnalytics() {
+  // Destroy existing charts if they exist
+  if (window._adminCharts) {
+    window._adminCharts.forEach((c) => c && c.destroy && c.destroy());
+  }
+  window._adminCharts = [];
+  let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+  if (bookings.length === 0) {
+    const last = localStorage.getItem("lastBooking");
+    if (last) bookings = [JSON.parse(last)];
+  }
+  // Bookings per month
+  if (document.getElementById("bookingsChart")) {
+    const monthCounts = {};
+    bookings.forEach((b) => {
+      if (b.date) {
+        const month = b.date.slice(0, 7); // 'YYYY-MM'
+        monthCounts[month] = (monthCounts[month] || 0) + 1;
+      }
+    });
+    const months = Object.keys(monthCounts).sort();
+    const counts = months.map((m) => monthCounts[m]);
+    if (months.length === 0) {
+      const now = new Date();
+      const m =
+        now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+      months.push(m);
+      counts.push(0);
+    }
+    window._adminCharts[0] = new Chart(
+      document.getElementById("bookingsChart").getContext("2d"),
+      {
+        type: "bar",
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: "Bookings",
+              data: counts,
+              backgroundColor: "#22c55e",
+              borderRadius: 8,
+              maxBarThickness: 40,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: false },
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 } },
+          },
+        },
+      }
+    );
+  }
+  // Booking Status Pie Chart
+  if (document.getElementById("statusChart")) {
+    const confirmed = bookings.filter((b) => b.status === "confirmed").length;
+    const pending = bookings.filter(
+      (b) => b.status === "pending payment"
+    ).length;
+    window._adminCharts[1] = new Chart(
+      document.getElementById("statusChart").getContext("2d"),
+      {
+        type: "doughnut",
+        data: {
+          labels: ["Confirmed", "Pending Payment"],
+          datasets: [
+            {
+              data: [confirmed, pending],
+              backgroundColor: ["#22c55e", "#fbbf24"],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true, position: "bottom" },
+            title: { display: true, text: "Booking Status" },
+          },
+        },
+      }
+    );
+  }
+  // Expenses vs Earnings Bar Chart
+  if (document.getElementById("financeChart")) {
+    const totalEarnings = bookings.reduce((sum, b) => sum + (b.amount || 0), 0);
+    const totalExpenses = bookings.reduce(
+      (sum, b) => sum + (b.expense || 0),
+      0
+    );
+    window._adminCharts[2] = new Chart(
+      document.getElementById("financeChart").getContext("2d"),
+      {
+        type: "bar",
+        data: {
+          labels: ["Earnings", "Expenses"],
+          datasets: [
+            {
+              label: "ZAR",
+              data: [totalEarnings, totalExpenses],
+              backgroundColor: ["#22c55e", "#ef4444"],
+              borderRadius: 8,
+              maxBarThickness: 40,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: "Earnings vs Expenses" },
+          },
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      }
+    );
+  }
+  // Bookings by Service Type Pie Chart
+  if (document.getElementById("serviceTypeChart")) {
+    const serviceCounts = {};
+    bookings.forEach((b) => {
+      const service = b.service || "Other";
+      serviceCounts[service] = (serviceCounts[service] || 0) + 1;
+    });
+    const serviceLabels = Object.keys(serviceCounts);
+    const serviceData = serviceLabels.map((s) => serviceCounts[s]);
+    const serviceColors = [
+      "#22c55e",
+      "#3b82f6",
+      "#fbbf24",
+      "#ef4444",
+      "#a78bfa",
+      "#f472b6",
+      "#10b981",
+    ];
+    window._adminCharts[3] = new Chart(
+      document.getElementById("serviceTypeChart").getContext("2d"),
+      {
+        type: "pie",
+        data: {
+          labels: serviceLabels,
+          datasets: [
+            {
+              data: serviceData,
+              backgroundColor: serviceLabels.map(
+                (_, i) => serviceColors[i % serviceColors.length]
+              ),
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true, position: "bottom" },
+            title: { display: true, text: "Bookings by Service Type" },
+          },
+        },
+      }
+    );
+  }
+  // User Growth Over Time Line Chart
+  if (document.getElementById("userGrowthChart")) {
+    let users = JSON.parse(localStorage.getItem("allUsers") || "[]");
+    if (!Array.isArray(users) || users.length === 0) {
+      const now = new Date();
+      users = Array.from({ length: 10 }, (_, i) => {
+        const d = new Date(
+          now.getFullYear(),
+          now.getMonth() - Math.floor(i / 2),
+          1 + (i % 5)
+        );
+        return { registered: d.toISOString().slice(0, 10) };
+      });
+    }
+    const monthCounts = {};
+    users.forEach((u) => {
+      if (u.registered) {
+        const month = u.registered.slice(0, 7); // 'YYYY-MM'
+        monthCounts[month] = (monthCounts[month] || 0) + 1;
+      }
+    });
+    const months = Object.keys(monthCounts).sort();
+    let total = 0;
+    const growth = months.map((m) => (total += monthCounts[m]));
+    window._adminCharts[4] = new Chart(
+      document.getElementById("userGrowthChart").getContext("2d"),
+      {
+        type: "line",
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: "Total Users",
+              data: growth,
+              borderColor: "#22c55e",
+              backgroundColor: "rgba(34,197,94,0.12)",
+              fill: true,
+              tension: 0.3,
+              pointRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: "User Growth Over Time" },
+          },
+          scales: {
+            y: { beginAtZero: true, precision: 0 },
+          },
+        },
+      }
+    );
+  }
+  // Revenue by Service Bar Chart
+  if (document.getElementById("revenueServiceChart")) {
+    const revenueByService = {};
+    bookings.forEach((b) => {
+      const service = b.service || "Other";
+      revenueByService[service] =
+        (revenueByService[service] || 0) + (b.amount || 0);
+    });
+    const serviceLabels = Object.keys(revenueByService);
+    const revenueData = serviceLabels.map((s) => revenueByService[s]);
+    const serviceColors = [
+      "#22c55e",
+      "#3b82f6",
+      "#fbbf24",
+      "#ef4444",
+      "#a78bfa",
+      "#f472b6",
+      "#10b981",
+    ];
+    window._adminCharts[5] = new Chart(
+      document.getElementById("revenueServiceChart").getContext("2d"),
+      {
+        type: "bar",
+        data: {
+          labels: serviceLabels,
+          datasets: [
+            {
+              label: "Earnings (ZAR)",
+              data: revenueData,
+              backgroundColor: serviceLabels.map(
+                (_, i) => serviceColors[i % serviceColors.length]
+              ),
+              borderRadius: 8,
+              maxBarThickness: 40,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: "Revenue by Service" },
+          },
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      }
+    );
+  }
+  // Complaints Statistics Bar Chart
+  if (document.getElementById("complaintsStatsChart")) {
+    let complaints = JSON.parse(localStorage.getItem("allComplaints") || "[]");
+    const typeCounts = {};
+    complaints.forEach((c) => {
+      const type = c.type || "Other";
+      typeCounts[type] = (typeCounts[type] || 0) + 1;
+    });
+    const typeLabels = Object.keys(typeCounts);
+    const typeData = typeLabels.map((t) => typeCounts[t]);
+    const typeColors = [
+      "#ef4444",
+      "#fbbf24",
+      "#3b82f6",
+      "#22c55e",
+      "#a78bfa",
+      "#f472b6",
+      "#10b981",
+    ];
+    window._adminCharts[6] = new Chart(
+      document.getElementById("complaintsStatsChart").getContext("2d"),
+      {
+        type: "bar",
+        data: {
+          labels: typeLabels,
+          datasets: [
+            {
+              label: "Complaints",
+              data: typeData,
+              backgroundColor: typeLabels.map(
+                (_, i) => typeColors[i % typeColors.length]
+              ),
+              borderRadius: 8,
+              maxBarThickness: 40,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: "Complaints by Type" },
+          },
+          scales: {
+            y: { beginAtZero: true, precision: 0 },
+          },
+        },
+      }
+    );
+  }
+}
+// Call on page load
+if (document.getElementById("bookingsChart")) {
+  renderAdminAnalytics();
+}
+
+// Admin Dashboard: Add confirm booking logic and render status/action columns
+function confirmBooking(idx) {
+  let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+  if (bookings[idx]) {
+    bookings[idx].status = "confirmed";
+    localStorage.setItem("allBookings", JSON.stringify(bookings));
+    // Refresh dashboard and tables
+    if (typeof loadDashboard === "function") loadDashboard();
+    if (typeof loadAllBookings === "function") loadAllBookings();
+    // Also refresh analytics charts
+    if (typeof Chart === "function") window.location.reload();
+  }
+}
+
+// Patch loadDashboard and loadAllBookings to show status and confirm button
+if (typeof loadDashboard === "function") {
+  const origLoadDashboard = loadDashboard;
+  loadDashboard = function () {
+    const bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+    document.getElementById("total-bookings").textContent = bookings.length;
+    document.getElementById("total-users").textContent = "1"; // Demo only
+    document.getElementById("total-earnings").textContent =
+      "R" + bookings.reduce((sum, b) => sum + (b.amount || 0), 0);
+    const latest = bookings.slice(-5).reverse();
+    const table = document.getElementById("latest-bookings-table");
+    if (latest.length === 0) {
+      table.innerHTML = '<tr><td colspan="8">No bookings found.</td></tr>';
+    } else {
+      table.innerHTML = latest
+        .map((b, i) => {
+          const idx = bookings.length - 1 - i;
+          return `<tr>
+            <td>${b.name}</td>
+            <td>${b.address}</td>
+            <td>${b.date}</td>
+            <td>${b.time}</td>
+            <td>${b.service}</td>
+            <td>${b.details || "-"}</td>
+            <td>${b.status || "pending payment"}</td>
+            <td>${
+              b.status === "pending payment"
+                ? `<button onclick="confirmBooking(${idx})" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>`
+                : ""
+            }</td>
+          </tr>`;
+        })
+        .join("");
+    }
+  };
+}
+if (typeof loadAllBookings === "function") {
+  const origLoadAllBookings = loadAllBookings;
+  loadAllBookings = function () {
+    let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+    const table = document.getElementById("all-bookings-table");
+    if (bookings.length === 0) {
+      table.innerHTML = '<tr><td colspan="8">No bookings found.</td></tr>';
+    } else {
+      table.innerHTML = bookings
+        .map(
+          (b, i) => `<tr>
+          <td>${b.name}</td>
+          <td>${b.address}</td>
+          <td>${b.date}</td>
+          <td>${b.time}</td>
+          <td>${b.service}</td>
+          <td>${b.details || "-"}</td>
+          <td>${b.status || "pending payment"}</td>
+          <td>${
+            b.status === "pending payment"
+              ? `<button onclick="confirmBooking(${i})" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>`
+              : ""
+          }
+            <button onclick="deleteBooking(${i})" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
+          </td>
+        </tr>`
+        )
+        .join("");
+    }
+  };
+}
+
+// User Growth Over Time Line Chart
+if (document.getElementById("userGrowthChart")) {
+  // Try to get users from localStorage, else use demo data
+  let users = JSON.parse(localStorage.getItem("allUsers") || "[]");
+  if (!Array.isArray(users) || users.length === 0) {
+    // Demo: simulate 10 users registered over 6 months
+    const now = new Date();
+    users = Array.from({ length: 10 }, (_, i) => {
+      const d = new Date(
+        now.getFullYear(),
+        now.getMonth() - Math.floor(i / 2),
+        1 + (i % 5)
+      );
+      return { registered: d.toISOString().slice(0, 10) };
+    });
+  }
+  // Group by month
+  const monthCounts = {};
+  users.forEach((u) => {
+    if (u.registered) {
+      const month = u.registered.slice(0, 7); // 'YYYY-MM'
+      monthCounts[month] = (monthCounts[month] || 0) + 1;
+    }
+  });
+  // Cumulative sum for growth
+  const months = Object.keys(monthCounts).sort();
+  let total = 0;
+  const growth = months.map((m) => (total += monthCounts[m]));
+  new Chart(document.getElementById("userGrowthChart").getContext("2d"), {
+    type: "line",
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: "Total Users",
+          data: growth,
+          borderColor: "#22c55e",
+          backgroundColor: "rgba(34,197,94,0.12)",
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: "User Growth Over Time" },
+      },
+      scales: {
+        y: { beginAtZero: true, precision: 0 },
+      },
+    },
+  });
+}
+
+// Revenue by Service Bar Chart
+if (document.getElementById("revenueServiceChart")) {
+  const revenueByService = {};
+  bookings.forEach((b) => {
+    const service = b.service || "Other";
+    revenueByService[service] =
+      (revenueByService[service] || 0) + (b.amount || 0);
+  });
+  const serviceLabels = Object.keys(revenueByService);
+  const revenueData = serviceLabels.map((s) => revenueByService[s]);
+  const serviceColors = [
+    "#22c55e",
+    "#3b82f6",
+    "#fbbf24",
+    "#ef4444",
+    "#a78bfa",
+    "#f472b6",
+    "#10b981",
+  ];
+  new Chart(document.getElementById("revenueServiceChart").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: serviceLabels,
+      datasets: [
+        {
+          label: "Earnings (ZAR)",
+          data: revenueData,
+          backgroundColor: serviceLabels.map(
+            (_, i) => serviceColors[i % serviceColors.length]
+          ),
+          borderRadius: 8,
+          maxBarThickness: 40,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: "Revenue by Service" },
+      },
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
+  });
+}
+
+// Complaints Statistics Bar Chart
+if (document.getElementById("complaintsStatsChart")) {
+  let complaints = JSON.parse(localStorage.getItem("allComplaints") || "[]");
+  // Group by complaint type
+  const typeCounts = {};
+  complaints.forEach((c) => {
+    const type = c.type || "Other";
+    typeCounts[type] = (typeCounts[type] || 0) + 1;
+  });
+  const typeLabels = Object.keys(typeCounts);
+  const typeData = typeLabels.map((t) => typeCounts[t]);
+  const typeColors = [
+    "#ef4444",
+    "#fbbf24",
+    "#3b82f6",
+    "#22c55e",
+    "#a78bfa",
+    "#f472b6",
+    "#10b981",
+  ];
+  new Chart(document.getElementById("complaintsStatsChart").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: typeLabels,
+      datasets: [
+        {
+          label: "Complaints",
+          data: typeData,
+          backgroundColor: typeLabels.map(
+            (_, i) => typeColors[i % typeColors.length]
+          ),
+          borderRadius: 8,
+          maxBarThickness: 40,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: "Complaints by Type" },
+      },
+      scales: {
+        y: { beginAtZero: true, precision: 0 },
+      },
+    },
   });
 }

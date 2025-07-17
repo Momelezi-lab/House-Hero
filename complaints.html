@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="light">
+    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
+      ☀️
+    </button>
     <!-- Header -->
     <header class="header">
       <a href="#" class="menu-icon" id="menu-toggle">☰</a>
@@ -333,11 +336,6 @@
       </div>
     </div>
 
-    <!-- Dark Mode Toggle -->
-    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
-      ☀️
-    </button>
-
     <!-- JavaScript -->
     <script src="script.js"></script>
     <script>
@@ -391,28 +389,32 @@
         .getElementById("complaint-form")
         .addEventListener("submit", function (e) {
           e.preventDefault();
-
-          // Validate form
-          if (!validateComplaintForm()) {
-            return;
-          }
-
-          // Show loading state
-          const submitBtn = this.querySelector('button[type="submit"]');
-          const originalText = submitBtn.textContent;
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Submitting...";
-
-          // Simulate form submission
-          setTimeout(() => {
-            showToast(
-              "Complaint submitted successfully! We will review and respond within 24-48 hours.",
-              "success"
-            );
-            this.reset();
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-          }, 2000);
+          const complaint = {
+            type: document.getElementById("complaint-type").value,
+            serviceProvider: document.getElementById("service-provider").value,
+            serviceDate: document.getElementById("service-date").value,
+            title: document.getElementById("complaint-title").value,
+            description: document.getElementById("complaint-description").value,
+            desiredResolution:
+              document.getElementById("desired-resolution").value,
+            contactPreference:
+              document.getElementById("contact-preference").value,
+            urgencyLevel: document.getElementById("urgency-level").value,
+            attachments: [], // (optional, not handled here)
+            anonymous: document.getElementById("anonymous-complaint").checked,
+            followUp: document.getElementById("follow-up").checked,
+            status: "pending",
+            createdAt: new Date().toISOString(),
+          };
+          // Save to allComplaints in localStorage
+          let allComplaints = JSON.parse(
+            localStorage.getItem("allComplaints") || "[]"
+          );
+          allComplaints.push(complaint);
+          localStorage.setItem("allComplaints", JSON.stringify(allComplaints));
+          // Existing logic (show toast, reset form, etc.)
+          showToast("Complaint submitted successfully!", "success");
+          this.reset();
         });
 
       function validateComplaintForm() {

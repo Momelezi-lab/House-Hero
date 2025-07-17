@@ -277,14 +277,28 @@ body.dark {
   transition: background var(--transition), transform 0.2s;
 }
 .btn:hover {
-  background: var(--green-dark);
-  transform: scale(1.03);
-}
-.dark .btn {
-  background: var(--green-dark);
 }
 .dark .btn:hover {
-  background: #15803d;
+}
+.btn.login-btn {
+  background: #6ee87b;
+  color: #111;
+  border: none;
+  border-radius: 14px;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.btn.login-btn:hover {
+  background: #19af39;
+  color: #fff;
+  transform: scale(1.04);
+}
+.dark .btn.login-btn:hover {
+  background: #6ee87b;
+  color: #111;
 }
 .form-footer {
   text-align: center;
@@ -803,19 +817,13 @@ button:active {
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, transform 0.2s;
+  min-width: 180px;
+  text-align: center;
+  display: inline-block;
 }
 .btn.login-btn:hover {
-  background: #19af39;
-  color: #fff;
-  transform: scale(1.04);
-}
-.dark .btn.login-btn {
-  background: #19af39;
-  color: #fff;
 }
 .dark .btn.login-btn:hover {
-  background: #6ee87b;
-  color: #111;
 }
 .login-links {
   display: flex;
@@ -858,6 +866,7 @@ button:active {
   .btn.login-btn {
     padding: 0.6rem 1rem;
     font-size: 1rem;
+    min-width: 140px;
   }
 }
 
@@ -2183,4 +2192,26 @@ input:checked + .toggle-slider:before {
   position: sticky;
   bottom: 0;
   z-index: 2;
+}
+
+.btn,
+.btn.login-btn,
+.btn.login-btn:hover {
+  text-decoration: none !important;
+}
+
+/* Remove hover effect for admin sidebar/dashboard buttons */
+.admin-sidebar .btn:hover,
+.admin-sidebar .btn.login-btn:hover {
+  background: #6ee87b;
+  color: #111;
+  transform: none;
+}
+
+.admin-nav-btn:hover,
+.admin-nav-btn.active {
+  background: #22c55e !important;
+  color: #fff !important;
+  transform: none !important;
+  box-shadow: none !important;
 }

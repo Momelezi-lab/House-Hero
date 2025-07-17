@@ -74,10 +74,13 @@
     </style>
   </head>
   <body class="light">
+    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
+      ☀️
+    </button>
     <a href="index.html" class="back-btn" title="Back to Home">←</a>
     <div class="admin-container" id="admin-content" style="display: none">
       <h1 class="admin-title">All Bookings</h1>
-      <div style="margin-bottom:1rem;">
+      <div style="margin-bottom: 1rem">
         <label for="filter-service"><strong>Filter by Service:</strong></label>
         <select id="filter-service">
           <option value="">All</option>
@@ -99,8 +102,7 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody id="bookings-table">
-        </tbody>
+        <tbody id="bookings-table"></tbody>
       </table>
     </div>
     <div class="admin-login" id="admin-login">
@@ -111,6 +113,7 @@
         Incorrect password.
       </div>
     </div>
+    <script src="script.js"></script>
     <script>
       // Password protection
       document.getElementById("admin-login-btn").onclick = function () {
@@ -125,34 +128,37 @@
       };
       // Load bookings (for demo, just lastBooking from localStorage)
       function loadBookings() {
-        let bookings = JSON.parse(localStorage.getItem('allBookings') || '[]');
-        const filter = document.getElementById('filter-service').value;
-        if (filter) bookings = bookings.filter(b => b.service === filter);
-        const table = document.getElementById('bookings-table');
+        let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+        const filter = document.getElementById("filter-service").value;
+        if (filter) bookings = bookings.filter((b) => b.service === filter);
+        const table = document.getElementById("bookings-table");
         if (bookings.length === 0) {
           table.innerHTML = '<tr><td colspan="7">No bookings found.</td></tr>';
         } else {
-          table.innerHTML = bookings.map((b, i) => `
+          table.innerHTML = bookings
+            .map(
+              (b, i) => `
             <tr>
               <td>${b.name}</td>
               <td>${b.address}</td>
               <td>${b.date}</td>
               <td>${b.time}</td>
               <td>${b.service}</td>
-              <td>${b.details || '-'}</td>
+              <td>${b.details || "-"}</td>
               <td><button onclick="deleteBooking(${i})" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button></td>
             </tr>
-          `).join('');
+          `
+            )
+            .join("");
         }
       }
       function deleteBooking(idx) {
-        let bookings = JSON.parse(localStorage.getItem('allBookings') || '[]');
+        let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
         bookings.splice(idx, 1);
-        localStorage.setItem('allBookings', JSON.stringify(bookings));
+        localStorage.setItem("allBookings", JSON.stringify(bookings));
         loadBookings();
       }
-      document.getElementById('filter-service').onchange = loadBookings;
+      document.getElementById("filter-service").onchange = loadBookings;
     </script>
   </body>
 </html>
-

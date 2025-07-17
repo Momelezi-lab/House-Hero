@@ -2,52 +2,217 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>Admin Dashboard | HouseHero</title>
     <meta name="theme-color" content="#22c55e" />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-      body { background: #f3f4f6; }
-      .admin-layout { display: flex; min-height: 100vh; }
-      .admin-sidebar { width: 220px; background: #22c55e; color: #fff; display: flex; flex-direction: column; padding: 2rem 1rem; }
-      .admin-sidebar h2 { font-size: 1.5rem; margin-bottom: 2rem; text-align: center; letter-spacing: 1px; }
-      .admin-nav { display: flex; flex-direction: column; gap: 1.2rem; }
-      .admin-nav a { color: #fff; text-decoration: none; font-size: 1.1rem; padding: 0.7rem 1rem; border-radius: 8px; transition: background 0.2s; display: flex; align-items: center; gap: 0.7rem; }
-      .admin-nav a.active, .admin-nav a:hover { background: #16a34a; }
-      .admin-main { flex: 1; padding: 2.5rem 2rem; }
-      .admin-widgets { display: flex; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
-      .admin-widget { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(34,197,94,0.06); padding: 2rem 2.5rem; flex: 1 1 180px; min-width: 180px; text-align: center; }
-      .admin-widget h3 { color: #22c55e; font-size: 1.2rem; margin-bottom: 0.5rem; }
-      .admin-widget .widget-value { font-size: 2.1rem; font-weight: bold; color: #111; }
-      .latest-bookings { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(34,197,94,0.06); padding: 2rem; }
-      .latest-bookings h4 { color: #22c55e; margin-bottom: 1.2rem; }
-      table { width: 100%; border-collapse: collapse; }
-      th, td { padding: 0.7rem; border-bottom: 1px solid #e5e7eb; text-align: left; }
-      th { background: #22c55e; color: #fff; }
-      tr:last-child td { border-bottom: none; }
-      .admin-login { display: flex; flex-direction: column; align-items: center; margin-top: 8vh; }
-      .admin-login input { padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid #d1d5db; margin-bottom: 1rem; font-size: 1.1rem; }
-      .admin-login button { padding: 0.7rem 2rem; border-radius: 8px; background: #22c55e; color: #fff; border: none; font-size: 1.1rem; cursor: pointer; }
-      .admin-login .error { color: #ef4444; margin-top: 0.5rem; }
-      @media (max-width: 900px) { .admin-widgets { flex-direction: column; gap: 1rem; } .admin-sidebar { width: 100px; padding: 1rem 0.3rem; } .admin-sidebar h2 { font-size: 1rem; } .admin-nav a { font-size: 0.95rem; padding: 0.5rem 0.5rem; } }
+      body {
+        background: #f3f4f6;
+      }
+      .admin-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+      .admin-sidebar {
+        width: 220px;
+        background: #22c55e;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1rem;
+      }
+      .admin-sidebar h2 {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        letter-spacing: 1px;
+      }
+      .admin-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+      .admin-nav a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.1rem;
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+      }
+      .admin-nav a.active,
+      .admin-nav a:hover {
+        background: #16a34a;
+      }
+      .admin-main {
+        flex: 1;
+        padding: 2.5rem 2rem;
+      }
+      .admin-widgets {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+      }
+      .admin-widget {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.06);
+        padding: 2rem 2.5rem;
+        flex: 1 1 180px;
+        min-width: 180px;
+        text-align: center;
+      }
+      .admin-widget h3 {
+        color: #22c55e;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+      .admin-widget .widget-value {
+        font-size: 2.1rem;
+        font-weight: bold;
+        color: #111;
+      }
+      .latest-bookings {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.06);
+        padding: 2rem;
+      }
+      .latest-bookings h4 {
+        color: #22c55e;
+        margin-bottom: 1.2rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 0.7rem;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+      }
+      th {
+        background: #22c55e;
+        color: #fff;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      .admin-login {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 8vh;
+      }
+      .admin-login input {
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+      .admin-login button {
+        padding: 0.7rem 2rem;
+        border-radius: 8px;
+        background: #22c55e;
+        color: #fff;
+        border: none;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+      .admin-login .error {
+        color: #ef4444;
+        margin-top: 0.5rem;
+      }
+      @media (max-width: 900px) {
+        .admin-widgets {
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .admin-sidebar {
+          width: 100px;
+          padding: 1rem 0.3rem;
+        }
+        .admin-sidebar h2 {
+          font-size: 1rem;
+        }
+        .admin-nav a {
+          font-size: 0.95rem;
+          padding: 0.5rem 0.5rem;
+        }
+      }
+      /* Override admin sidebar nav button hover effect */
+      .admin-nav a.admin-nav-btn:hover,
+      .admin-nav a.admin-nav-btn.active {
+        background: #22c55e !important;
+        color: #fff !important;
+        transform: none !important;
+        box-shadow: none !important;
+      }
     </style>
   </head>
   <body class="light">
+    <a
+      href="login.html"
+      class="back-btn"
+      style="
+        position: fixed;
+        top: 18px;
+        left: 18px;
+        z-index: 10001;
+        background: #22c55e;
+        color: #fff;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
+        font-size: 1.1rem;
+      "
+      >&lt; Back</a
+    >
+    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
+      ☀️
+    </button>
     <div class="admin-login" id="admin-login">
       <h2>Admin Login</h2>
       <input type="password" id="admin-password" placeholder="Enter password" />
       <button id="admin-login-btn">Login</button>
-      <div class="error" id="admin-error" style="display:none;">Incorrect password.</div>
+      <div class="error" id="admin-error" style="display: none">
+        Incorrect password.
+      </div>
     </div>
-    <div class="admin-layout" id="admin-content" style="display:none;">
+    <div class="admin-layout" id="admin-content" style="display: none">
       <aside class="admin-sidebar">
         <h2><i class="fa-solid fa-user-shield"></i> Admin</h2>
         <nav class="admin-nav">
-          <a href="#" id="nav-dashboard" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-          <a href="#" id="nav-bookings"><i class="fa-solid fa-calendar-check"></i> Bookings</a>
-          <a href="#" id="nav-users"><i class="fa-solid fa-users"></i> Users</a>
-          <a href="#" id="nav-services"><i class="fa-solid fa-broom"></i> Services</a>
+          <a href="#" id="nav-dashboard" class="admin-nav-btn active"
+            ><i class="fa-solid fa-chart-line"></i> Dashboard</a
+          >
+          <a href="#" id="nav-bookings" class="admin-nav-btn"
+            ><i class="fa-solid fa-calendar-check"></i> Bookings</a
+          >
+          <a href="#" id="nav-users" class="admin-nav-btn"
+            ><i class="fa-solid fa-users"></i> Users</a
+          >
+          <a href="#" id="nav-services" class="admin-nav-btn"
+            ><i class="fa-solid fa-broom"></i> Services</a
+          >
+          <a href="#" id="nav-providers" class="admin-nav-btn"
+            ><i class="fa-solid fa-user-tie"></i> Providers</a
+          >
         </nav>
       </aside>
       <main class="admin-main">
@@ -63,9 +228,72 @@
             </div>
             <div class="admin-widget">
               <h3>Total Earnings</h3>
-              <div class="widget-value" id="total-earnings">R0</div>
+              <div class="widget-value" id="total-earnings">R12789890</div>
             </div>
           </div>
+
+          <!-- Analytics Section -->
+          <div
+            class="admin-analytics"
+            style="
+              background: #fff;
+              border-radius: 12px;
+              box-shadow: 0 2px 8px rgba(34, 197, 94, 0.06);
+              padding: 2rem;
+              margin-bottom: 2.5rem;
+            "
+          >
+            <h4 style="color: #22c55e; margin-bottom: 1.2rem">
+              Bookings Per Month
+            </h4>
+            <canvas id="bookingsChart" height="80"></canvas>
+            <div
+              style="
+                display: flex;
+                gap: 2rem;
+                flex-wrap: wrap;
+                margin-top: 2.5rem;
+              "
+            >
+              <div style="flex: 1; min-width: 260px; text-align: center">
+                <h4 style="color: #22c55e; margin-bottom: 1rem">
+                  Booking Status
+                </h4>
+                <canvas id="statusChart" height="120"></canvas>
+              </div>
+              <div style="flex: 1; min-width: 260px; text-align: center">
+                <h4 style="color: #22c55e; margin-bottom: 1rem">
+                  Earnings vs Expenses
+                </h4>
+                <canvas id="financeChart" height="120"></canvas>
+              </div>
+            </div>
+            <div style="margin-top: 2.5rem; text-align: center">
+              <h4 style="color: #22c55e; margin-bottom: 1rem">
+                Bookings by Service Type
+              </h4>
+              <canvas id="serviceTypeChart" height="120"></canvas>
+            </div>
+            <div style="margin-top: 2.5rem; text-align: center">
+              <h4 style="color: #22c55e; margin-bottom: 1rem">
+                User Growth Over Time
+              </h4>
+              <canvas id="userGrowthChart" height="120"></canvas>
+            </div>
+            <div style="margin-top: 2.5rem; text-align: center">
+              <h4 style="color: #22c55e; margin-bottom: 1rem">
+                Revenue by Service
+              </h4>
+              <canvas id="revenueServiceChart" height="120"></canvas>
+            </div>
+            <div style="margin-top: 2.5rem; text-align: center">
+              <h4 style="color: #22c55e; margin-bottom: 1rem">
+                Complaints Statistics
+              </h4>
+              <canvas id="complaintsStatsChart" height="120"></canvas>
+            </div>
+          </div>
+
           <div class="latest-bookings">
             <h4>Latest Bookings</h4>
             <table>
@@ -77,15 +305,17 @@
                   <th>Time</th>
                   <th>Service</th>
                   <th>Details</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody id="latest-bookings-table"></tbody>
             </table>
           </div>
         </section>
-        <section id="bookings-section" style="display:none;">
-          <h2 style="color:#22c55e;">All Bookings</h2>
-          <table style="margin-top:1.5rem;">
+        <section id="bookings-section" style="display: none">
+          <h2 style="color: #22c55e">All Bookings</h2>
+          <table style="margin-top: 1.5rem">
             <thead>
               <tr>
                 <th>Name</th>
@@ -94,103 +324,277 @@
                 <th>Time</th>
                 <th>Service</th>
                 <th>Details</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody id="all-bookings-table"></tbody>
           </table>
         </section>
-        <section id="users-section" style="display:none;">
-          <h2 style="color:#22c55e;">Users</h2>
+        <section id="users-section" style="display: none">
+          <h2 style="color: #22c55e">Users</h2>
           <p>Coming soon...</p>
         </section>
-        <section id="services-section" style="display:none;">
-          <h2 style="color:#22c55e;">Services</h2>
+        <section id="services-section" style="display: none">
+          <h2 style="color: #22c55e">Services</h2>
           <p>Coming soon...</p>
+        </section>
+        <section id="provider-section" style="display: none">
+          <h2 style="color: #22c55e">Service Providers</h2>
+          <button
+            id="add-provider-btn"
+            style="
+              background: #22c55e;
+              color: #fff;
+              padding: 0.6rem 1.2rem;
+              border: none;
+              border-radius: 8px;
+              margin-bottom: 1.2rem;
+              cursor: pointer;
+              font-weight: 600;
+            "
+          >
+            + Add Provider
+          </button>
+          <table style="margin-top: 1.5rem">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Service Type</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Performance</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="provider-table">
+              <!-- Providers will be listed here -->
+            </tbody>
+          </table>
+          <!-- Provider Modal (hidden by default) -->
+          <div
+            id="provider-modal"
+            style="
+              display: none;
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100vw;
+              height: 100vh;
+              background: rgba(0, 0, 0, 0.3);
+              z-index: 10000;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <div
+              style="
+                background: #fff;
+                padding: 2rem 2.5rem;
+                border-radius: 12px;
+                min-width: 320px;
+                max-width: 90vw;
+                position: relative;
+              "
+            >
+              <button
+                id="close-provider-modal"
+                style="
+                  position: absolute;
+                  top: 1rem;
+                  right: 1rem;
+                  background: none;
+                  border: none;
+                  font-size: 1.5rem;
+                  cursor: pointer;
+                "
+              >
+                &times;
+              </button>
+              <h3
+                id="provider-modal-title"
+                style="color: #22c55e; margin-bottom: 1rem"
+              >
+                Add Provider
+              </h3>
+              <form id="provider-form">
+                <div style="margin-bottom: 1rem">
+                  <label>Name</label><br />
+                  <input
+                    type="text"
+                    id="provider-name"
+                    required
+                    style="
+                      width: 100%;
+                      padding: 0.5rem;
+                      border-radius: 6px;
+                      border: 1px solid #d1d5db;
+                    "
+                  />
+                </div>
+                <div style="margin-bottom: 1rem">
+                  <label>Service Type</label><br />
+                  <input
+                    type="text"
+                    id="provider-service"
+                    required
+                    style="
+                      width: 100%;
+                      padding: 0.5rem;
+                      border-radius: 6px;
+                      border: 1px solid #d1d5db;
+                    "
+                  />
+                </div>
+                <div style="margin-bottom: 1rem">
+                  <label>Phone</label><br />
+                  <input
+                    type="tel"
+                    id="provider-phone"
+                    required
+                    style="
+                      width: 100%;
+                      padding: 0.5rem;
+                      border-radius: 6px;
+                      border: 1px solid #d1d5db;
+                    "
+                  />
+                </div>
+                <div style="margin-bottom: 1rem">
+                  <label>Email</label><br />
+                  <input
+                    type="email"
+                    id="provider-email"
+                    required
+                    style="
+                      width: 100%;
+                      padding: 0.5rem;
+                      border-radius: 6px;
+                      border: 1px solid #d1d5db;
+                    "
+                  />
+                </div>
+                <button
+                  type="submit"
+                  style="
+                    background: #22c55e;
+                    color: #fff;
+                    padding: 0.6rem 1.2rem;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                  "
+                >
+                  Save
+                </button>
+              </form>
+            </div>
+          </div>
         </section>
       </main>
     </div>
     <script>
       // Password protection
-      document.getElementById('admin-login-btn').onclick = function() {
-        const pw = document.getElementById('admin-password').value;
-        if (pw === 'flower') {
-          document.getElementById('admin-login').style.display = 'none';
-          document.getElementById('admin-content').style.display = 'flex';
+      document.getElementById("admin-login-btn").onclick = function () {
+        const pw = document.getElementById("admin-password").value;
+        if (pw === "flower") {
+          document.getElementById("admin-login").style.display = "none";
+          document.getElementById("admin-content").style.display = "flex";
           loadDashboard();
           loadAllBookings();
         } else {
-          document.getElementById('admin-error').style.display = 'block';
+          document.getElementById("admin-error").style.display = "block";
         }
       };
       // Sidebar navigation
       const navs = [
-        { id: 'nav-dashboard', section: 'dashboard-section' },
-        { id: 'nav-bookings', section: 'bookings-section' },
-        { id: 'nav-users', section: 'users-section' },
-        { id: 'nav-services', section: 'services-section' }
+        { id: "nav-dashboard", section: "dashboard-section" },
+        { id: "nav-bookings", section: "bookings-section" },
+        { id: "nav-users", section: "users-section" },
+        { id: "nav-services", section: "services-section" },
+        { id: "nav-providers", section: "provider-section" },
       ];
-      navs.forEach(nav => {
-        document.getElementById(nav.id).onclick = function(e) {
+      navs.forEach((nav) => {
+        document.getElementById(nav.id).onclick = function (e) {
           e.preventDefault();
-          navs.forEach(n => {
-            document.getElementById(n.id).classList.remove('active');
-            document.getElementById(n.section).style.display = 'none';
+          navs.forEach((n) => {
+            document.getElementById(n.id).classList.remove("active");
+            document.getElementById(n.section).style.display = "none";
           });
-          document.getElementById(nav.id).classList.add('active');
-          document.getElementById(nav.section).style.display = '';
+          document.getElementById(nav.id).classList.add("active");
+          document.getElementById(nav.section).style.display = "";
+          // If dashboard, re-render analytics
+          if (
+            nav.id === "nav-dashboard" &&
+            typeof renderAdminAnalytics === "function"
+          ) {
+            renderAdminAnalytics();
+          }
         };
       });
       // Dashboard widgets and latest bookings
       function loadDashboard() {
-        const bookings = JSON.parse(localStorage.getItem('allBookings') || '[]');
-        document.getElementById('total-bookings').textContent = bookings.length;
-        document.getElementById('total-users').textContent = '1'; // Demo only
-        document.getElementById('total-earnings').textContent = 'R' + (bookings.length * 500); // Demo: R500 per booking
+        const bookings = JSON.parse(
+          localStorage.getItem("allBookings") || "[]"
+        );
+        document.getElementById("total-bookings").textContent = bookings.length;
+        document.getElementById("total-users").textContent = "1"; // Demo only
+        document.getElementById("total-earnings").textContent =
+          "R" + bookings.length * 500; // Demo: R500 per booking
         const latest = bookings.slice(-5).reverse();
-        const table = document.getElementById('latest-bookings-table');
+        const table = document.getElementById("latest-bookings-table");
         if (latest.length === 0) {
           table.innerHTML = '<tr><td colspan="6">No bookings found.</td></tr>';
         } else {
-          table.innerHTML = latest.map(b => `
+          table.innerHTML = latest
+            .map(
+              (b) => `
             <tr>
               <td>${b.name}</td>
               <td>${b.address}</td>
               <td>${b.date}</td>
               <td>${b.time}</td>
               <td>${b.service}</td>
-              <td>${b.details || '-'}</td>
+              <td>${b.details || "-"}</td>
             </tr>
-          `).join('');
+          `
+            )
+            .join("");
         }
       }
       // All bookings table
       function loadAllBookings() {
-        let bookings = JSON.parse(localStorage.getItem('allBookings') || '[]');
-        const table = document.getElementById('all-bookings-table');
+        let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+        const table = document.getElementById("all-bookings-table");
         if (bookings.length === 0) {
           table.innerHTML = '<tr><td colspan="7">No bookings found.</td></tr>';
         } else {
-          table.innerHTML = bookings.map((b, i) => `
+          table.innerHTML = bookings
+            .map(
+              (b, i) => `
             <tr>
               <td>${b.name}</td>
               <td>${b.address}</td>
               <td>${b.date}</td>
               <td>${b.time}</td>
               <td>${b.service}</td>
-              <td>${b.details || '-'}</td>
+              <td>${b.details || "-"}</td>
               <td><button onclick="deleteBooking(${i})" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button></td>
             </tr>
-          `).join('');
+          `
+            )
+            .join("");
         }
       }
-      window.deleteBooking = function(idx) {
-        let bookings = JSON.parse(localStorage.getItem('allBookings') || '[]');
+      window.deleteBooking = function (idx) {
+        let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
         bookings.splice(idx, 1);
-        localStorage.setItem('allBookings', JSON.stringify(bookings));
+        localStorage.setItem("allBookings", JSON.stringify(bookings));
         loadDashboard();
         loadAllBookings();
-      }
+      };
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
   </body>
-</html> 
+</html>

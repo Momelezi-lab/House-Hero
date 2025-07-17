@@ -146,29 +146,10 @@
           if (!place.geometry) return;
           gmap.setCenter(place.geometry.location);
           gmarker.setPosition(place.geometry.location);
-          // Check if address is in Midrand or Johannesburg
-          let allowed = false;
-          let address = "";
-          if (place.address_components) {
-            address = place.address_components
-              .map((c) => c.long_name.toLowerCase())
-              .join(" ");
-            allowed =
-              address.includes("midrand") ||
-              address.includes("johannesburg") ||
-              address.includes("joburg");
-          }
-          const warning = document.getElementById("address-warning");
-          const bookBtn = document.querySelector('button[type="submit"]');
-          if (allowed) {
-            warning.style.display = "none";
-            allowBooking = true;
-            bookBtn.disabled = false;
-          } else {
-            warning.style.display = "block";
-            allowBooking = false;
-            bookBtn.disabled = true;
-          }
+          // Remove address restriction for testing
+          allowBooking = true;
+          document.getElementById("address-warning").style.display = "none";
+          document.querySelector('button[type="submit"]').disabled = false;
         });
       }
       document.addEventListener("DOMContentLoaded", function () {
@@ -191,6 +172,9 @@
                 time: document.getElementById("time").value,
                 service: "Plumbing",
                 details: document.getElementById("details").value,
+                status: "pending payment",
+                amount: 500,
+                expense: 200,
               };
               let allBookings = JSON.parse(
                 localStorage.getItem("allBookings") || "[]"

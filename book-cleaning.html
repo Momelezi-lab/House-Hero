@@ -116,6 +116,14 @@
             class="form-input"
           ></textarea>
         </div>
+        <div class="form-group">
+          <div
+            id="price-display"
+            style="font-size: 1.2em; font-weight: 600; margin-bottom: 1em"
+          >
+            Price: R500 ZAR
+          </div>
+        </div>
         <div class="form-actions">
           <button type="submit" class="btn login-btn">Book Now</button>
         </div>
@@ -123,10 +131,7 @@
     </main>
     <script src="script.js"></script>
     <script>
-      let gmap,
-        gmarker,
-        allowBooking = false,
-        autocomplete;
+      let gmap, gmarker, autocomplete;
       function initGMap() {
         gmap = new google.maps.Map(document.getElementById("gmap"), {
           center: { lat: -25.9992, lng: 28.1266 },
@@ -143,55 +148,32 @@
           if (!place.geometry) return;
           gmap.setCenter(place.geometry.location);
           gmarker.setPosition(place.geometry.location);
-          // Check if address is in Midrand or Johannesburg
-          let allowed = false;
-          let address = "";
-          if (place.address_components) {
-            address = place.address_components
-              .map((c) => c.long_name.toLowerCase())
-              .join(" ");
-            allowed =
-              address.includes("midrand") ||
-              address.includes("johannesburg") ||
-              address.includes("joburg");
-          }
-          const warning = document.getElementById("address-warning");
-          const bookBtn = document.querySelector('button[type="submit"]');
-          if (allowed) {
-            warning.style.display = "none";
-            allowBooking = true;
-            bookBtn.disabled = false;
-          } else {
-            warning.style.display = "block";
-            allowBooking = false;
-            bookBtn.disabled = true;
-          }
+          // No address restriction for testing
+          document.getElementById("address-warning").style.display = "none";
+          document.querySelector('button[type="submit"]').disabled = false;
         });
       }
       document.addEventListener("DOMContentLoaded", function () {
         const bookBtn = document.querySelector('button[type="submit"]');
-        // Prevent submit if not allowed
+        // Allow submit regardless of address selection
         document
           .getElementById("booking-form")
           .addEventListener("submit", function (e) {
-            if (!allowBooking) {
-              e.preventDefault();
-              document.getElementById("address-warning").style.display =
-                "block";
-            } else {
-              e.preventDefault();
-              // Save booking info to localStorage
-              const booking = {
-                name: document.getElementById("name").value,
-                address: document.getElementById("address").value,
-                date: document.getElementById("date").value,
-                time: document.getElementById("time").value,
-                service: "Cleaning",
-                details: document.getElementById("details").value,
-              };
-              localStorage.setItem("lastBooking", JSON.stringify(booking));
-              window.location.href = "booking-success.html";
-            }
+            e.preventDefault();
+            // Save booking info to localStorage
+            const booking = {
+              name: document.getElementById("name").value,
+              address: document.getElementById("address").value,
+              date: document.getElementById("date").value,
+              time: document.getElementById("time").value,
+              service: "Cleaning",
+              details: document.getElementById("details").value,
+              status: "pending payment",
+              amount: 500,
+              expense: 200,
+            };
+            localStorage.setItem("lastBooking", JSON.stringify(booking));
+            window.location.href = "booking-success.html";
           });
       });
     </script>
