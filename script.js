@@ -2,6 +2,14 @@
 
 // Dark mode functionality
 document.addEventListener("DOMContentLoaded", () => {
+  // Redirect to login if not authenticated
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const isLoginPage = window.location.pathname.endsWith("login.html");
+  if (!isLoggedIn && !isLoginPage) {
+    window.location.href = "login.html";
+    return;
+  }
+
   const toggleBtn = document.getElementById("toggle-dark");
 
   if (toggleBtn) {
@@ -35,21 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebarMenu.classList.add("open");
     sidebarOverlay.classList.add("open");
     document.body.style.overflow = "hidden";
-    // Add mobile-specific improvements
-    if (window.innerWidth <= 480) {
-      sidebarMenu.style.transform = "translateX(0)";
-    }
+    sidebarMenu.style.transform = "translateX(0)";
   }
 
-  // Make closeSidebar globally accessible
   window.closeSidebar = function () {
     sidebarMenu.classList.remove("open");
     sidebarOverlay.classList.remove("open");
     document.body.style.overflow = "auto";
-    // Ensure sidebar is properly closed on mobile
-    if (window.innerWidth <= 480) {
-      sidebarMenu.style.transform = "translateX(10)";
-    }
+    sidebarMenu.style.transform = "translateX(100%)";
   };
 
   if (menuToggle && sidebarMenu && closeMenu && sidebarOverlay) {
@@ -125,6 +126,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      // (Add your validation here if needed)
+      localStorage.setItem("isLoggedIn", "true");
+      window.location.href = "index.html";
+    });
+  }
 });
 
 // Logout functionality
