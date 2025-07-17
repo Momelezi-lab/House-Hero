@@ -161,28 +161,42 @@
         transform: none !important;
         box-shadow: none !important;
       }
+      .round-back-btn {
+        position: fixed;
+        top: auto;
+        bottom: 32px;
+        left: 240px;
+        width: 48px;
+        height: 48px;
+        background: #22c55e;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(34, 197, 94, 0.18);
+        font-size: 1.5rem;
+        z-index: 10001;
+        text-decoration: none;
+        border: none;
+        transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+      }
+      .round-back-btn:hover {
+        background: #16a34a;
+        box-shadow: 0 8px 24px rgba(34, 197, 94, 0.22);
+        transform: scale(1.08);
+      }
+      @media (max-width: 900px) {
+        .round-back-btn {
+          left: 100px;
+        }
+      }
     </style>
   </head>
   <body class="light">
-    <a
-      href="login.html"
-      class="back-btn"
-      style="
-        position: fixed;
-        top: 18px;
-        left: 18px;
-        z-index: 10001;
-        background: #22c55e;
-        color: #fff;
-        padding: 0.6rem 1.2rem;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
-        font-size: 1.1rem;
-      "
-      >&lt; Back</a
-    >
+    <a href="login.html" class="back-btn round-back-btn" title="Back to Login">
+      <i class="fa fa-arrow-left"></i>
+    </a>
     <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
       ☀️
     </button>
