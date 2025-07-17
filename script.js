@@ -35,6 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebarMenu.classList.add("open");
     sidebarOverlay.classList.add("open");
     document.body.style.overflow = "hidden";
+    // Add mobile-specific improvements
+    if (window.innerWidth <= 480) {
+      sidebarMenu.style.transform = "translateX(0)";
+    }
   }
 
   // Make closeSidebar globally accessible
@@ -42,14 +46,47 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebarMenu.classList.remove("open");
     sidebarOverlay.classList.remove("open");
     document.body.style.overflow = "auto";
+    // Ensure sidebar is properly closed on mobile
+    if (window.innerWidth <= 480) {
+      sidebarMenu.style.transform = "translateX(10)";
+    }
   };
+
   if (menuToggle && sidebarMenu && closeMenu && sidebarOverlay) {
-    menuToggle.addEventListener("click", (e) => {
+    const touchEvent = "ontouchstart" in window ? "touchstart" : "click";
+
+    menuToggle.addEventListener(touchEvent, (e) => {
       e.preventDefault();
+      e.stopPropagation();
       openSidebar();
     });
-    closeMenu.addEventListener("click", closeSidebar);
-    sidebarOverlay.addEventListener("click", closeSidebar);
+
+    closeMenu.addEventListener(touchEvent, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeSidebar();
+    });
+
+    sidebarOverlay.addEventListener(touchEvent, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeSidebar();
+    });
+
+    // Add keyboard support for accessibility
+    menuToggle.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openSidebar();
+      }
+    });
+
+    closeMenu.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        closeSidebar();
+      }
+    });
   }
 
   // Sidebar menu options functionality
