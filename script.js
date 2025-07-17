@@ -136,6 +136,16 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "index.html";
     });
   }
+
+  const signupForm = document.getElementById("signup-form");
+  if (signupForm) {
+    signupForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      // (Add your validation here if needed)
+      localStorage.setItem("isLoggedIn", "true");
+      window.location.href = "index.html";
+    });
+  }
 });
 
 // Logout functionality

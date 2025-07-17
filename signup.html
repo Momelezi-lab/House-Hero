@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>HouseHero | Sign Up</title>
+    <meta name="theme-color" content="#22c55e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="login-body light">
+    <a href="login.html" class="back-btn" title="Back to Login">←</a>
+    <div class="login-centered-container">
+      <div class="login-header-banner-full">
+        <div class="login-logo-row">
+          <span class="login-logo-icon"><i class="fa-solid fa-house"></i></span>
+          <span class="login-logo-text">HouseHero</span>
+        </div>
+      </div>
+      <form id="signup-form" class="login-form">
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-input"
+            required
+            autocomplete="name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            required
+            autocomplete="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            required
+            autocomplete="new-password"
+            minlength="6"
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirm-password" class="form-label"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            class="form-input"
+            required
+            autocomplete="new-password"
+            minlength="6"
+          />
+        </div>
+        <div class="form-actions">
+          <button type="submit" id="signup-btn" class="btn login-btn">
+            Sign Up
+          </button>
+        </div>
+        <div class="login-links">
+          <a href="login.html" class="login-link"
+            >Already have an account? Login</a
+          >
+        </div>
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
