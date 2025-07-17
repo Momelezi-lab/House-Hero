@@ -11,6 +11,25 @@
     />
   </head>
   <body class="light login-body" style="background: #fff">
+    <a href="admin-dashboard.html" class="btn login-btn admin-top-btn">Admin</a>
+    <style>
+      .admin-top-btn {
+        position: absolute;
+        left: 50%;
+        top: 1.2rem;
+        transform: translateX(-50%);
+        background: #22c55e;
+        color: #fff;
+        padding: 0.7rem 2rem;
+        font-size: 1.1rem;
+        z-index: 2000;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(34,197,94,0.08);
+      }
+      @media (max-width: 600px) {
+        .admin-top-btn { font-size: 1rem; padding: 0.5rem 1.2rem; }
+      }
+    </style>
     <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
       ☀️
     </button>
@@ -42,14 +61,20 @@
           class="form-input"
         />
         <div class="form-actions">
-          <button type="button" id="signup-btn" class="btn login-btn">
-            Sign Up
-          </button>
           <button type="submit" id="login-btn" class="btn login-btn">
             Login
           </button>
         </div>
       </form>
+      <div class="form-actions">
+        <a
+          href="signup.html"
+          id="signup-btn"
+          class="btn login-btn"
+          style="text-align: center; display: inline-block"
+          >Sign Up</a
+        >
+      </div>
       <div class="login-links">
         <a href="#" class="login-link">forgot password?</a>
         <a href="#" class="login-link">privacy</a>

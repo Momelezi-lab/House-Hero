@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HouseHero | Book Mechanic</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      #gmap {
+        height: 250px;
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .address-warning {
+        color: #ef4444;
+        font-weight: 500;
+        margin-top: 0.5rem;
+        display: none;
+      }
+    </style>
   </head>
   <body class="light">
     <a href="index.html" class="back-btn">&lt;</a>
@@ -61,7 +76,12 @@
             name="address"
             required
             class="form-input"
+            autocomplete="off"
           />
+          <div id="gmap"></div>
+          <div id="address-warning" class="address-warning">
+            Sorry, we only service Midrand and Johannesburg at this time.
+          </div>
         </div>
         <div class="form-group">
           <label for="date" class="form-label">Date</label>
@@ -119,12 +139,87 @@
     </main>
     <script src="script.js"></script>
     <script>
-      document
-        .getElementById("booking-form")
-        .addEventListener("submit", (e) => {
-          e.preventDefault();
-          alert("Booking submitted!");
+      let gmap,
+        gmarker,
+        allowBooking = false,
+        autocomplete;
+      function initGMap() {
+        gmap = new google.maps.Map(document.getElementById("gmap"), {
+          center: { lat: -25.9992, lng: 28.1266 },
+          zoom: 12,
         });
+        gmarker = new google.maps.Marker({ map: gmap });
+        const addressInput = document.getElementById("address");
+        autocomplete = new google.maps.places.Autocomplete(addressInput, {
+          types: ["geocode"],
+          componentRestrictions: { country: "za" },
+        });
+        autocomplete.addListener("place_changed", function () {
+          const place = autocomplete.getPlace();
+          if (!place.geometry) return;
+          gmap.setCenter(place.geometry.location);
+          gmarker.setPosition(place.geometry.location);
+          // Check if address is in Midrand or Johannesburg
+          let allowed = false;
+          let address = "";
+          if (place.address_components) {
+            address = place.address_components
+              .map((c) => c.long_name.toLowerCase())
+              .join(" ");
+            allowed =
+              address.includes("midrand") ||
+              address.includes("johannesburg") ||
+              address.includes("joburg");
+          }
+          const warning = document.getElementById("address-warning");
+          const bookBtn = document.querySelector('button[type="submit"]');
+          if (allowed) {
+            warning.style.display = "none";
+            allowBooking = true;
+            bookBtn.disabled = false;
+          } else {
+            warning.style.display = "block";
+            allowBooking = false;
+            bookBtn.disabled = true;
+          }
+        });
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        const bookBtn = document.querySelector('button[type="submit"]');
+        // Prevent submit if not allowed
+        document
+          .getElementById("booking-form")
+          .addEventListener("submit", function (e) {
+            if (!allowBooking) {
+              e.preventDefault();
+              document.getElementById("address-warning").style.display =
+                "block";
+            } else {
+              e.preventDefault();
+              // Save booking info to localStorage (append to allBookings array)
+              const booking = {
+                name: document.getElementById("name").value,
+                address: document.getElementById("address").value,
+                date: document.getElementById("date").value,
+                time: document.getElementById("time").value,
+                service: "Mechanic",
+                details: document.getElementById("details").value,
+              };
+              let allBookings = JSON.parse(
+                localStorage.getItem("allBookings") || "[]"
+              );
+              allBookings.push(booking);
+              localStorage.setItem("allBookings", JSON.stringify(allBookings));
+              localStorage.setItem("lastBooking", JSON.stringify(booking));
+              window.location.href = "booking-success.html";
+            }
+          });
+      });
     </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADPVyJOYeH7DIOD3x9jmJPmfG_LKvXzsc&libraries=places&callback=initGMap"
+      async
+      defer
+    ></script>
   </body>
 </html>
