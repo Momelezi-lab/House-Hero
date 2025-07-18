@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/house-hero-app/public/css/styles.css" />
   </head>
   <body class="light">
     <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
@@ -38,12 +38,28 @@
         <div class="sidebar-name">Apiwe Fuzile</div>
       </div>
       <nav class="sidebar-nav">
-        <a href="index.html" class="sidebar-link">🏠 home</a>
-        <a href="profile.html" class="sidebar-link">profile</a>
-        <a href="settings.html" class="sidebar-link">settings</a>
-        <a href="complaints.html" class="sidebar-link">complaints</a>
-        <a href="contact.html" class="sidebar-link">get in touch</a>
-        <a href="faq.html" class="sidebar-link">F.A.Q</a>
+        <a href="/public/index.html" class="sidebar-link">🏠 home</a>
+        <a
+          href="/house-hero-app/pages/dashboard/profile.html"
+          class="sidebar-link"
+          >profile</a
+        >
+        <a
+          href="/house-hero-app/pages/dashboard/settings.html"
+          class="sidebar-link"
+          >settings</a
+        >
+        <a
+          href="/house-hero-app/pages/services/complaints.html"
+          class="sidebar-link"
+          >complaints</a
+        >
+        <a href="/house-hero-app/pages/info/contact.html" class="sidebar-link"
+          >get in touch</a
+        >
+        <a href="/house-hero-app/pages/info/faq.html" class="sidebar-link"
+          >F.A.Q</a
+        >
         <a href="#" class="sidebar-link logout-link">⎋ logout</a>
       </nav>
     </aside>
@@ -246,7 +262,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
+    <script src="/house-hero-app/public/js/script.js"></script>
     <script>
       // Profile page specific JavaScript
       function changeProfilePicture(input) {

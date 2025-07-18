@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HouseHero | Book Plumbing</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/house-hero-app/public/css/styles.css" />
     <style>
       #gmap {
         height: 250px;
@@ -22,7 +22,7 @@
     </style>
   </head>
   <body class="light">
-    <a href="index.html" class="back-btn">&lt;</a>
+    <a href="/house-hero-app/public/index.html" class="back-btn">&lt;</a>
     <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
       ☀️
     </button>
@@ -124,7 +124,7 @@
         </div>
       </form>
     </main>
-    <script src="script.js"></script>
+    <script src="/house-hero-app/public/js/script.js"></script>
     <script>
       let gmap,
         gmarker,
@@ -182,7 +182,7 @@
               allBookings.push(booking);
               localStorage.setItem("allBookings", JSON.stringify(allBookings));
               localStorage.setItem("lastBooking", JSON.stringify(booking));
-              window.location.href = "booking-success.html";
+              window.location.href = "/pages/bookings/booking-success.html";
             }
           });
       });

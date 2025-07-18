@@ -103,22 +103,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       switch (linkText) {
         case "🏠 home":
-          window.location.href = "index.html";
+          window.location.href = "/house-hero-app/public/index.html";
           break;
         case "profile":
-          window.location.href = "profile.html";
+          window.location.href = "/house-hero-app/pages/dashboard/profile.html";
           break;
         case "settings":
-          window.location.href = "settings.html";
+          window.location.href =
+            "/house-hero-app/pages/dashboard/settings.html";
           break;
         case "complaints":
-          window.location.href = "complaints.html";
+          window.location.href =
+            "/house-hero-app/pages/services/complaints.html";
           break;
         case "get in touch":
-          window.location.href = "contact.html";
+          window.location.href = "/house-hero-app/pages/info/contact.html";
           break;
         case "f.a.q":
-          window.location.href = "faq.html";
+          window.location.href = "/house-hero-app/pages/info/faq.html";
           break;
         case "⎋ logout":
           console.log("Logout clicked!");
@@ -136,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       // (Add your validation here if needed)
       localStorage.setItem("isLoggedIn", "true");
-      window.location.href = "index.html";
+      window.location.href = "/house-hero-app/public/index.html";
     });
   }
 
@@ -146,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       // (Add your validation here if needed)
       localStorage.setItem("isLoggedIn", "true");
-      window.location.href = "index.html";
+      window.location.href = "/house-hero-app/public/index.html";
     });
   }
 });
@@ -168,7 +170,7 @@ function handleLogout() {
     }
 
     // Redirect to login page immediately
-    window.location.href = "login.html";
+    window.location.href = "/house-hero-app/pages/auth/login.html";
   }
 }
 

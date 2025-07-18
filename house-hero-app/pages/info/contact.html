@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/house-hero-app/public/css/styles.css" />
   </head>
   <body class="light">
     <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
@@ -38,12 +38,28 @@
         <div class="sidebar-name">Apiwe Fuzile</div>
       </div>
       <nav class="sidebar-nav">
-        <a href="index.html" class="sidebar-link">🏠 home</a>
-        <a href="profile.html" class="sidebar-link">profile</a>
-        <a href="settings.html" class="sidebar-link">settings</a>
-        <a href="complaints.html" class="sidebar-link">complaints</a>
-        <a href="contact.html" class="sidebar-link">get in touch</a>
-        <a href="faq.html" class="sidebar-link">F.A.Q</a>
+        <a href="/public/index.html" class="sidebar-link">🏠 home</a>
+        <a
+          href="/house-hero-app/pages/dashboard/profile.html"
+          class="sidebar-link"
+          >profile</a
+        >
+        <a
+          href="/house-hero-app/pages/dashboard/settings.html"
+          class="sidebar-link"
+          >settings</a
+        >
+        <a
+          href="/house-hero-app/pages/services/complaints.html"
+          class="sidebar-link"
+          >complaints</a
+        >
+        <a href="/house-hero-app/pages/info/contact.html" class="sidebar-link"
+          >get in touch</a
+        >
+        <a href="/house-hero-app/pages/info/faq.html" class="sidebar-link"
+          >F.A.Q</a
+        >
         <a href="#" class="sidebar-link logout-link">⎋ logout</a>
       </nav>
     </aside>
@@ -244,7 +260,10 @@
         <h2 class="section-title">Frequently Asked Questions</h2>
 
         <div class="faq-links-grid">
-          <a href="faq.html#booking" class="faq-link">
+          <a
+            href="/house-hero-app/pages/info/faq.html#booking"
+            class="faq-link"
+          >
             <div class="faq-link-icon">📅</div>
             <div class="faq-link-content">
               <h3>Booking Services</h3>
@@ -252,7 +271,10 @@
             </div>
           </a>
 
-          <a href="faq.html#pricing" class="faq-link">
+          <a
+            href="/house-hero-app/pages/info/faq.html#pricing"
+            class="faq-link"
+          >
             <div class="faq-link-icon">💰</div>
             <div class="faq-link-content">
               <h3>Pricing & Payment</h3>
@@ -260,7 +282,10 @@
             </div>
           </a>
 
-          <a href="faq.html#cancellation" class="faq-link">
+          <a
+            href="/house-hero-app/pages/info/faq.html#cancellation"
+            class="faq-link"
+          >
             <div class="faq-link-icon">❌</div>
             <div class="faq-link-content">
               <h3>Cancellation Policy</h3>
@@ -268,7 +293,7 @@
             </div>
           </a>
 
-          <a href="faq.html#safety" class="faq-link">
+          <a href="/house-hero-app/pages/info/faq.html#safety" class="faq-link">
             <div class="faq-link-icon">🛡️</div>
             <div class="faq-link-content">
               <h3>Safety & Security</h3>
@@ -279,7 +304,9 @@
 
         <div class="faq-cta">
           <p>Can't find what you're looking for?</p>
-          <a href="faq.html" class="btn-secondary">View All FAQs</a>
+          <a href="/house-hero-app/pages/info/faq.html" class="btn-secondary"
+            >View All FAQs</a
+          >
         </div>
       </div>
 
@@ -335,7 +362,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
+    <script src="/house-hero-app/public/js/script.js"></script>
     <script>
       // Contact page specific JavaScript
       document.addEventListener("DOMContentLoaded", function () {

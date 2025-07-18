@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HouseHero | Book Mechanic</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>HouseHero | Book Locksmith</title>
+    <link rel="stylesheet" href="/house-hero-app/public/css/styles.css" />
     <style>
       #gmap {
         height: 250px;
@@ -22,17 +22,15 @@
     </style>
   </head>
   <body class="light">
-    <a href="index.html" class="back-btn">&lt;</a>
+    <a href="/house-hero-app/public/index.html" class="back-btn">&lt;</a>
     <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
       ☀️
     </button>
     <header class="header">
       <a href="#" class="menu-icon" id="menu-toggle">☰</a>
       <div class="header-content">
-        <h1 class="main-title">Book Mechanic Service 🛠️</h1>
-        <p class="subtitle">
-          Car broken? Book a mechanic to get you back on the road.
-        </p>
+        <h1 class="main-title">Book Locksmith Service 🔐</h1>
+        <p class="subtitle">Locked out or need new keys? Get instant help!</p>
       </div>
     </header>
     <!-- Sidebar Menu -->
@@ -137,7 +135,7 @@
         </div>
       </form>
     </main>
-    <script src="script.js"></script>
+    <script src="/house-hero-app/public/js/script.js"></script>
     <script>
       let gmap,
         gmarker,
@@ -183,7 +181,7 @@
                 address: document.getElementById("address").value,
                 date: document.getElementById("date").value,
                 time: document.getElementById("time").value,
-                service: "Mechanic",
+                service: "Locksmith",
                 details: document.getElementById("details").value,
                 status: "pending payment",
                 amount: 500,
@@ -195,7 +193,7 @@
               allBookings.push(booking);
               localStorage.setItem("allBookings", JSON.stringify(allBookings));
               localStorage.setItem("lastBooking", JSON.stringify(booking));
-              window.location.href = "booking-success.html";
+              window.location.href = "/pages/bookings/booking-success.html";
             }
           });
       });
