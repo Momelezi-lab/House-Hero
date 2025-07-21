@@ -54,7 +54,10 @@
       </nav>
     </aside>
     <div id="sidebar-overlay" class="sidebar-overlay"></div>
-    <main class="main-section" style="max-width: 480px; margin: 0 auto; padding: 1.5rem;">
+    <main
+      class="main-section"
+      style="max-width: 480px; margin: 0 auto; padding: 1.5rem"
+    >
       <form id="booking-form" class="login-form">
         <div class="form-group">
           <label for="name" class="form-label">Name</label>
@@ -148,8 +151,28 @@
           if (!place.geometry) return;
           gmap.setCenter(place.geometry.location);
           gmarker.setPosition(place.geometry.location);
-          document.getElementById("address-warning").style.display = "none";
-          document.querySelector('button[type="submit"]').disabled = false;
+          // Show warning if not Midrand or Johannesburg, but do not disable submit
+          const address = addressInput.value;
+          if (
+            !address.includes("Midrand") &&
+            !address.includes("Johannesburg")
+          ) {
+            document.getElementById("address-warning").style.display = "block";
+          } else {
+            document.getElementById("address-warning").style.display = "none";
+          }
+        });
+        // Also check on manual input
+        addressInput.addEventListener("input", function () {
+          const address = addressInput.value;
+          if (
+            !address.includes("Midrand") &&
+            !address.includes("Johannesburg")
+          ) {
+            document.getElementById("address-warning").style.display = "block";
+          } else {
+            document.getElementById("address-warning").style.display = "none";
+          }
         });
       }
       document.addEventListener("DOMContentLoaded", function () {
@@ -169,8 +192,7 @@
               expense: 300,
             };
             localStorage.setItem("lastBooking", JSON.stringify(booking));
-            window.location.href =
-              "/house-hero-app/pages/bookings/booking-success.html";
+            window.location.href = "booking-success.html";
           });
       });
     </script>

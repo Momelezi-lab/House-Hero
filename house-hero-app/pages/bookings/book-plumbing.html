@@ -128,7 +128,6 @@
     <script>
       let gmap,
         gmarker,
-        allowBooking = false,
         autocomplete;
       function initGMap() {
         gmap = new google.maps.Map(document.getElementById("gmap"), {
@@ -146,45 +145,45 @@
           if (!place.geometry) return;
           gmap.setCenter(place.geometry.location);
           gmarker.setPosition(place.geometry.location);
-          // Remove address restriction for testing
-          allowBooking = true;
-          document.getElementById("address-warning").style.display = "none";
-          document.querySelector('button[type="submit"]').disabled = false;
+          // Show warning if not Midrand or Johannesburg, but do not disable submit
+          const address = addressInput.value;
+          if (!address.includes("Midrand") && !address.includes("Johannesburg")) {
+            document.getElementById("address-warning").style.display = "block";
+          } else {
+            document.getElementById("address-warning").style.display = "none";
+          }
+        });
+        // Also check on manual input
+        addressInput.addEventListener("input", function () {
+          const address = addressInput.value;
+          if (!address.includes("Midrand") && !address.includes("Johannesburg")) {
+            document.getElementById("address-warning").style.display = "block";
+          } else {
+            document.getElementById("address-warning").style.display = "none";
+          }
         });
       }
       document.addEventListener("DOMContentLoaded", function () {
-        const bookBtn = document.querySelector('button[type="submit"]');
-        // Prevent submit if not allowed
-        document
-          .getElementById("booking-form")
-          .addEventListener("submit", function (e) {
-            if (!allowBooking) {
-              e.preventDefault();
-              document.getElementById("address-warning").style.display =
-                "block";
-            } else {
-              e.preventDefault();
-              // Save booking info to localStorage (append to allBookings array)
-              const booking = {
-                name: document.getElementById("name").value,
-                address: document.getElementById("address").value,
-                date: document.getElementById("date").value,
-                time: document.getElementById("time").value,
-                service: "Plumbing",
-                details: document.getElementById("details").value,
-                status: "pending payment",
-                amount: 500,
-                expense: 200,
-              };
-              let allBookings = JSON.parse(
-                localStorage.getItem("allBookings") || "[]"
-              );
-              allBookings.push(booking);
-              localStorage.setItem("allBookings", JSON.stringify(allBookings));
-              localStorage.setItem("lastBooking", JSON.stringify(booking));
-              window.location.href = "/pages/bookings/booking-success.html";
-            }
-          });
+        document.getElementById("booking-form").addEventListener("submit", function (e) {
+          e.preventDefault();
+          // Save booking info to localStorage (append to allBookings array)
+          const booking = {
+            name: document.getElementById("name").value,
+            address: document.getElementById("address").value,
+            date: document.getElementById("date").value,
+            time: document.getElementById("time").value,
+            service: "Plumbing",
+            details: document.getElementById("details").value,
+            status: "pending payment",
+            amount: 500,
+            expense: 200,
+          };
+          let allBookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+          allBookings.push(booking);
+          localStorage.setItem("allBookings", JSON.stringify(allBookings));
+          localStorage.setItem("lastBooking", JSON.stringify(booking));
+          window.location.href = "booking-success.html";
+        });
       });
     </script>
     <script
