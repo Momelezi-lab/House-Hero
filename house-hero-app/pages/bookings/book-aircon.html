@@ -189,12 +189,27 @@
               time: document.getElementById("time").value,
               service: "Air Conditioner Installation / Service",
               details: document.getElementById("details").value,
-              status: "pending payment",
-              amount: 1200,
-              expense: 500,
+              status: "pending",
             };
-            localStorage.setItem("lastBooking", JSON.stringify(booking));
-            window.location.href = "booking-success.html";
+            fetch("http://127.0.0.1:5000/api/bookings", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(booking),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                localStorage.setItem(
+                  "lastBooking",
+                  JSON.stringify(data.booking)
+                );
+                window.location.href = "booking-success.html";
+              })
+              .catch((error) => {
+                alert("Booking failed! Please try again.");
+                console.error(error);
+              });
           });
       });
     </script>

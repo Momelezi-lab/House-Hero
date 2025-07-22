@@ -100,6 +100,22 @@ def get_bookings():
     bookings = Booking.query.all()
     return jsonify([b.to_dict() for b in bookings])
 
+@app.route('/api/bookings/<int:booking_id>', methods=['PATCH'])
+def update_booking(booking_id):
+    booking = Booking.query.get_or_404(booking_id)
+    data = request.get_json()
+    if 'status' in data:
+        booking.status = data['status']
+    db.session.commit()
+    return jsonify({'message': 'Booking updated', 'booking': booking.to_dict()})
+
+@app.route('/api/bookings/<int:booking_id>', methods=['DELETE'])
+def delete_booking(booking_id):
+    booking = Booking.query.get_or_404(booking_id)
+    db.session.delete(booking)
+    db.session.commit()
+    return jsonify({'message': 'Booking deleted'})
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

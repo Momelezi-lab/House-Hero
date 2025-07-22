@@ -34,11 +34,11 @@
         </div>
       </header>
       <form id="login-form" class="login-form">
-        <label for="username" class="form-label">username</label>
+        <label for="email" class="form-label">Email</label>
         <input
-          type="text"
-          id="username"
-          name="username"
+          type="email"
+          id="email"
+          name="email"
           required
           class="form-input"
         />
@@ -71,11 +71,5 @@
       </div>
     </div>
     <script src="/house-hero-app/public/js/script.js"></script>
-    <script>
-      document.getElementById("login-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-        window.location.href = "/house-hero-app/public/index.html";
-      });
-    </script>
   </body>
 </html>

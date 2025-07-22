@@ -5,10 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Redirect to login if not authenticated, but skip admin pages
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const isLoginPage = window.location.pathname.endsWith("login.html");
+  const isSignupPage = window.location.pathname.endsWith("signup.html");
   const isAdminPage =
     window.location.pathname.endsWith("admin-dashboard.html") ||
     window.location.pathname.endsWith("admin-bookings.html");
-  if (!isLoggedIn && !isLoginPage && !isAdminPage) {
+  if (!isLoggedIn && !isLoginPage && !isSignupPage && !isAdminPage) {
     window.location.href = "login.html";
     return;
   }
@@ -136,9 +137,32 @@ document.addEventListener("DOMContentLoaded", () => {
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      // (Add your validation here if needed)
-      localStorage.setItem("isLoggedIn", "true");
-      window.location.href = "/house-hero-app/public/index.html";
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      fetch("http://127.0.0.1:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((response) =>
+          response.json().then((data) => ({ status: response.status, data }))
+        )
+        .then((result) => {
+          if (result.status === 200) {
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("user", JSON.stringify(result.data.user));
+            window.location.href = "/house-hero-app/public/index.html";
+          } else {
+            alert(
+              result.data.error ||
+                "Login failed. Please check your credentials."
+            );
+          }
+        })
+        .catch((error) => {
+          alert("Login failed. Please try again.");
+          console.error(error);
+        });
     });
   }
 
@@ -146,9 +170,34 @@ document.addEventListener("DOMContentLoaded", () => {
   if (signupForm) {
     signupForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      // (Add your validation here if needed)
-      localStorage.setItem("isLoggedIn", "true");
-      window.location.href = "/house-hero-app/public/index.html";
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+      fetch("http://127.0.0.1:5000/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      })
+        .then((response) =>
+          response.json().then((data) => ({ status: response.status, data }))
+        )
+        .then((result) => {
+          if (result.status === 201) {
+            alert("Registration successful! Please log in.");
+            window.location.href = "login.html";
+          } else {
+            alert(result.data.error || "Registration failed.");
+          }
+        })
+        .catch((error) => {
+          alert("Registration failed. Please try again.");
+          console.error(error);
+        });
     });
   }
 });

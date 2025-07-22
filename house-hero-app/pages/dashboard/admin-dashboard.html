@@ -550,11 +550,14 @@
           }
         };
       });
+      // Fetch bookings from backend
+      async function fetchBookings() {
+        const res = await fetch("http://127.0.0.1:5000/api/bookings");
+        return await res.json();
+      }
       // Dashboard widgets and latest bookings
-      function loadDashboard() {
-        const bookings = JSON.parse(
-          localStorage.getItem("allBookings") || "[]"
-        );
+      async function loadDashboard() {
+        const bookings = await fetchBookings();
         document.getElementById("total-bookings").textContent = bookings.length;
         document.getElementById("total-users").textContent = "1"; // Demo only
         document.getElementById("total-earnings").textContent =
@@ -562,7 +565,7 @@
         const latest = bookings.slice(-5).reverse();
         const table = document.getElementById("latest-bookings-table");
         if (latest.length === 0) {
-          table.innerHTML = '<tr><td colspan="6">No bookings found.</td></tr>';
+          table.innerHTML = '<tr><td colspan="8">No bookings found.</td></tr>';
         } else {
           table.innerHTML = latest
             .map(
@@ -574,6 +577,11 @@
               <td>${b.time}</td>
               <td>${b.service}</td>
               <td>${b.details || "-"}</td>
+              <td>${b.status || "pending"}</td>
+              <td>
+                <button onclick="confirmBooking(${b.id})" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>
+                <button onclick="deleteBooking(${b.id})" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
+              </td>
             </tr>
           `
             )
@@ -581,15 +589,15 @@
         }
       }
       // All bookings table
-      function loadAllBookings() {
-        let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+      async function loadAllBookings() {
+        const bookings = await fetchBookings();
         const table = document.getElementById("all-bookings-table");
         if (bookings.length === 0) {
-          table.innerHTML = '<tr><td colspan="7">No bookings found.</td></tr>';
+          table.innerHTML = '<tr><td colspan="8">No bookings found.</td></tr>';
         } else {
           table.innerHTML = bookings
             .map(
-              (b, i) => `
+              (b) => `
             <tr>
               <td>${b.name}</td>
               <td>${b.address}</td>
@@ -597,17 +605,30 @@
               <td>${b.time}</td>
               <td>${b.service}</td>
               <td>${b.details || "-"}</td>
-              <td><button onclick="deleteBooking(${i})" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button></td>
+              <td>${b.status || "pending"}</td>
+              <td>
+                <button onclick="confirmBooking(${b.id})" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>
+                <button onclick="deleteBooking(${b.id})" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
+              </td>
             </tr>
           `
             )
             .join("");
         }
       }
-      window.deleteBooking = function (idx) {
-        let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
-        bookings.splice(idx, 1);
-        localStorage.setItem("allBookings", JSON.stringify(bookings));
+      window.confirmBooking = async function (id) {
+        await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "confirmed" })
+        });
+        loadDashboard();
+        loadAllBookings();
+      };
+      window.deleteBooking = async function (id) {
+        await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
+          method: "DELETE"
+        });
         loadDashboard();
         loadAllBookings();
       };
