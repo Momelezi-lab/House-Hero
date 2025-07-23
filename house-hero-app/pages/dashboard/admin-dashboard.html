@@ -191,6 +191,16 @@
           left: 100px;
         }
       }
+      .latest-bookings table,
+      .latest-bookings th,
+      .latest-bookings td {
+        color: #111 !important;
+        background: #fff;
+      }
+      .latest-bookings th {
+        background: #22c55e;
+        color: #fff !important;
+      }
     </style>
   </head>
   <body class="light">
@@ -514,18 +524,59 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/house-hero-app/public/js/script.js"></script>
     <script>
-      // Password protection
+      // Persistent admin login using localStorage
+      function showAdminDashboard() {
+        document.getElementById("admin-login").style.display = "none";
+        document.getElementById("admin-content").style.display = "flex";
+        loadDashboard();
+        loadAllBookings();
+      }
+      // On page load, show the last active section from localStorage
+      function showActiveAdminSection() {
+        const navs = [
+          { id: "nav-dashboard", section: "dashboard-section" },
+          { id: "nav-bookings", section: "bookings-section" },
+          { id: "nav-users", section: "users-section" },
+          { id: "nav-services", section: "services-section" },
+          { id: "nav-providers", section: "provider-section" },
+        ];
+        const activeSection =
+          localStorage.getItem("adminActiveSection") || "dashboard-section";
+        navs.forEach((nav) => {
+          document.getElementById(nav.id).classList.remove("active");
+          document.getElementById(nav.section).style.display = "none";
+        });
+        const activeNav = navs.find((n) => n.section === activeSection);
+        if (activeNav) {
+          document.getElementById(activeNav.id).classList.add("active");
+          document.getElementById(activeSection).style.display = "";
+        }
+      }
+      // On page load, check admin login state
+      if (localStorage.getItem("isAdminLoggedIn") === "true") {
+        showAdminDashboard();
+        showActiveAdminSection();
+      }
       document.getElementById("admin-login-btn").onclick = function () {
         const pw = document.getElementById("admin-password").value;
         if (pw === "flower") {
-          document.getElementById("admin-login").style.display = "none";
-          document.getElementById("admin-content").style.display = "flex";
-          loadDashboard();
-          loadAllBookings();
+          localStorage.setItem("isAdminLoggedIn", "true");
+          showAdminDashboard();
         } else {
           document.getElementById("admin-error").style.display = "block";
         }
       };
+      // Add admin logout button
+      const logoutBtn = document.createElement("button");
+      logoutBtn.textContent = "Logout";
+      logoutBtn.style =
+        "position:fixed;top:24px;right:32px;background:#ef4444;color:#fff;padding:0.5rem 1.2rem;border:none;border-radius:8px;cursor:pointer;font-weight:600;z-index:10001;";
+      logoutBtn.onclick = function () {
+        localStorage.removeItem("isAdminLoggedIn");
+        document.getElementById("admin-content").style.display = "none";
+        document.getElementById("admin-login").style.display = "flex";
+      };
+      document.body.appendChild(logoutBtn);
       // Sidebar navigation
       const navs = [
         { id: "nav-dashboard", section: "dashboard-section" },
@@ -537,6 +588,7 @@
       navs.forEach((nav) => {
         document.getElementById(nav.id).onclick = function (e) {
           e.preventDefault();
+          localStorage.setItem("adminActiveSection", nav.section);
           navs.forEach((n) => {
             document.getElementById(n.id).classList.remove("active");
             document.getElementById(n.section).style.display = "none";
@@ -568,11 +620,14 @@
             "R" + confirmedBookings.length * 500; // Demo: R500 per confirmed booking
           const latest = bookings.slice(-5).reverse();
           const table = document.getElementById("latest-bookings-table");
-          if (latest.length === 0) {
+          const validBookings = latest.filter(
+            (b) => b && b.name && b.address && b.date && b.time && b.service
+          );
+          if (validBookings.length === 0) {
             table.innerHTML =
               '<tr><td colspan="8">No bookings found.</td></tr>';
           } else {
-            table.innerHTML = latest
+            table.innerHTML = validBookings
               .map(
                 (b) => `
             <tr>
@@ -584,10 +639,10 @@
               <td>${b.details || "-"}</td>
               <td>${b.status || "pending"}</td>
               <td>
-                <button onclick="confirmBooking(${
+                <button type="button" onclick="confirmBooking(event, ${
                   b.id
                 })" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>
-                <button onclick="deleteBooking(${
+                <button type="button" onclick="deleteBooking(event, ${
                   b.id
                 })" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
               </td>
@@ -609,11 +664,14 @@
           const bookings = await fetchBackendBookings();
           console.log("[DEBUG] Bookings fetched for all bookings:", bookings);
           const table = document.getElementById("all-bookings-table");
-          if (bookings.length === 0) {
+          const validAllBookings = bookings.filter(
+            (b) => b && b.name && b.address && b.date && b.time && b.service
+          );
+          if (validAllBookings.length === 0) {
             table.innerHTML =
               '<tr><td colspan="8">No bookings found.</td></tr>';
           } else {
-            table.innerHTML = bookings
+            table.innerHTML = validAllBookings
               .map(
                 (b) => `
             <tr>
@@ -625,10 +683,10 @@
               <td>${b.details || "-"}</td>
               <td>${b.status || "pending"}</td>
               <td>
-                <button onclick="confirmBooking(${
+                <button type="button" onclick="confirmBooking(event, ${
                   b.id
                 })" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>
-                <button onclick="deleteBooking(${
+                <button type="button" onclick="deleteBooking(event, ${
                   b.id
                 })" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
               </td>
@@ -644,7 +702,11 @@
             '<tr><td colspan="8" style="color:#ef4444;">Error loading bookings. Please try again.</td></tr>';
         }
       }
-      window.confirmBooking = async function (id) {
+      window.confirmBooking = async function (event, id) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
         await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -652,13 +714,23 @@
         });
         loadDashboard();
         loadAllBookings();
+        // Stay on bookings section
+        localStorage.setItem("adminActiveSection", "bookings-section");
+        showActiveAdminSection();
       };
-      window.deleteBooking = async function (id) {
+      window.deleteBooking = async function (event, id) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
         await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
           method: "DELETE",
         });
         loadDashboard();
         loadAllBookings();
+        // Stay on bookings section
+        localStorage.setItem("adminActiveSection", "bookings-section");
+        showActiveAdminSection();
       };
     </script>
   </body>
