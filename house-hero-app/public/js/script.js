@@ -473,14 +473,17 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-// Admin Dashboard Analytics Chart
-function renderAdminAnalytics() {
-  // Destroy existing charts if they exist
+async function fetchBackendBookings() {
+  const res = await fetch("http://127.0.0.1:5000/api/bookings");
+  return await res.json();
+}
+
+async function renderAdminAnalytics() {
   if (window._adminCharts) {
     window._adminCharts.forEach((c) => c && c.destroy && c.destroy());
   }
   window._adminCharts = [];
-  let bookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+  let bookings = await fetchBackendBookings();
   if (bookings.length === 0) {
     const last = localStorage.getItem("lastBooking");
     if (last) bookings = [JSON.parse(last)];
