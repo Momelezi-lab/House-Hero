@@ -511,6 +511,8 @@
         </section>
       </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/house-hero-app/public/js/script.js"></script>
     <script>
       // Password protection
       document.getElementById("admin-login-btn").onclick = function () {
@@ -550,26 +552,29 @@
           }
         };
       });
-      // Fetch bookings from backend
-      async function fetchBookings() {
-        const res = await fetch("http://127.0.0.1:5000/api/bookings");
-        return await res.json();
-      }
+      // Remove local fetchBookings and use the shared fetchBackendBookings from script.js
       // Dashboard widgets and latest bookings
       async function loadDashboard() {
-        const bookings = await fetchBookings();
-        document.getElementById("total-bookings").textContent = bookings.length;
-        document.getElementById("total-users").textContent = "1"; // Demo only
-        document.getElementById("total-earnings").textContent =
-          "R" + bookings.length * 500; // Demo: R500 per booking
-        const latest = bookings.slice(-5).reverse();
-        const table = document.getElementById("latest-bookings-table");
-        if (latest.length === 0) {
-          table.innerHTML = '<tr><td colspan="8">No bookings found.</td></tr>';
-        } else {
-          table.innerHTML = latest
-            .map(
-              (b) => `
+        try {
+          const bookings = await fetchBackendBookings();
+          console.log("[DEBUG] Bookings fetched for dashboard:", bookings);
+          document.getElementById("total-bookings").textContent =
+            bookings.length;
+          document.getElementById("total-users").textContent = "1"; // Demo only
+          const confirmedBookings = bookings.filter(
+            (b) => b.status === "confirmed"
+          );
+          document.getElementById("total-earnings").textContent =
+            "R" + confirmedBookings.length * 500; // Demo: R500 per confirmed booking
+          const latest = bookings.slice(-5).reverse();
+          const table = document.getElementById("latest-bookings-table");
+          if (latest.length === 0) {
+            table.innerHTML =
+              '<tr><td colspan="8">No bookings found.</td></tr>';
+          } else {
+            table.innerHTML = latest
+              .map(
+                (b) => `
             <tr>
               <td>${b.name}</td>
               <td>${b.address}</td>
@@ -579,25 +584,38 @@
               <td>${b.details || "-"}</td>
               <td>${b.status || "pending"}</td>
               <td>
-                <button onclick="confirmBooking(${b.id})" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>
-                <button onclick="deleteBooking(${b.id})" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
+                <button onclick="confirmBooking(${
+                  b.id
+                })" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>
+                <button onclick="deleteBooking(${
+                  b.id
+                })" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
               </td>
             </tr>
           `
-            )
-            .join("");
+              )
+              .join("");
+          }
+        } catch (error) {
+          console.error("[ERROR] Failed to load dashboard bookings:", error);
+          const table = document.getElementById("latest-bookings-table");
+          table.innerHTML =
+            '<tr><td colspan="8" style="color:#ef4444;">Error loading bookings. Please try again.</td></tr>';
         }
       }
-      // All bookings table
+
       async function loadAllBookings() {
-        const bookings = await fetchBookings();
-        const table = document.getElementById("all-bookings-table");
-        if (bookings.length === 0) {
-          table.innerHTML = '<tr><td colspan="8">No bookings found.</td></tr>';
-        } else {
-          table.innerHTML = bookings
-            .map(
-              (b) => `
+        try {
+          const bookings = await fetchBackendBookings();
+          console.log("[DEBUG] Bookings fetched for all bookings:", bookings);
+          const table = document.getElementById("all-bookings-table");
+          if (bookings.length === 0) {
+            table.innerHTML =
+              '<tr><td colspan="8">No bookings found.</td></tr>';
+          } else {
+            table.innerHTML = bookings
+              .map(
+                (b) => `
             <tr>
               <td>${b.name}</td>
               <td>${b.address}</td>
@@ -607,33 +625,41 @@
               <td>${b.details || "-"}</td>
               <td>${b.status || "pending"}</td>
               <td>
-                <button onclick="confirmBooking(${b.id})" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>
-                <button onclick="deleteBooking(${b.id})" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
+                <button onclick="confirmBooking(${
+                  b.id
+                })" style="color:#fff;background:#22c55e;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Confirm</button>
+                <button onclick="deleteBooking(${
+                  b.id
+                })" style="color:#fff;background:#ef4444;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;">Delete</button>
               </td>
             </tr>
           `
-            )
-            .join("");
+              )
+              .join("");
+          }
+        } catch (error) {
+          console.error("[ERROR] Failed to load all bookings:", error);
+          const table = document.getElementById("all-bookings-table");
+          table.innerHTML =
+            '<tr><td colspan="8" style="color:#ef4444;">Error loading bookings. Please try again.</td></tr>';
         }
       }
       window.confirmBooking = async function (id) {
         await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status: "confirmed" })
+          body: JSON.stringify({ status: "confirmed" }),
         });
         loadDashboard();
         loadAllBookings();
       };
       window.deleteBooking = async function (id) {
         await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
-          method: "DELETE"
+          method: "DELETE",
         });
         loadDashboard();
         loadAllBookings();
       };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/house-hero-app/public/js/script.js"></script>
   </body>
 </html>
