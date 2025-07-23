@@ -2,14 +2,21 @@
 
 // Dark mode functionality
 document.addEventListener("DOMContentLoaded", () => {
-  // Redirect to login if not authenticated, but skip admin pages
+  // Redirect to login if not authenticated, but skip admin pages and booking pages
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const isLoginPage = window.location.pathname.endsWith("login.html");
   const isSignupPage = window.location.pathname.endsWith("signup.html");
   const isAdminPage =
     window.location.pathname.endsWith("admin-dashboard.html") ||
     window.location.pathname.endsWith("admin-bookings.html");
-  if (!isLoggedIn && !isLoginPage && !isSignupPage && !isAdminPage) {
+  const isBookingPage = window.location.pathname.includes("book-");
+  if (
+    !isLoggedIn &&
+    !isLoginPage &&
+    !isSignupPage &&
+    !isAdminPage &&
+    !isBookingPage
+  ) {
     window.location.href = "login.html";
     return;
   }
@@ -400,6 +407,56 @@ function clearAutoSave(formId) {
 document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("booking-form")) {
     autoSaveForm("booking-form");
+  }
+});
+
+// Universal booking form submission for all booking pages
+
+document.addEventListener("DOMContentLoaded", () => {
+  const bookingForm = document.getElementById("booking-form");
+  if (bookingForm) {
+    bookingForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      // Collect form data
+      const formData = new FormData(bookingForm);
+      const bookingData = {};
+      formData.forEach((value, key) => {
+        bookingData[key] = value;
+      });
+      // Add service type based on page title or fallback
+      let service = document.title
+        .replace("HouseHero | Book ", "")
+        .replace("Service", "")
+        .trim();
+      if (!service || service.toLowerCase() === "househero") {
+        service = bookingData.service || "Other";
+      }
+      bookingData.service = service;
+      // Default status
+      bookingData.status = "pending payment";
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bookingData),
+        });
+        if (response.ok) {
+          // Save booking details for confirmation page
+          localStorage.setItem("lastBooking", JSON.stringify(bookingData));
+          // Clear auto-save
+          clearAutoSave("booking-form");
+          // Redirect to success page or show message
+          window.location.href =
+            "/house-hero-app/pages/bookings/booking-success.html";
+        } else {
+          const data = await response.json();
+          showToast(data.error || "Booking failed. Please try again.", "error");
+        }
+      } catch (error) {
+        showToast("Booking failed. Please try again.", "error");
+        console.error(error);
+      }
+    });
   }
 });
 
