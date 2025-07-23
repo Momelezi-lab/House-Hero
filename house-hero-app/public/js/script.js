@@ -434,6 +434,20 @@ document.addEventListener("DOMContentLoaded", () => {
       bookingData.service = service;
       // Default status
       bookingData.status = "pending payment";
+      // Set fixed amount per service
+      const servicePrices = {
+        Plumbing: 500,
+        Cleaning: 300,
+        Mechanic: 700,
+        Locksmith: 400,
+        "Electrical Repairs & Installations": 600,
+        Handyman: 350,
+        "Gardening & Landscaping": 450,
+        "Air Conditioner Installation / Service": 800,
+        "Pest Control": 550,
+        Other: 250,
+      };
+      bookingData.amount = servicePrices[service] || 250;
       try {
         const response = await fetch("http://127.0.0.1:5000/api/bookings", {
           method: "POST",
@@ -945,99 +959,141 @@ if (document.getElementById("userGrowthChart")) {
   });
 }
 
-// Revenue by Service Bar Chart
-if (document.getElementById("revenueServiceChart")) {
-  const revenueByService = {};
-  bookings.forEach((b) => {
-    const service = b.service || "Other";
-    revenueByService[service] =
-      (revenueByService[service] || 0) + (b.amount || 0);
-  });
-  const serviceLabels = Object.keys(revenueByService);
-  const revenueData = serviceLabels.map((s) => revenueByService[s]);
-  const serviceColors = [
-    "#22c55e",
-    "#3b82f6",
-    "#fbbf24",
-    "#ef4444",
-    "#a78bfa",
-    "#f472b6",
-    "#10b981",
-  ];
-  new Chart(document.getElementById("revenueServiceChart").getContext("2d"), {
-    type: "bar",
-    data: {
-      labels: serviceLabels,
-      datasets: [
-        {
-          label: "Earnings (ZAR)",
-          data: revenueData,
-          backgroundColor: serviceLabels.map(
-            (_, i) => serviceColors[i % serviceColors.length]
-          ),
-          borderRadius: 8,
-          maxBarThickness: 40,
+// Revenue by Service Bar Chart (fix to use backend bookings)
+async function renderRevenueByServiceChart() {
+  if (document.getElementById("revenueServiceChart")) {
+    let bookings = await fetchBackendBookings();
+    const revenueByService = {};
+    bookings.forEach((b) => {
+      const service = b.service || "Other";
+      revenueByService[service] =
+        (revenueByService[service] || 0) + (b.amount || 0);
+    });
+    const serviceLabels = Object.keys(revenueByService);
+    const revenueData = serviceLabels.map((s) => revenueByService[s]);
+    const serviceColors = [
+      "#22c55e",
+      "#3b82f6",
+      "#fbbf24",
+      "#ef4444",
+      "#a78bfa",
+      "#f472b6",
+      "#10b981",
+    ];
+    new Chart(document.getElementById("revenueServiceChart").getContext("2d"), {
+      type: "bar",
+      data: {
+        labels: serviceLabels,
+        datasets: [
+          {
+            label: "Earnings (ZAR)",
+            data: revenueData,
+            backgroundColor: serviceLabels.map(
+              (_, i) => serviceColors[i % serviceColors.length]
+            ),
+            borderRadius: 8,
+            maxBarThickness: 40,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: "Revenue by Service" },
         },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: { display: true, text: "Revenue by Service" },
+        scales: {
+          y: { beginAtZero: true },
+        },
       },
-      scales: {
-        y: { beginAtZero: true },
-      },
-    },
-  });
+    });
+  }
 }
-
-// Complaints Statistics Bar Chart
-if (document.getElementById("complaintsStatsChart")) {
-  let complaints = JSON.parse(localStorage.getItem("allComplaints") || "[]");
-  // Group by complaint type
-  const typeCounts = {};
-  complaints.forEach((c) => {
-    const type = c.type || "Other";
-    typeCounts[type] = (typeCounts[type] || 0) + 1;
-  });
-  const typeLabels = Object.keys(typeCounts);
-  const typeData = typeLabels.map((t) => typeCounts[t]);
-  const typeColors = [
-    "#ef4444",
-    "#fbbf24",
-    "#3b82f6",
-    "#22c55e",
-    "#a78bfa",
-    "#f472b6",
-    "#10b981",
-  ];
-  new Chart(document.getElementById("complaintsStatsChart").getContext("2d"), {
-    type: "bar",
-    data: {
-      labels: typeLabels,
-      datasets: [
-        {
-          label: "Complaints",
-          data: typeData,
-          backgroundColor: typeLabels.map(
-            (_, i) => typeColors[i % typeColors.length]
-          ),
-          borderRadius: 8,
-          maxBarThickness: 40,
+// Complaints Statistics Bar Chart (ensure only called once)
+async function renderComplaintsStatsChart() {
+  if (document.getElementById("complaintsStatsChart")) {
+    try {
+      let complaints = await fetchBackendComplaints();
+      console.log("[DEBUG] Complaints fetched for chart:", complaints);
+      // Group by complaint type (normalize for display)
+      const typeCounts = {};
+      complaints.forEach((c) => {
+        let type = c.type || "Other";
+        // Normalize: replace dashes with spaces and capitalize words
+        type = type.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+        typeCounts[type] = (typeCounts[type] || 0) + 1;
+      });
+      const typeLabels = Object.keys(typeCounts);
+      const typeData = typeLabels.map((t) => typeCounts[t]);
+      console.log("[DEBUG] Complaints chart labels:", typeLabels);
+      console.log("[DEBUG] Complaints chart data:", typeData);
+      const chartContainer = document.getElementById(
+        "complaintsStatsChart"
+      ).parentElement;
+      if (typeLabels.length === 0) {
+        chartContainer.innerHTML =
+          '<div style="color:#ef4444;text-align:center;margin:2rem 0;">No complaints data to display.</div>';
+        return;
+      }
+      // Remove any previous chart canvas
+      const oldCanvas = document.getElementById("complaintsStatsChart");
+      if (oldCanvas) {
+        const newCanvas = oldCanvas.cloneNode(false);
+        oldCanvas.parentNode.replaceChild(newCanvas, oldCanvas);
+      }
+      const ctx = document
+        .getElementById("complaintsStatsChart")
+        .getContext("2d");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: typeLabels,
+          datasets: [
+            {
+              label: "Complaints",
+              data: typeData,
+              backgroundColor: typeLabels.map(
+                (_, i) =>
+                  [
+                    "#ef4444",
+                    "#fbbf24",
+                    "#3b82f6",
+                    "#22c55e",
+                    "#a78bfa",
+                    "#f472b6",
+                    "#10b981",
+                  ][i % 7]
+              ),
+              borderRadius: 8,
+              maxBarThickness: 40,
+            },
+          ],
         },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: { display: true, text: "Complaints by Type" },
-      },
-      scales: {
-        y: { beginAtZero: true, precision: 0 },
-      },
-    },
-  });
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: "Complaints by Type" },
+          },
+          scales: {
+            y: { beginAtZero: true, precision: 0 },
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Error loading complaints stats chart:", error);
+      const chartContainer = document.getElementById(
+        "complaintsStatsChart"
+      ).parentElement;
+      chartContainer.innerHTML =
+        '<div style="color:#ef4444;text-align:center;margin:2rem 0;">Error loading complaints statistics.</div>';
+    }
+  }
+}
+// Call on page load
+if (document.getElementById("revenueServiceChart")) {
+  renderRevenueByServiceChart();
+}
+if (document.getElementById("complaintsStatsChart")) {
+  renderComplaintsStatsChart();
 }
