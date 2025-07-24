@@ -36,6 +36,7 @@ class Booking(db.Model):
     service = db.Column(db.String(100), nullable=False)
     details = db.Column(db.String(500))
     status = db.Column(db.String(50), default='pending')
+    amount = db.Column(db.Float, default=0.0)
 
     def to_dict(self):
         return {
@@ -46,7 +47,30 @@ class Booking(db.Model):
             'time': self.time,
             'service': self.service,
             'details': self.details,
-            'status': self.status
+            'status': self.status,
+            'amount': self.amount
+        }
+
+class Complaint(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), nullable=True)
+    type = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
+    status = db.Column(db.String(50), default='pending')
+    date = db.Column(db.String(20), nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'type': self.type,
+            'title': self.title,
+            'description': self.description,
+            'status': self.status,
+            'date': self.date
         }
 
 @app.route('/api/health')
@@ -89,7 +113,8 @@ def create_booking():
         time=data.get('time'),
         service=data.get('service'),
         details=data.get('details'),
-        status=data.get('status', 'pending')
+        status=data.get('status', 'pending'),
+        amount=float(data.get('amount', 0.0))
     )
     db.session.add(booking)
     db.session.commit()
@@ -115,6 +140,43 @@ def delete_booking(booking_id):
     db.session.delete(booking)
     db.session.commit()
     return jsonify({'message': 'Booking deleted'})
+
+@app.route('/api/complaints', methods=['POST'])
+def create_complaint():
+    data = request.get_json()
+    complaint = Complaint(
+        name=data.get('name'),
+        email=data.get('email'),
+        type=data.get('type'),
+        title=data.get('title'),
+        description=data.get('description'),
+        status=data.get('status', 'pending'),
+        date=data.get('date')
+    )
+    db.session.add(complaint)
+    db.session.commit()
+    return jsonify({'message': 'Complaint created', 'complaint': complaint.to_dict()}), 201
+
+@app.route('/api/complaints', methods=['GET'])
+def get_complaints():
+    complaints = Complaint.query.all()
+    return jsonify([c.to_dict() for c in complaints])
+
+@app.route('/api/complaints/<int:complaint_id>', methods=['PATCH'])
+def update_complaint(complaint_id):
+    complaint = Complaint.query.get_or_404(complaint_id)
+    data = request.get_json()
+    if 'status' in data:
+        complaint.status = data['status']
+    db.session.commit()
+    return jsonify({'message': 'Complaint updated', 'complaint': complaint.to_dict()})
+
+@app.route('/api/complaints/<int:complaint_id>', methods=['DELETE'])
+def delete_complaint(complaint_id):
+    complaint = Complaint.query.get_or_404(complaint_id)
+    db.session.delete(complaint)
+    db.session.commit()
+    return jsonify({'message': 'Complaint deleted'})
 
 if __name__ == '__main__':
     with app.app_context():

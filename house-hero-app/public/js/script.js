@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     !isAdminPage &&
     !isBookingPage
   ) {
-    window.location.href = "login.html";
+    window.location.href = "/house-hero-app/pages/auth/login.html";
     return;
   }
 
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((result) => {
           if (result.status === 201) {
             alert("Registration successful! Please log in.");
-            window.location.href = "login.html";
+            window.location.href = "/house-hero-app/pages/auth/login.html";
           } else {
             alert(result.data.error || "Registration failed.");
           }

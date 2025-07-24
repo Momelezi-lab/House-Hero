@@ -137,6 +137,7 @@
     </main>
     <script src="/house-hero-app/public/js/script.js"></script>
     <script>
+      // Restore initGMap for Google Maps callback
       let gmap, gmarker, autocomplete;
       function initGMap() {
         gmap = new google.maps.Map(document.getElementById("gmap"), {
@@ -178,41 +179,6 @@
           }
         });
       }
-      document.addEventListener("DOMContentLoaded", function () {
-        document
-          .getElementById("booking-form")
-          .addEventListener("submit", function (e) {
-            e.preventDefault();
-            const booking = {
-              name: document.getElementById("name").value,
-              address: document.getElementById("address").value,
-              date: document.getElementById("date").value,
-              time: document.getElementById("time").value,
-              service: "Locksmith",
-              details: document.getElementById("details").value,
-              status: "pending",
-            };
-            fetch("http://127.0.0.1:5000/api/bookings", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(booking),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                localStorage.setItem(
-                  "lastBooking",
-                  JSON.stringify(data.booking)
-                );
-                window.location.href = "booking-success.html";
-              })
-              .catch((error) => {
-                alert("Booking failed! Please try again.");
-                console.error(error);
-              });
-          });
-      });
     </script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADPVyJOYeH7DIOD3x9jmJPmfG_LKvXzsc&libraries=places&callback=initGMap"

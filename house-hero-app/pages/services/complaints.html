@@ -356,6 +356,11 @@
     <script src="/house-hero-app/public/js/script.js"></script>
     <script>
       // Complaints page specific JavaScript
+      async function fetchBackendComplaints() {
+        const res = await fetch("http://127.0.0.1:5000/api/complaints");
+        return await res.json();
+      }
+
       document.addEventListener("DOMContentLoaded", function () {
         // Set minimum date to today for service date
         const serviceDateInput = document.getElementById("service-date");
@@ -364,6 +369,8 @@
 
         // Initialize filters
         initializeFilters();
+        // Load complaints from backend
+        renderComplaintHistory();
       });
 
       function initializeFilters() {
@@ -401,37 +408,36 @@
       }
 
       // Complaint form submission
-      document
-        .getElementById("complaint-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const complaint = {
-            type: document.getElementById("complaint-type").value,
-            serviceProvider: document.getElementById("service-provider").value,
-            serviceDate: document.getElementById("service-date").value,
-            title: document.getElementById("complaint-title").value,
-            description: document.getElementById("complaint-description").value,
-            desiredResolution:
-              document.getElementById("desired-resolution").value,
-            contactPreference:
-              document.getElementById("contact-preference").value,
-            urgencyLevel: document.getElementById("urgency-level").value,
-            attachments: [], // (optional, not handled here)
-            anonymous: document.getElementById("anonymous-complaint").checked,
-            followUp: document.getElementById("follow-up").checked,
-            status: "pending",
-            createdAt: new Date().toISOString(),
-          };
-          // Save to allComplaints in localStorage
-          let allComplaints = JSON.parse(
-            localStorage.getItem("allComplaints") || "[]"
-          );
-          allComplaints.push(complaint);
-          localStorage.setItem("allComplaints", JSON.stringify(allComplaints));
-          // Existing logic (show toast, reset form, etc.)
-          showToast("Complaint submitted successfully!", "success");
-          this.reset();
-        });
+      const complaintForm = document.getElementById("complaint-form");
+      complaintForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const complaint = {
+          name: localStorage.getItem("userName") || "Anonymous",
+          email: localStorage.getItem("userEmail") || "",
+          type: document.getElementById("complaint-type").value,
+          title: document.getElementById("complaint-title").value,
+          description: document.getElementById("complaint-description").value,
+          status: "pending",
+          date: document.getElementById("service-date").value,
+        };
+        try {
+          const response = await fetch("http://127.0.0.1:5000/api/complaints", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(complaint),
+          });
+          if (response.ok) {
+            showToast("Complaint submitted successfully!", "success");
+            complaintForm.reset();
+            renderComplaintHistory();
+          } else {
+            showToast("Failed to submit complaint.", "error");
+          }
+        } catch (error) {
+          showToast("Failed to submit complaint.", "error");
+          console.error(error);
+        }
+      });
 
       function validateComplaintForm() {
         const requiredFields = document.querySelectorAll(
@@ -587,6 +593,46 @@
 
           showToast(`${files.length} file(s) selected`, "success");
         });
+
+      async function renderComplaintHistory() {
+        const complaintList = document.querySelector(".complaint-list");
+        complaintList.innerHTML = "<div>Loading complaints...</div>";
+        try {
+          const complaints = await fetchBackendComplaints();
+          if (!complaints.length) {
+            complaintList.innerHTML = "<div>No complaints found.</div>";
+            return;
+          }
+          complaintList.innerHTML = complaints
+            .map(
+              (c) => `
+            <div class="complaint-item">
+              <div class="complaint-header">
+                <h3>${c.title}</h3>
+                <span class="complaint-status ${c.status
+                  .toLowerCase()
+                  .replace(/ /g, "-")}">${
+                c.status.charAt(0).toUpperCase() + c.status.slice(1)
+              }</span>
+              </div>
+              <div class="complaint-meta">
+                <span class="complaint-date">${c.date}</span>
+                <span class="complaint-type">${c.type.replace(/-/g, " ")}</span>
+              </div>
+              <p class="complaint-summary">${c.description}</p>
+              <div class="complaint-actions">
+                <button class="btn-secondary" onclick="viewComplaintDetails('${
+                  c.id
+                }')">View Details</button>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        } catch (error) {
+          complaintList.innerHTML = "<div>Error loading complaints.</div>";
+        }
+      }
     </script>
   </body>
 </html>
