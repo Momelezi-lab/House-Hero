@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from sqlalchemy import func
 
 app = Flask(__name__)
 CORS(app)
@@ -106,6 +107,15 @@ def login():
 @app.route('/api/bookings', methods=['POST'])
 def create_booking():
     data = request.get_json()
+    # Improved duplicate check: case-insensitive, trimmed
+    existing = Booking.query.filter(
+        func.lower(func.trim(Booking.name)) == data.get('name', '').strip().lower(),
+        Booking.date == data.get('date'),
+        Booking.time == data.get('time'),
+        func.lower(func.trim(Booking.service)) == data.get('service', '').strip().lower()
+    ).first()
+    if existing:
+        return jsonify({'error': 'Duplicate booking detected'}), 409
     booking = Booking(
         name=data.get('name'),
         address=data.get('address'),
@@ -179,6 +189,23 @@ def delete_complaint(complaint_id):
     return jsonify({'message': 'Complaint deleted'})
 
 if __name__ == '__main__':
+    import sys
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+        if '--cleanup-duplicates' in sys.argv:
+            # Remove duplicate bookings
+            from sqlalchemy import and_
+            seen = set()
+            duplicates = []
+            for b in Booking.query.order_by(Booking.id).all():
+                key = (b.name.strip().lower(), b.date, b.time, b.service.strip().lower())
+                if key in seen:
+                    duplicates.append(b)
+                else:
+                    seen.add(key)
+            for dup in duplicates:
+                db.session.delete(dup)
+            db.session.commit()
+            print(f"Removed {len(duplicates)} duplicate bookings.")
+        else:
+            app.run(debug=True)
