@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from sqlalchemy import func
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -20,12 +21,16 @@ class User(db.Model):
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    phone = db.Column(db.String(30), nullable=True)
+    registered = db.Column(db.String(20), nullable=False)
 
     def to_dict(self):
         return {
             'id': self.id,
             'name': self.name,
-            'email': self.email
+            'email': self.email,
+            'phone': self.phone,
+            'registered': self.registered
         }
 
 class Booking(db.Model):
@@ -84,12 +89,14 @@ def signup():
     name = data.get('name')
     email = data.get('email')
     password = data.get('password')
+    phone = data.get('phone')
+    registered = datetime.now().strftime('%Y-%m-%d')
     if not name or not email or not password:
         return jsonify({'error': 'Missing required fields'}), 400
     if User.query.filter_by(email=email).first():
         return jsonify({'error': 'Email already registered'}), 409
     password_hash = generate_password_hash(password)
-    user = User(name=name, email=email, password_hash=password_hash)
+    user = User(name=name, email=email, password_hash=password_hash, phone=phone, registered=registered)
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': 'User registered successfully', 'user': user.to_dict()}), 201
@@ -188,6 +195,11 @@ def delete_complaint(complaint_id):
     db.session.commit()
     return jsonify({'message': 'Complaint deleted'})
 
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return jsonify([user.to_dict() for user in users])
+
 if __name__ == '__main__':
     import sys
     with app.app_context():
@@ -206,6 +218,6 @@ if __name__ == '__main__':
             for dup in duplicates:
                 db.session.delete(dup)
             db.session.commit()
-            print(f"Removed {len(duplicates)} duplicate bookings.")
+            print("Removed {} duplicate bookings.".format(len(duplicates)))
         else:
             app.run(debug=True)
