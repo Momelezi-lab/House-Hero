@@ -972,16 +972,54 @@ if (document.getElementById("userGrowthChart")) {
 
 // Revenue by Service Bar Chart (fix to use backend bookings)
 async function renderRevenueByServiceChart() {
-  if (document.getElementById("revenueServiceChart")) {
+  console.log("[DEBUG] renderRevenueByServiceChart called");
+
+  // Check if Chart.js is available
+  if (typeof Chart === "undefined") {
+    console.error("Chart.js not loaded yet");
+    return;
+  }
+
+  const chartElement = document.getElementById("revenueServiceChart");
+  if (!chartElement) {
+    console.error("Revenue chart element not found");
+    return;
+  }
+
+  try {
+    console.log("[DEBUG] Fetching bookings data for revenue chart...");
     let bookings = await fetchBackendBookings();
+    console.log("[DEBUG] Bookings fetched for revenue chart:", bookings);
+
     const revenueByService = {};
     bookings.forEach((b) => {
       const service = b.service || "Other";
       revenueByService[service] =
         (revenueByService[service] || 0) + (b.amount || 0);
     });
+
     const serviceLabels = Object.keys(revenueByService);
     const revenueData = serviceLabels.map((s) => revenueByService[s]);
+    console.log("[DEBUG] Revenue chart labels:", serviceLabels);
+    console.log("[DEBUG] Revenue chart data:", revenueData);
+
+    const chartContainer = chartElement.parentElement;
+
+    if (serviceLabels.length === 0) {
+      console.log("[DEBUG] No revenue data to display");
+      chartContainer.innerHTML =
+        '<div style="color:#ef4444;text-align:center;margin:2rem 0;">No revenue data to display.</div>';
+      return;
+    }
+
+    // Clear any existing chart
+    const existingChart = chartElement.chart;
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
+    // Create new chart
+    console.log("[DEBUG] Creating new revenue chart...");
     const serviceColors = [
       "#22c55e",
       "#3b82f6",
@@ -991,7 +1029,7 @@ async function renderRevenueByServiceChart() {
       "#f472b6",
       "#10b981",
     ];
-    new Chart(document.getElementById("revenueServiceChart").getContext("2d"), {
+    const newChart = new Chart(chartElement.getContext("2d"), {
       type: "bar",
       data: {
         labels: serviceLabels,
@@ -1018,6 +1056,15 @@ async function renderRevenueByServiceChart() {
         },
       },
     });
+
+    // Store reference to chart
+    chartElement.chart = newChart;
+    console.log("[DEBUG] Revenue chart created successfully");
+  } catch (error) {
+    console.error("Error loading revenue chart:", error);
+    const chartContainer = chartElement.parentElement;
+    chartContainer.innerHTML =
+      '<div style="color:#ef4444;text-align:center;margin:2rem 0;">Error loading revenue statistics.</div>';
   }
 }
 // Complaints Statistics Bar Chart (ensure only called once)
@@ -1120,13 +1167,24 @@ async function renderComplaintsStatsChart() {
       '<div style="color:#ef4444;text-align:center;margin:2rem 0;">Error loading complaints statistics.</div>';
   }
 }
-// Call on page load
-if (document.getElementById("revenueServiceChart")) {
-  renderRevenueByServiceChart();
+// Wait for Chart.js to be available before rendering charts
+function waitForChartJS() {
+  if (typeof Chart !== "undefined") {
+    console.log("Chart.js is available, rendering charts...");
+    if (document.getElementById("revenueServiceChart")) {
+      renderRevenueByServiceChart();
+    }
+    if (document.getElementById("complaintsStatsChart")) {
+      renderComplaintsStatsChart();
+    }
+  } else {
+    console.log("Chart.js not available yet, waiting...");
+    setTimeout(waitForChartJS, 100);
+  }
 }
-if (document.getElementById("complaintsStatsChart")) {
-  renderComplaintsStatsChart();
-}
+
+// Start waiting for Chart.js
+waitForChartJS();
 
 // Test functions for debugging
 window.testLogout = function () {
