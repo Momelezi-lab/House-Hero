@@ -115,17 +115,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setupSidebarEventDelegation() {
+    console.log("Setting up sidebar event delegation...");
     document.addEventListener("click", (e) => {
+      console.log("Click detected on:", e.target);
+      console.log("Element classes:", e.target.classList);
+
       if (e.target.classList.contains("sidebar-link")) {
         const link = e.target;
         const linkText = link.textContent.toLowerCase().trim();
-        console.log("Link clicked:", linkText);
+        console.log("Sidebar link clicked:", linkText);
         console.log("Link href:", link.href);
 
         // Only prevent default for logout, let other links navigate naturally
-        if (linkText === "⎋ logout") {
+        if (linkText === "⎋ logout" || linkText === "logout") {
           e.preventDefault();
-          console.log("Logout clicked!");
+          e.stopPropagation();
+          console.log("Logout clicked! Calling handleLogout()");
           handleLogout();
         } else {
           // Close sidebar when navigating to other pages
