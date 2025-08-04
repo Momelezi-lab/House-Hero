@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>How Gardening & Landscaping Works | HouseHero</title>
+    <meta name="theme-color" content="#22c55e" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body,
+      .light {
+        background: #f3f4f6;
+      }
+      .dark body,
+      body.dark {
+        background: #111827;
+      }
+      .login-header-banner-full {
+        background: #22c55e;
+        min-height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 0 18px 18px;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 4px 16px rgba(34, 197, 94, 0.08);
+      }
+      .login-logo-row {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .main-title {
+        color: #111;
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .dark .main-title {
+        color: #fff;
+      }
+      .how-steps {
+        list-style: none;
+        padding: 0;
+        margin: 2rem 0;
+      }
+      .how-steps li {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        background: #fff;
+        border-radius: 12px;
+        padding: 1.4rem 1.2rem;
+        box-shadow: 0 2px 12px rgba(34, 197, 94, 0.1);
+        color: #222;
+        font-weight: 500;
+      }
+      .dark .how-steps li {
+        background: #232a36;
+        color: #fff;
+      }
+      .how-steps .step-icon {
+        font-size: 1.7rem;
+        color: #22c55e;
+        flex-shrink: 0;
+        margin-top: 0.1em;
+      }
+      .how-steps li:last-child {
+        margin-bottom: 0;
+      }
+      .btn.login-btn {
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        margin: 2.5rem auto 0 auto;
+        background: #22c55e;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-radius: 18px;
+        padding: 1rem 0;
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
+        border: none;
+        transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+      }
+      .btn.login-btn:hover {
+        background: #16a34a;
+        transform: scale(1.03);
+        box-shadow: 0 8px 24px rgba(34, 197, 94, 0.18);
+      }
+      @media (max-width: 600px) {
+        .main-title {
+          font-size: 1.3rem;
+        }
+        .login-header-banner-full {
+          min-height: 60px;
+        }
+        .how-steps li {
+          font-size: 1rem;
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="light">
+    <a
+      href="/index.html"
+      class="back-btn"
+      title="Back to Home"
+      >←</a
+    >
+    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
+      ☀️
+    </button>
+    <div class="login-header-banner-full">
+      <div class="login-logo-row">
+        <span class="login-logo-icon"
+          ><i class="fa-solid fa-seedling"></i
+        ></span>
+        <span class="login-logo-text">Gardening & Landscaping</span>
+      </div>
+    </div>
+    <main class="main-section" style="max-width: 600px; margin: 0 auto">
+      <h1 class="main-title">How Gardening & Landscaping Works</h1>
+      <ol class="how-steps">
+        <li>
+          <span class="step-icon"
+            ><i class="fa-solid fa-calendar-check"></i></span
+          >Book your gardening or landscaping service online for your preferred
+          date.
+        </li>
+        <li>
+          <span class="step-icon"
+            ><i class="fa-solid fa-envelope-open-text"></i></span
+          >We confirm your booking and send a reminder.
+        </li>
+        <li>
+          <span class="step-icon"><i class="fa-solid fa-seedling"></i></span>Our
+          gardening team arrives and transforms your outdoor space.
+        </li>
+        <li>
+          <span class="step-icon"><i class="fa-solid fa-sparkles"></i></span
+          >Enjoy your beautiful garden! Pay securely after the job.
+        </li>
+      </ol>
+      <a
+        href="/house-hero-app/pages/bookings/book-gardening.html"
+        class="btn login-btn"
+        style="text-align: center"
+        >Book Gardening Service</a
+      >
+    </main>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>HouseHero | Complaints</title>
+    <!-- Web App Meta -->
+    <meta name="theme-color" content="#22c55e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body class="light">
+    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
+      ☀️
+    </button>
+    <!-- Header -->
+    <header class="header">
+      <a href="#" class="menu-icon" id="menu-toggle">☰</a>
+      <div class="header-content">
+        <h1 class="main-title">Complaints</h1>
+        <p class="subtitle">We're here to help</p>
+      </div>
+    </header>
+    <!-- Sidebar Menu -->
+    <aside id="sidebar-menu" class="sidebar-menu">
+      <button class="close-btn" id="close-menu">×</button>
+      <div class="sidebar-profile">
+        <img
+          src="https://randomuser.me/api/portraits/men/1.jpg"
+          alt="User Avatar"
+          class="sidebar-avatar"
+        />
+        <div class="sidebar-name">Apiwe Fuzile</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/public/index.html" class="sidebar-link">🏠 home</a>
+        <a
+          href="/house-hero-app/pages/dashboard/profile.html"
+          class="sidebar-link"
+          >profile</a
+        >
+        <a
+          href="/house-hero-app/pages/dashboard/settings.html"
+          class="sidebar-link"
+          >settings</a
+        >
+        <a
+          href="/house-hero-app/pages/services/complaints.html"
+          class="sidebar-link"
+          >complaints</a
+        >
+        <a href="/house-hero-app/pages/info/contact.html" class="sidebar-link"
+          >get in touch</a
+        >
+        <a href="/house-hero-app/pages/info/faq.html" class="sidebar-link"
+          >F.A.Q</a
+        >
+        <a href="#" class="sidebar-link logout-link">⎋ logout</a>
+      </nav>
+    </aside>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-section">
+      <!-- New Complaint Form -->
+      <div class="complaint-form-section">
+        <h2 class="section-title">Submit a Complaint</h2>
+
+        <form id="complaint-form" class="complaint-form">
+          <div class="form-group">
+            <label for="complaint-type">Type of Complaint</label>
+            <select id="complaint-type" name="complaintType" required>
+              <option value="">Select complaint type</option>
+              <option value="service-quality">Service Quality</option>
+              <option value="professional-conduct">Professional Conduct</option>
+              <option value="pricing-issues">Pricing Issues</option>
+              <option value="scheduling-problems">Scheduling Problems</option>
+              <option value="communication">Communication Issues</option>
+              <option value="safety-concerns">Safety Concerns</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="service-provider"
+              >Service Provider (if applicable)</label
+            >
+            <input
+              type="text"
+              id="service-provider"
+              name="serviceProvider"
+              placeholder="Name of the service provider"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="service-date">Service Date</label>
+            <input type="date" id="service-date" name="serviceDate" required />
+          </div>
+
+          <div class="form-group">
+            <label for="complaint-title">Complaint Title</label>
+            <input
+              type="text"
+              id="complaint-title"
+              name="complaintTitle"
+              placeholder="Brief description of the issue"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="complaint-description">Detailed Description</label>
+            <textarea
+              id="complaint-description"
+              name="complaintDescription"
+              rows="5"
+              placeholder="Please provide a detailed description of what happened, including dates, times, and any relevant details..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="desired-resolution">Desired Resolution</label>
+            <select id="desired-resolution" name="desiredResolution" required>
+              <option value="">Select desired resolution</option>
+              <option value="refund">Refund</option>
+              <option value="reschedule">Reschedule Service</option>
+              <option value="compensation">Compensation</option>
+              <option value="apology">Apology</option>
+              <option value="investigation">Investigation</option>
+              <option value="other-resolution">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-preference">Preferred Contact Method</label>
+            <select id="contact-preference" name="contactPreference" required>
+              <option value="">Select contact preference</option>
+              <option value="email">Email</option>
+              <option value="phone">Phone</option>
+              <option value="sms">SMS</option>
+              <option value="app-notification">App Notification</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="urgency-level">Urgency Level</label>
+            <select id="urgency-level" name="urgencyLevel" required>
+              <option value="">Select urgency level</option>
+              <option value="low">Low - General feedback</option>
+              <option value="medium">Medium - Needs attention</option>
+              <option value="high">High - Urgent issue</option>
+              <option value="critical">Critical - Safety concern</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="attachments">Attachments (optional)</label>
+            <input
+              type="file"
+              id="attachments"
+              name="attachments"
+              multiple
+              accept="image/*,.pdf,.doc,.docx"
+            />
+            <small
+              >You can upload photos, documents, or receipts (max 5 files, 10MB
+              each)</small
+            >
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                name="anonymous"
+                id="anonymous-complaint"
+              />
+              <span class="checkmark"></span>
+              Submit anonymously
+            </label>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="followUp" id="follow-up" checked />
+              <span class="checkmark"></span>
+              Send me updates about this complaint
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary">Submit Complaint</button>
+        </form>
+      </div>
+
+      <!-- Complaint History -->
+      <div class="complaint-history-section">
+        <h2 class="section-title">Your Complaint History</h2>
+
+        <div class="complaint-filters">
+          <select id="status-filter" class="filter-select">
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="in-progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+
+          <select id="type-filter" class="filter-select">
+            <option value="all">All Types</option>
+            <option value="service-quality">Service Quality</option>
+            <option value="professional-conduct">Professional Conduct</option>
+            <option value="pricing-issues">Pricing Issues</option>
+            <option value="scheduling-problems">Scheduling Problems</option>
+            <option value="communication">Communication</option>
+            <option value="safety-concerns">Safety Concerns</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="complaint-list">
+          <div class="complaint-item">
+            <div class="complaint-header">
+              <h3>Poor Service Quality - House Cleaning</h3>
+              <span class="complaint-status resolved">Resolved</span>
+            </div>
+            <div class="complaint-meta">
+              <span class="complaint-date">June 28, 2024</span>
+              <span class="complaint-type">Service Quality</span>
+            </div>
+            <p class="complaint-summary">
+              The cleaner arrived late and did not complete the full cleaning as
+              requested. Several areas were missed and the quality was below
+              expectations.
+            </p>
+            <div class="complaint-actions">
+              <button class="btn-secondary" onclick="viewComplaintDetails('1')">
+                View Details
+              </button>
+              <button class="btn-secondary" onclick="addFollowUp('1')">
+                Add Follow-up
+              </button>
+            </div>
+          </div>
+
+          <div class="complaint-item">
+            <div class="complaint-header">
+              <h3>Overcharged for Plumbing Service</h3>
+              <span class="complaint-status in-progress">In Progress</span>
+            </div>
+            <div class="complaint-meta">
+              <span class="complaint-date">July 1, 2024</span>
+              <span class="complaint-type">Pricing Issues</span>
+            </div>
+            <p class="complaint-summary">
+              The final bill was significantly higher than the initial quote
+              provided. No explanation was given for the additional charges.
+            </p>
+            <div class="complaint-actions">
+              <button class="btn-secondary" onclick="viewComplaintDetails('2')">
+                View Details
+              </button>
+              <button class="btn-secondary" onclick="addFollowUp('2')">
+                Add Follow-up
+              </button>
+            </div>
+          </div>
+
+          <div class="complaint-item">
+            <div class="complaint-header">
+              <h3>Locksmith No-Show</h3>
+              <span class="complaint-status pending">Pending</span>
+            </div>
+            <div class="complaint-meta">
+              <span class="complaint-date">July 2, 2024</span>
+              <span class="complaint-type">Scheduling Problems</span>
+            </div>
+            <p class="complaint-summary">
+              The locksmith never arrived for the scheduled appointment. No
+              communication was received about the cancellation.
+            </p>
+            <div class="complaint-actions">
+              <button class="btn-secondary" onclick="viewComplaintDetails('3')">
+                View Details
+              </button>
+              <button class="btn-secondary" onclick="addFollowUp('3')">
+                Add Follow-up
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-secondary load-more-btn">
+          Load More Complaints
+        </button>
+      </div>
+    </main>
+
+    <!-- Complaint Details Modal -->
+    <div id="complaint-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Complaint Details</h2>
+          <button class="close-modal" onclick="closeComplaintModal()">×</button>
+        </div>
+        <div class="modal-body" id="complaint-modal-body">
+          <!-- Content will be populated by JavaScript -->
+        </div>
+        <div class="modal-actions">
+          <button class="btn-secondary" onclick="closeComplaintModal()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Follow-up Modal -->
+    <div id="followup-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add Follow-up</h2>
+          <button class="close-modal" onclick="closeFollowupModal()">×</button>
+        </div>
+        <form id="followup-form" class="modal-form">
+          <div class="form-group">
+            <label for="followup-message">Additional Information</label>
+            <textarea
+              id="followup-message"
+              name="followupMessage"
+              rows="4"
+              placeholder="Add any additional information or updates to your complaint..."
+              required
+            ></textarea>
+          </div>
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="closeFollowupModal()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn-primary">Submit Follow-up</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/config.js"></script>
+    <script src="/js/script.js"></script>
+    <script>
+      // Complaints page specific JavaScript
+      async function fetchBackendComplaints() {
+        const res = await fetch(`${API_BASE_URL}/api/complaints`);
+        return await res.json();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Set minimum date to today for service date
+        const serviceDateInput = document.getElementById("service-date");
+        const today = new Date().toISOString().split("T")[0];
+        serviceDateInput.setAttribute("max", today);
+
+        // Initialize filters
+        initializeFilters();
+        // Load complaints from backend
+        renderComplaintHistory();
+      });
+
+      function initializeFilters() {
+        const statusFilter = document.getElementById("status-filter");
+        const typeFilter = document.getElementById("type-filter");
+
+        statusFilter.addEventListener("change", filterComplaints);
+        typeFilter.addEventListener("change", filterComplaints);
+      }
+
+      function filterComplaints() {
+        const statusFilter = document.getElementById("status-filter").value;
+        const typeFilter = document.getElementById("type-filter").value;
+
+        const complaintItems = document.querySelectorAll(".complaint-item");
+
+        complaintItems.forEach((item) => {
+          const status = item
+            .querySelector(".complaint-status")
+            .textContent.toLowerCase();
+          const type = item
+            .querySelector(".complaint-type")
+            .textContent.toLowerCase();
+
+          const statusMatch =
+            statusFilter === "all" || status.includes(statusFilter);
+          const typeMatch = typeFilter === "all" || type.includes(typeFilter);
+
+          if (statusMatch && typeMatch) {
+            item.style.display = "block";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      }
+
+      // Complaint form submission
+      const complaintForm = document.getElementById("complaint-form");
+      complaintForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        if (!validateComplaintForm()) {
+          return;
+        }
+
+        const complaint = {
+          name: localStorage.getItem("userName") || "Anonymous",
+          email: localStorage.getItem("userEmail") || "",
+          type: document.getElementById("complaint-type").value,
+          title: document.getElementById("complaint-title").value,
+          description: document.getElementById("complaint-description").value,
+          status: "pending",
+          date: new Date().toISOString().split("T")[0], // Current date
+          serviceProvider: document.getElementById("service-provider").value,
+          serviceDate: document.getElementById("service-date").value,
+          desiredResolution:
+            document.getElementById("desired-resolution").value,
+          contactPreference:
+            document.getElementById("contact-preference").value,
+          urgencyLevel: document.getElementById("urgency-level").value,
+          anonymous: document.getElementById("anonymous-complaint").checked,
+          followUp: document.getElementById("follow-up").checked,
+        };
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/complaints`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(complaint),
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            showToast(
+              "Complaint submitted successfully! Reference: #" +
+                result.complaint.id,
+              "success"
+            );
+            complaintForm.reset();
+            renderComplaintHistory();
+          } else {
+            const error = await response.json();
+            showToast(error.error || "Failed to submit complaint.", "error");
+          }
+        } catch (error) {
+          showToast("Failed to submit complaint.", "error");
+          console.error(error);
+        }
+      });
+
+      function validateComplaintForm() {
+        const requiredFields = document.querySelectorAll(
+          "#complaint-form [required]"
+        );
+        let isValid = true;
+
+        requiredFields.forEach((field) => {
+          if (!field.value.trim()) {
+            field.classList.add("error");
+            isValid = false;
+          } else {
+            field.classList.remove("error");
+          }
+        });
+
+        if (!isValid) {
+          showToast("Please fill in all required fields", "error");
+        }
+
+        return isValid;
+      }
+
+      async function viewComplaintDetails(complaintId) {
+        const modal = document.getElementById("complaint-modal");
+        const modalBody = document.getElementById("complaint-modal-body");
+
+        modalBody.innerHTML = "<div>Loading complaint details...</div>";
+        modal.style.display = "flex";
+
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}/api/complaints/${complaintId}`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch complaint details");
+          }
+
+          const complaint = await response.json();
+
+          modalBody.innerHTML = `
+          <div class="complaint-details">
+            <div class="detail-item">
+                <strong>Complaint ID:</strong> #${complaint.id}
+            </div>
+            <div class="detail-item">
+                <strong>Status:</strong> <span class="complaint-status ${complaint.status
+                  .toLowerCase()
+                  .replace(/ /g, "-")}">${
+            complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1)
+          }</span>
+            </div>
+            <div class="detail-item">
+                <strong>Submitted:</strong> ${complaint.date}
+            </div>
+            <div class="detail-item">
+                <strong>Last Updated:</strong> ${
+                  complaint.updated_at
+                    ? new Date(complaint.updated_at).toLocaleDateString()
+                    : "N/A"
+                }
+            </div>
+              ${
+                complaint.service_provider
+                  ? `<div class="detail-item">
+                <strong>Service Provider:</strong> ${complaint.service_provider}
+              </div>`
+                  : ""
+              }
+              ${
+                complaint.service_date
+                  ? `<div class="detail-item">
+                <strong>Service Date:</strong> ${complaint.service_date}
+              </div>`
+                  : ""
+              }
+              ${
+                complaint.urgency_level
+                  ? `<div class="detail-item">
+                <strong>Urgency Level:</strong> <span class="urgency-${complaint.urgency_level}">${complaint.urgency_level}</span>
+              </div>`
+                  : ""
+              }
+              ${
+                complaint.desired_resolution
+                  ? `<div class="detail-item">
+                <strong>Desired Resolution:</strong> ${complaint.desired_resolution}
+              </div>`
+                  : ""
+              }
+              ${
+                complaint.contact_preference
+                  ? `<div class="detail-item">
+                <strong>Contact Preference:</strong> ${complaint.contact_preference}
+              </div>`
+                  : ""
+              }
+            <div class="detail-item">
+              <strong>Description:</strong>
+                <p>${complaint.description}</p>
+            </div>
+            <div class="detail-item">
+                <strong>Additional Information:</strong>
+                <ul>
+                  <li>Anonymous: ${complaint.is_anonymous ? "Yes" : "No"}</li>
+                  <li>Follow-up enabled: ${
+                    complaint.follow_up_enabled ? "Yes" : "No"
+                  }</li>
+                </ul>
+              </div>
+            </div>
+          `;
+        } catch (error) {
+          modalBody.innerHTML = `
+            <div class="error-message">
+              <p>Error loading complaint details: ${error.message}</p>
+          </div>
+        `;
+        }
+      }
+
+      function closeComplaintModal() {
+        document.getElementById("complaint-modal").style.display = "none";
+      }
+
+      function addFollowUp(complaintId) {
+        document.getElementById("followup-modal").style.display = "flex";
+        // Store complaint ID for form submission
+        document.getElementById("followup-form").dataset.complaintId =
+          complaintId;
+      }
+
+      function closeFollowupModal() {
+        document.getElementById("followup-modal").style.display = "none";
+        document.getElementById("followup-form").reset();
+      }
+
+      // Follow-up form submission
+      document
+        .getElementById("followup-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const complaintId = this.dataset.complaintId;
+          const message = document.getElementById("followup-message").value;
+
+          showToast("Follow-up added successfully!", "success");
+          closeFollowupModal();
+        });
+
+      // Close modals when clicking outside
+      document
+        .getElementById("complaint-modal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeComplaintModal();
+          }
+        });
+
+      document
+        .getElementById("followup-modal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeFollowupModal();
+          }
+        });
+
+      // File upload handling
+      document
+        .getElementById("attachments")
+        .addEventListener("change", function (e) {
+          const files = e.target.files;
+          const maxFiles = 5;
+          const maxSize = 10 * 1024 * 1024; // 10MB
+
+          if (files.length > maxFiles) {
+            showToast(`Maximum ${maxFiles} files allowed`, "error");
+            this.value = "";
+            return;
+          }
+
+          for (let file of files) {
+            if (file.size > maxSize) {
+              showToast(
+                `File ${file.name} is too large. Maximum size is 10MB`,
+                "error"
+              );
+              this.value = "";
+              return;
+            }
+          }
+
+          showToast(`${files.length} file(s) selected`, "success");
+        });
+
+      async function renderComplaintHistory() {
+        const complaintList = document.querySelector(".complaint-list");
+        complaintList.innerHTML = "<div>Loading complaints...</div>";
+        try {
+          const complaints = await fetchBackendComplaints();
+          if (!complaints.length) {
+            complaintList.innerHTML = "<div>No complaints found.</div>";
+            return;
+          }
+          complaintList.innerHTML = complaints
+            .map(
+              (c) => `
+            <div class="complaint-item">
+              <div class="complaint-header">
+                <h3>${c.title}</h3>
+                <span class="complaint-status ${c.status
+                  .toLowerCase()
+                  .replace(/ /g, "-")}">${
+                c.status.charAt(0).toUpperCase() + c.status.slice(1)
+              }</span>
+              </div>
+              <div class="complaint-meta">
+                <span class="complaint-date">${c.date}</span>
+                <span class="complaint-type">${c.type.replace(/-/g, " ")}</span>
+                ${
+                  c.urgency_level
+                    ? `<span class="complaint-urgency ${c.urgency_level}">${c.urgency_level}</span>`
+                    : ""
+                }
+              </div>
+              <p class="complaint-summary">${c.description}</p>
+              ${
+                c.service_provider
+                  ? `<p class="complaint-provider"><strong>Service Provider:</strong> ${c.service_provider}</p>`
+                  : ""
+              }
+              <div class="complaint-actions">
+                <button class="btn-secondary" onclick="viewComplaintDetails('${
+                  c.id
+                }')">View Details</button>
+                <button class="btn-secondary" onclick="addFollowUp('${
+                  c.id
+                }')">Add Follow-up</button>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        } catch (error) {
+          complaintList.innerHTML = "<div>Error loading complaints.</div>";
+        }
+      }
+    </script>
+  </body>
+</html>
