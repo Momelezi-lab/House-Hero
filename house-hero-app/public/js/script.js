@@ -116,32 +116,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setupSidebarEventDelegation() {
     console.log("Setting up sidebar event delegation...");
-    document.addEventListener("click", (e) => {
-      console.log("Click detected on:", e.target);
-      console.log("Element classes:", e.target.classList);
 
+    // Add click listener to document
+    document.addEventListener("click", (e) => {
+      // Check if clicked element is a sidebar link
       if (e.target.classList.contains("sidebar-link")) {
         const link = e.target;
         const linkText = link.textContent.toLowerCase().trim();
         console.log("Sidebar link clicked:", linkText);
         console.log("Link href:", link.href);
 
-        // Only prevent default for logout, let other links navigate naturally
+        // Handle logout specifically
         if (linkText === "⎋ logout" || linkText === "logout") {
           e.preventDefault();
           e.stopPropagation();
           console.log("Logout clicked! Calling handleLogout()");
           handleLogout();
-        } else {
-          // Close sidebar when navigating to other pages
-          console.log("Navigating to:", link.href);
-          if (typeof closeSidebar === "function") {
-            closeSidebar();
-          }
+          return;
         }
-        // For all other links, let the href attribute handle navigation
+
+        // For all other links, close sidebar and let navigation happen
+        console.log("Navigating to:", link.href);
+        if (typeof closeSidebar === "function") {
+          closeSidebar();
+        }
       }
     });
+
+    console.log("Sidebar event delegation setup complete");
   }
 
   const loginForm = document.getElementById("login-form");
@@ -1125,3 +1127,24 @@ if (document.getElementById("revenueServiceChart")) {
 if (document.getElementById("complaintsStatsChart")) {
   renderComplaintsStatsChart();
 }
+
+// Test functions for debugging
+window.testLogout = function () {
+  console.log("Testing logout function...");
+  if (typeof handleLogout === "function") {
+    console.log("handleLogout function exists, calling it...");
+    handleLogout();
+  } else {
+    console.error("handleLogout function not found!");
+  }
+};
+
+window.testComplaintsChart = function () {
+  console.log("Testing complaints chart...");
+  if (typeof renderComplaintsStatsChart === "function") {
+    console.log("renderComplaintsStatsChart function exists, calling it...");
+    renderComplaintsStatsChart();
+  } else {
+    console.error("renderComplaintsStatsChart function not found!");
+  }
+};
