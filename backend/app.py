@@ -66,6 +66,16 @@ class Complaint(db.Model):
     description = db.Column(db.String(1000), nullable=False)
     status = db.Column(db.String(50), default='pending')
     date = db.Column(db.String(20), nullable=False)
+    # New fields
+    service_provider = db.Column(db.String(255), nullable=True)
+    desired_resolution = db.Column(db.String(100), nullable=True)
+    contact_preference = db.Column(db.String(50), nullable=True)
+    urgency_level = db.Column(db.String(50), nullable=True)
+    service_date = db.Column(db.String(20), nullable=True)
+    is_anonymous = db.Column(db.Boolean, default=False)
+    follow_up_enabled = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def to_dict(self):
         return {
@@ -76,7 +86,16 @@ class Complaint(db.Model):
             'title': self.title,
             'description': self.description,
             'status': self.status,
-            'date': self.date
+            'date': self.date,
+            'service_provider': self.service_provider,
+            'desired_resolution': self.desired_resolution,
+            'contact_preference': self.contact_preference,
+            'urgency_level': self.urgency_level,
+            'service_date': self.service_date,
+            'is_anonymous': self.is_anonymous,
+            'follow_up_enabled': self.follow_up_enabled,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
 
 @app.route('/api/health')
@@ -161,6 +180,13 @@ def delete_booking(booking_id):
 @app.route('/api/complaints', methods=['POST'])
 def create_complaint():
     data = request.get_json()
+    
+    # Validate required fields
+    required_fields = ['name', 'type', 'title', 'description', 'date']
+    for field in required_fields:
+        if not data.get(field):
+            return jsonify({'error': f'Missing required field: {field}'}), 400
+    
     complaint = Complaint(
         name=data.get('name'),
         email=data.get('email'),
@@ -168,7 +194,14 @@ def create_complaint():
         title=data.get('title'),
         description=data.get('description'),
         status=data.get('status', 'pending'),
-        date=data.get('date')
+        date=data.get('date'),
+        service_provider=data.get('serviceProvider'),
+        desired_resolution=data.get('desiredResolution'),
+        contact_preference=data.get('contactPreference'),
+        urgency_level=data.get('urgencyLevel'),
+        service_date=data.get('serviceDate'),
+        is_anonymous=data.get('anonymous', False),
+        follow_up_enabled=data.get('followUp', True)
     )
     db.session.add(complaint)
     db.session.commit()
@@ -183,10 +216,28 @@ def get_complaints():
 def update_complaint(complaint_id):
     complaint = Complaint.query.get_or_404(complaint_id)
     data = request.get_json()
-    if 'status' in data:
-        complaint.status = data['status']
+    
+    # Update fields if provided
+    updateable_fields = [
+        'status', 'service_provider', 'desired_resolution', 'contact_preference',
+        'urgency_level', 'service_date', 'is_anonymous', 'follow_up_enabled',
+        'title', 'description', 'type'
+    ]
+    
+    for field in updateable_fields:
+        if field in data:
+            setattr(complaint, field, data[field])
+    
+    # Update the updated_at timestamp
+    complaint.updated_at = datetime.utcnow()
+    
     db.session.commit()
     return jsonify({'message': 'Complaint updated', 'complaint': complaint.to_dict()})
+
+@app.route('/api/complaints/<int:complaint_id>', methods=['GET'])
+def get_complaint(complaint_id):
+    complaint = Complaint.query.get_or_404(complaint_id)
+    return jsonify(complaint.to_dict())
 
 @app.route('/api/complaints/<int:complaint_id>', methods=['DELETE'])
 def delete_complaint(complaint_id):
@@ -220,4 +271,4 @@ if __name__ == '__main__':
             db.session.commit()
             print("Removed {} duplicate bookings.".format(len(duplicates)))
         else:
-            app.run(debug=True)
+            app.run(debug=True, port=5001)

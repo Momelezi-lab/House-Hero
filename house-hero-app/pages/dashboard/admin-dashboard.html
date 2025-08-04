@@ -241,6 +241,9 @@
           <a href="#" id="nav-providers" class="admin-nav-btn"
             ><i class="fa-solid fa-user-tie"></i> Providers</a
           >
+          <a href="#" id="nav-complaints" class="admin-nav-btn"
+            ><i class="fa-solid fa-exclamation-triangle"></i> Complaints</a
+          >
         </nav>
       </aside>
       <main class="admin-main">
@@ -257,6 +260,10 @@
             <div class="admin-widget">
               <h3>Total Earnings</h3>
               <div class="widget-value" id="total-earnings">R12789890</div>
+            </div>
+            <div class="admin-widget">
+              <h3>Total Complaints</h3>
+              <div class="widget-value" id="total-complaints">0</div>
             </div>
           </div>
 
@@ -466,6 +473,152 @@
             No users found.
           </div>
         </section>
+        <section id="complaints-section" style="display: none">
+          <h2 style="color: #22c55e">Complaints Management</h2>
+          <div style="margin-bottom: 1rem">
+            <select
+              id="complaint-status-filter"
+              style="
+                padding: 0.5rem;
+                border: 1px solid #d1d5db;
+                border-radius: 6px;
+                margin-right: 1rem;
+              "
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="in-progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+            <select
+              id="complaint-type-filter"
+              style="
+                padding: 0.5rem;
+                border: 1px solid #d1d5db;
+                border-radius: 6px;
+                margin-right: 1rem;
+              "
+            >
+              <option value="all">All Types</option>
+              <option value="service-quality">Service Quality</option>
+              <option value="professional-conduct">Professional Conduct</option>
+              <option value="pricing-issues">Pricing Issues</option>
+              <option value="scheduling-problems">Scheduling Problems</option>
+              <option value="communication">Communication</option>
+              <option value="safety-concerns">Safety Concerns</option>
+              <option value="other">Other</option>
+            </select>
+            <button
+              id="refresh-complaints-btn"
+              style="
+                background: #22c55e;
+                color: #fff;
+                padding: 0.5rem 1rem;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+              "
+            >
+              Refresh
+            </button>
+          </div>
+          <table
+            style="width: 100%; border-collapse: collapse; margin-top: 1rem"
+          >
+            <thead>
+              <tr style="background: #f3f4f6">
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid #d1d5db;
+                  "
+                >
+                  ID
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid #d1d5db;
+                  "
+                >
+                  Name
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid #d1d5db;
+                  "
+                >
+                  Type
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid #d1d5db;
+                  "
+                >
+                  Title
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid #d1d5db;
+                  "
+                >
+                  Status
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid #d1d5db;
+                  "
+                >
+                  Date
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid #d1d5db;
+                  "
+                >
+                  Urgency
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid #d1d5db;
+                  "
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody id="complaints-table">
+              <!-- Complaints will be loaded here -->
+            </tbody>
+          </table>
+          <div
+            id="complaints-loading"
+            style="text-align: center; padding: 2rem; display: none"
+          >
+            Loading complaints...
+          </div>
+          <div
+            id="complaints-empty"
+            style="text-align: center; padding: 2rem; display: none"
+          >
+            No complaints found.
+          </div>
+        </section>
         <section id="services-section" style="display: none">
           <h2 style="color: #22c55e">Services</h2>
           <p>Coming soon...</p>
@@ -642,6 +795,7 @@
           { id: "nav-users", section: "users-section" },
           { id: "nav-services", section: "services-section" },
           { id: "nav-providers", section: "provider-section" },
+          { id: "nav-complaints", section: "complaints-section" },
         ];
         const activeSection =
           localStorage.getItem("adminActiveSection") || "dashboard-section";
@@ -687,6 +841,7 @@
         { id: "nav-users", section: "users-section" },
         { id: "nav-services", section: "services-section" },
         { id: "nav-providers", section: "provider-section" },
+        { id: "nav-complaints", section: "complaints-section" },
       ];
       navs.forEach((nav) => {
         document.getElementById(nav.id).onclick = function (e) {
@@ -709,6 +864,10 @@
           if (nav.id === "nav-users") {
             loadUsers();
           }
+          // If complaints section, load complaints
+          if (nav.id === "nav-complaints") {
+            loadComplaints();
+          }
         };
       });
       // Remove local fetchBookings and use the shared fetchBackendBookings from script.js
@@ -716,10 +875,14 @@
       async function loadDashboard() {
         try {
           const bookings = await fetchBackendBookings();
+          const complaints = await fetchComplaints();
           console.log("[DEBUG] Bookings fetched for dashboard:", bookings);
+          console.log("[DEBUG] Complaints fetched for dashboard:", complaints);
           document.getElementById("total-bookings").textContent =
             bookings.length;
           document.getElementById("total-users").textContent = "1"; // Demo only
+          document.getElementById("total-complaints").textContent =
+            complaints.length;
           const confirmedBookings = bookings.filter(
             (b) => b.status === "confirmed"
           );
@@ -813,7 +976,7 @@
       // User management functions
       async function fetchUsers() {
         try {
-          const response = await fetch("http://127.0.0.1:5000/api/users");
+          const response = await fetch("http://127.0.0.1:5001/api/users");
           if (!response.ok) {
             throw new Error("Failed to fetch users");
           }
@@ -926,7 +1089,7 @@
 
         try {
           // Note: You'll need to add a DELETE endpoint for users in your backend
-          // await fetch(`http://127.0.0.1:5000/api/users/${userId}`, { method: 'DELETE' });
+          // await fetch(`http://127.0.0.1:5001/api/users/${userId}`, { method: 'DELETE' });
           alert(
             "Delete user functionality will be implemented when the backend endpoint is added."
           );
@@ -953,12 +1116,239 @@
         }
       });
 
+      // Complaints management functions
+      async function fetchComplaints() {
+        return await fetchBackendComplaints();
+      }
+
+      async function loadComplaints() {
+        const table = document.getElementById("complaints-table");
+        const loading = document.getElementById("complaints-loading");
+        const empty = document.getElementById("complaints-empty");
+
+        try {
+          loading.style.display = "block";
+          table.style.display = "none";
+          empty.style.display = "none";
+
+          const complaints = await fetchComplaints();
+          console.log("[DEBUG] Complaints fetched:", complaints);
+
+          if (complaints.length === 0) {
+            loading.style.display = "none";
+            empty.style.display = "block";
+            return;
+          }
+
+          table.innerHTML = complaints
+            .map(
+              (complaint) => `
+            <tr style="border-bottom: 1px solid #e5e7eb">
+              <td style="padding: 0.75rem">${complaint.id}</td>
+              <td style="padding: 0.75rem">${complaint.name || "-"}</td>
+              <td style="padding: 0.75rem">${
+                complaint.type.replace(/-/g, " ") || "-"
+              }</td>
+              <td style="padding: 0.75rem">${complaint.title || "-"}</td>
+              <td style="padding: 0.75rem">
+                <span style="
+                  padding: 0.25rem 0.5rem;
+                  border-radius: 4px;
+                  font-size: 0.75rem;
+                  font-weight: 500;
+                  background: ${
+                    complaint.status === "pending"
+                      ? "#fef3c7"
+                      : complaint.status === "in-progress"
+                      ? "#dbeafe"
+                      : complaint.status === "resolved"
+                      ? "#d1fae5"
+                      : "#f3f4f6"
+                  };
+                  color: ${
+                    complaint.status === "pending"
+                      ? "#92400e"
+                      : complaint.status === "in-progress"
+                      ? "#1e40af"
+                      : complaint.status === "resolved"
+                      ? "#065f46"
+                      : "#374151"
+                  };
+                ">
+                  ${
+                    complaint.status.charAt(0).toUpperCase() +
+                    complaint.status.slice(1)
+                  }
+                </span>
+              </td>
+              <td style="padding: 0.75rem">${complaint.date || "-"}</td>
+              <td style="padding: 0.75rem">
+                ${
+                  complaint.urgency_level
+                    ? `<span style="
+                  padding: 0.25rem 0.5rem;
+                  border-radius: 4px;
+                  font-size: 0.75rem;
+                  font-weight: 500;
+                  background: ${
+                    complaint.urgency_level === "low"
+                      ? "#d1fae5"
+                      : complaint.urgency_level === "medium"
+                      ? "#fef3c7"
+                      : complaint.urgency_level === "high"
+                      ? "#fed7d7"
+                      : "#fecaca"
+                  };
+                  color: ${
+                    complaint.urgency_level === "low"
+                      ? "#065f46"
+                      : complaint.urgency_level === "medium"
+                      ? "#92400e"
+                      : complaint.urgency_level === "high"
+                      ? "#991b1b"
+                      : "#7f1d1d"
+                  };
+                ">${complaint.urgency_level}</span>`
+                    : "-"
+                }
+              </td>
+              <td style="padding: 0.75rem">
+                <button 
+                  onclick="viewComplaintDetails(${complaint.id})" 
+                  style="
+                    background: #3b82f6; 
+                    color: #fff; 
+                    border: none; 
+                    padding: 0.3rem 0.8rem; 
+                    border-radius: 4px; 
+                    cursor: pointer; 
+                    margin-right: 0.5rem;
+                    font-size: 0.8rem;
+                  "
+                >
+                  View
+                </button>
+                <button 
+                  onclick="updateComplaintStatus(${complaint.id})" 
+                  style="
+                    background: #22c55e; 
+                    color: #fff; 
+                    border: none; 
+                    padding: 0.3rem 0.8rem; 
+                    border-radius: 4px; 
+                    cursor: pointer;
+                    font-size: 0.8rem;
+                  "
+                >
+                  Update
+                </button>
+              </td>
+            </tr>
+          `
+            )
+            .join("");
+
+          loading.style.display = "none";
+          table.style.display = "table-row-group";
+        } catch (error) {
+          console.error("[ERROR] Failed to load complaints:", error);
+          loading.style.display = "none";
+          table.innerHTML =
+            '<tr><td colspan="8" style="color: #ef4444; text-align: center; padding: 2rem;">Error loading complaints. Please try again.</td></tr>';
+          table.style.display = "table-row-group";
+        }
+      }
+
+      function viewComplaintDetails(complaintId) {
+        // For now, just show an alert. You can expand this to show a modal with more details
+        alert(`Viewing details for complaint ID: ${complaintId}`);
+      }
+
+      async function updateComplaintStatus(complaintId) {
+        const newStatus = prompt(
+          "Enter new status (pending/in-progress/resolved/closed):"
+        );
+        if (!newStatus) return;
+
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:5001/api/complaints/${complaintId}`,
+            {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: newStatus.toLowerCase() }),
+            }
+          );
+
+          if (response.ok) {
+            alert("Complaint status updated successfully!");
+            loadComplaints();
+          } else {
+            alert("Failed to update complaint status.");
+          }
+        } catch (error) {
+          console.error("[ERROR] Failed to update complaint status:", error);
+          alert("Failed to update complaint status. Please try again.");
+        }
+      }
+
+      // Add event listeners for complaints management
+      document.addEventListener("DOMContentLoaded", function () {
+        const refreshComplaintsBtn = document.getElementById(
+          "refresh-complaints-btn"
+        );
+        const statusFilter = document.getElementById("complaint-status-filter");
+        const typeFilter = document.getElementById("complaint-type-filter");
+
+        if (refreshComplaintsBtn) {
+          refreshComplaintsBtn.addEventListener("click", loadComplaints);
+        }
+
+        if (statusFilter) {
+          statusFilter.addEventListener("change", filterComplaints);
+        }
+
+        if (typeFilter) {
+          typeFilter.addEventListener("change", filterComplaints);
+        }
+      });
+
+      function filterComplaints() {
+        const statusFilter = document.getElementById(
+          "complaint-status-filter"
+        ).value;
+        const typeFilter = document.getElementById(
+          "complaint-type-filter"
+        ).value;
+
+        const complaintRows = document.querySelectorAll("#complaints-table tr");
+
+        complaintRows.forEach((row) => {
+          const status = row
+            .querySelector("td:nth-child(5) span")
+            .textContent.toLowerCase();
+          const type = row
+            .querySelector("td:nth-child(3)")
+            .textContent.toLowerCase();
+
+          const statusMatch =
+            statusFilter === "all" || status.includes(statusFilter);
+          const typeMatch = typeFilter === "all" || type.includes(typeFilter);
+
+          if (statusMatch && typeMatch) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      }
+
       window.confirmBooking = async function (event, id) {
         if (event) {
           event.preventDefault();
           event.stopPropagation();
         }
-        await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
+        await fetch(`http://127.0.0.1:5001/api/bookings/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: "confirmed" }),
@@ -974,7 +1364,7 @@
           event.preventDefault();
           event.stopPropagation();
         }
-        await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
+        await fetch(`http://127.0.0.1:5001/api/bookings/${id}`, {
           method: "DELETE",
         });
         loadDashboard();

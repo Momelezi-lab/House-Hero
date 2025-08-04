@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      fetch("http://127.0.0.1:5000/api/login", {
+      fetch("http://127.0.0.1:5001/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Passwords do not match.");
         return;
       }
-      fetch("http://127.0.0.1:5000/api/signup", {
+      fetch("http://127.0.0.1:5001/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -449,7 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       bookingData.amount = servicePrices[service] || 250;
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/bookings", {
+        const response = await fetch("http://127.0.0.1:5001/api/bookings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bookingData),
@@ -488,7 +488,12 @@ if ("serviceWorker" in navigator) {
 }
 
 async function fetchBackendBookings() {
-  const res = await fetch("http://127.0.0.1:5000/api/bookings");
+  const res = await fetch("http://127.0.0.1:5001/api/bookings");
+  return await res.json();
+}
+
+async function fetchBackendComplaints() {
+  const res = await fetch("http://127.0.0.1:5001/api/complaints");
   return await res.json();
 }
 

@@ -357,7 +357,7 @@
     <script>
       // Complaints page specific JavaScript
       async function fetchBackendComplaints() {
-        const res = await fetch("http://127.0.0.1:5000/api/complaints");
+        const res = await fetch("http://127.0.0.1:5001/api/complaints");
         return await res.json();
       }
 
@@ -411,6 +411,11 @@
       const complaintForm = document.getElementById("complaint-form");
       complaintForm.addEventListener("submit", async function (e) {
         e.preventDefault();
+
+        if (!validateComplaintForm()) {
+          return;
+        }
+
         const complaint = {
           name: localStorage.getItem("userName") || "Anonymous",
           email: localStorage.getItem("userEmail") || "",
@@ -418,20 +423,37 @@
           title: document.getElementById("complaint-title").value,
           description: document.getElementById("complaint-description").value,
           status: "pending",
-          date: document.getElementById("service-date").value,
+          date: new Date().toISOString().split("T")[0], // Current date
+          serviceProvider: document.getElementById("service-provider").value,
+          serviceDate: document.getElementById("service-date").value,
+          desiredResolution:
+            document.getElementById("desired-resolution").value,
+          contactPreference:
+            document.getElementById("contact-preference").value,
+          urgencyLevel: document.getElementById("urgency-level").value,
+          anonymous: document.getElementById("anonymous-complaint").checked,
+          followUp: document.getElementById("follow-up").checked,
         };
+
         try {
-          const response = await fetch("http://127.0.0.1:5000/api/complaints", {
+          const response = await fetch("http://127.0.0.1:5001/api/complaints", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(complaint),
           });
+
           if (response.ok) {
-            showToast("Complaint submitted successfully!", "success");
+            const result = await response.json();
+            showToast(
+              "Complaint submitted successfully! Reference: #" +
+                result.complaint.id,
+              "success"
+            );
             complaintForm.reset();
             renderComplaintHistory();
           } else {
-            showToast("Failed to submit complaint.", "error");
+            const error = await response.json();
+            showToast(error.error || "Failed to submit complaint.", "error");
           }
         } catch (error) {
           showToast("Failed to submit complaint.", "error");
@@ -461,63 +483,102 @@
         return isValid;
       }
 
-      function viewComplaintDetails(complaintId) {
+      async function viewComplaintDetails(complaintId) {
         const modal = document.getElementById("complaint-modal");
         const modalBody = document.getElementById("complaint-modal-body");
 
-        // Simulate loading complaint details
-        modalBody.innerHTML = `
-          <div class="complaint-details">
-            <div class="detail-item">
-              <strong>Complaint ID:</strong> #${complaintId}
-            </div>
-            <div class="detail-item">
-              <strong>Status:</strong> <span class="complaint-status resolved">Resolved</span>
-            </div>
-            <div class="detail-item">
-              <strong>Submitted:</strong> June 28, 2024
-            </div>
-            <div class="detail-item">
-              <strong>Last Updated:</strong> July 1, 2024
-            </div>
-            <div class="detail-item">
-              <strong>Service Provider:</strong> CleanPro Services
-            </div>
-            <div class="detail-item">
-              <strong>Service Date:</strong> June 25, 2024
-            </div>
-            <div class="detail-item">
-              <strong>Description:</strong>
-              <p>The cleaner arrived 30 minutes late and did not complete the full cleaning as requested. 
-              Several areas including the kitchen cabinets and bathroom tiles were missed. The quality was 
-              below the standard we expected for the price paid.</p>
-            </div>
-            <div class="detail-item">
-              <strong>Resolution:</strong>
-              <p>We have issued a partial refund of R150 and scheduled a follow-up cleaning service 
-              at no additional cost. The service provider has been notified of the quality issues.</p>
-            </div>
-            <div class="detail-item">
-              <strong>Updates:</strong>
-              <div class="update-timeline">
-                <div class="update-item">
-                  <span class="update-date">July 1, 2024</span>
-                  <p>Complaint resolved with partial refund and follow-up service scheduled.</p>
-                </div>
-                <div class="update-item">
-                  <span class="update-date">June 30, 2024</span>
-                  <p>Investigation completed. Service provider contacted.</p>
-                </div>
-                <div class="update-item">
-                  <span class="update-date">June 29, 2024</span>
-                  <p>Complaint received and under investigation.</p>
-                </div>
+        modalBody.innerHTML = "<div>Loading complaint details...</div>";
+        modal.style.display = "flex";
+
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:5001/api/complaints/${complaintId}`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch complaint details");
+          }
+
+          const complaint = await response.json();
+
+          modalBody.innerHTML = `
+            <div class="complaint-details">
+              <div class="detail-item">
+                <strong>Complaint ID:</strong> #${complaint.id}
+              </div>
+              <div class="detail-item">
+                <strong>Status:</strong> <span class="complaint-status ${complaint.status
+                  .toLowerCase()
+                  .replace(/ /g, "-")}">${
+            complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1)
+          }</span>
+              </div>
+              <div class="detail-item">
+                <strong>Submitted:</strong> ${complaint.date}
+              </div>
+              <div class="detail-item">
+                <strong>Last Updated:</strong> ${
+                  complaint.updated_at
+                    ? new Date(complaint.updated_at).toLocaleDateString()
+                    : "N/A"
+                }
+              </div>
+              ${
+                complaint.service_provider
+                  ? `<div class="detail-item">
+                <strong>Service Provider:</strong> ${complaint.service_provider}
+              </div>`
+                  : ""
+              }
+              ${
+                complaint.service_date
+                  ? `<div class="detail-item">
+                <strong>Service Date:</strong> ${complaint.service_date}
+              </div>`
+                  : ""
+              }
+              ${
+                complaint.urgency_level
+                  ? `<div class="detail-item">
+                <strong>Urgency Level:</strong> <span class="urgency-${complaint.urgency_level}">${complaint.urgency_level}</span>
+              </div>`
+                  : ""
+              }
+              ${
+                complaint.desired_resolution
+                  ? `<div class="detail-item">
+                <strong>Desired Resolution:</strong> ${complaint.desired_resolution}
+              </div>`
+                  : ""
+              }
+              ${
+                complaint.contact_preference
+                  ? `<div class="detail-item">
+                <strong>Contact Preference:</strong> ${complaint.contact_preference}
+              </div>`
+                  : ""
+              }
+              <div class="detail-item">
+                <strong>Description:</strong>
+                <p>${complaint.description}</p>
+              </div>
+              <div class="detail-item">
+                <strong>Additional Information:</strong>
+                <ul>
+                  <li>Anonymous: ${complaint.is_anonymous ? "Yes" : "No"}</li>
+                  <li>Follow-up enabled: ${
+                    complaint.follow_up_enabled ? "Yes" : "No"
+                  }</li>
+                </ul>
               </div>
             </div>
-          </div>
-        `;
-
-        modal.style.display = "flex";
+          `;
+        } catch (error) {
+          modalBody.innerHTML = `
+            <div class="error-message">
+              <p>Error loading complaint details: ${error.message}</p>
+            </div>
+          `;
+        }
       }
 
       function closeComplaintModal() {
@@ -618,12 +679,25 @@
               <div class="complaint-meta">
                 <span class="complaint-date">${c.date}</span>
                 <span class="complaint-type">${c.type.replace(/-/g, " ")}</span>
+                ${
+                  c.urgency_level
+                    ? `<span class="complaint-urgency ${c.urgency_level}">${c.urgency_level}</span>`
+                    : ""
+                }
               </div>
               <p class="complaint-summary">${c.description}</p>
+              ${
+                c.service_provider
+                  ? `<p class="complaint-provider"><strong>Service Provider:</strong> ${c.service_provider}</p>`
+                  : ""
+              }
               <div class="complaint-actions">
                 <button class="btn-secondary" onclick="viewComplaintDetails('${
                   c.id
                 }')">View Details</button>
+                <button class="btn-secondary" onclick="addFollowUp('${
+                  c.id
+                }')">Add Follow-up</button>
               </div>
             </div>
           `

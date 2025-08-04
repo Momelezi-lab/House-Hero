@@ -129,7 +129,7 @@
         }
       };
       async function loadBookings() {
-        let bookings = await fetch("http://127.0.0.1:5000/api/bookings").then(
+        let bookings = await fetch("http://127.0.0.1:5001/api/bookings").then(
           (res) => res.json()
         );
         const filter = document.getElementById("filter-service").value;
@@ -158,7 +158,7 @@
         }
       }
       async function deleteBooking(id) {
-        await fetch(`http://127.0.0.1:5000/api/bookings/${id}`, {
+        await fetch(`http://127.0.0.1:5001/api/bookings/${id}`, {
           method: "DELETE",
         });
         loadBookings();
