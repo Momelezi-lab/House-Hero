@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (result.status === 200) {
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem("user", JSON.stringify(result.data.user));
-            window.location.href = "/house-hero-app/public/index.html";
+            window.location.href = "/index.html";
           } else {
             alert(
               result.data.error ||
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((result) => {
           if (result.status === 201) {
             alert("Registration successful! Please log in.");
-            window.location.href = "/house-hero-app/pages/auth/login.html";
+            window.location.href = "pages/auth/login.html";
           } else {
             alert(result.data.error || "Registration failed.");
           }
@@ -203,7 +203,7 @@ function handleLogout() {
     }
 
     // Redirect to login page immediately
-    window.location.href = "/house-hero-app/pages/auth/login.html";
+    window.location.href = "pages/auth/login.html";
   }
 }
 
