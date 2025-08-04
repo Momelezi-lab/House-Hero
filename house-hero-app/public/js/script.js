@@ -102,28 +102,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Sidebar menu options functionality using event delegation
   console.log("Setting up sidebar event delegation...");
-  document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("sidebar-link")) {
-      const link = e.target;
-      const linkText = link.textContent.toLowerCase().trim();
-      console.log("Link clicked:", linkText);
-      console.log("Link href:", link.href);
 
-      // Only prevent default for logout, let other links navigate naturally
-      if (linkText === "⎋ logout") {
-        e.preventDefault();
-        console.log("Logout clicked!");
-        handleLogout();
-      } else {
-        // Close sidebar when navigating to other pages
-        console.log("Navigating to:", link.href);
-        if (typeof closeSidebar === "function") {
-          closeSidebar();
+  // Ensure API_BASE_URL is available before setting up event delegation
+  if (typeof API_BASE_URL === "undefined") {
+    console.warn("API_BASE_URL not defined, waiting for config.js to load...");
+    // Wait a bit for config.js to load
+    setTimeout(() => {
+      setupSidebarEventDelegation();
+    }, 100);
+  } else {
+    setupSidebarEventDelegation();
+  }
+
+  function setupSidebarEventDelegation() {
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("sidebar-link")) {
+        const link = e.target;
+        const linkText = link.textContent.toLowerCase().trim();
+        console.log("Link clicked:", linkText);
+        console.log("Link href:", link.href);
+
+        // Only prevent default for logout, let other links navigate naturally
+        if (linkText === "⎋ logout") {
+          e.preventDefault();
+          console.log("Logout clicked!");
+          handleLogout();
+        } else {
+          // Close sidebar when navigating to other pages
+          console.log("Navigating to:", link.href);
+          if (typeof closeSidebar === "function") {
+            closeSidebar();
+          }
         }
+        // For all other links, let the href attribute handle navigation
       }
-      // For all other links, let the href attribute handle navigation
-    }
-  });
+    });
+  }
 
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
