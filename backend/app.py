@@ -98,6 +98,40 @@ class Complaint(db.Model):
             'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
 
+class ServiceProvider(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    service_type = db.Column(db.String(100), nullable=False)
+    phone = db.Column(db.String(30), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    address = db.Column(db.String(255), nullable=True)
+    experience_years = db.Column(db.Integer, default=0)
+    hourly_rate = db.Column(db.Float, default=0.0)
+    rating = db.Column(db.Float, default=0.0)
+    total_bookings = db.Column(db.Integer, default=0)
+    status = db.Column(db.String(50), default='active')
+    registered = db.Column(db.String(20), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'service_type': self.service_type,
+            'phone': self.phone,
+            'email': self.email,
+            'address': self.address,
+            'experience_years': self.experience_years,
+            'hourly_rate': self.hourly_rate,
+            'rating': self.rating,
+            'total_bookings': self.total_bookings,
+            'status': self.status,
+            'registered': self.registered,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+        }
+
 @app.route('/api/health')
 def health_check():
     return jsonify({'status': 'ok'})
@@ -250,6 +284,97 @@ def delete_complaint(complaint_id):
 def get_users():
     users = User.query.all()
     return jsonify([user.to_dict() for user in users])
+
+@app.route('/api/users/<int:user_id>', methods=['PATCH'])
+def update_user(user_id):
+    user = User.query.get_or_404(user_id)
+    data = request.get_json()
+    
+    # Update fields if provided
+    updateable_fields = ['name', 'email', 'phone']
+    
+    for field in updateable_fields:
+        if field in data and data[field] is not None:
+            setattr(user, field, data[field])
+    
+    db.session.commit()
+    return jsonify({'message': 'User updated', 'user': user.to_dict()})
+
+@app.route('/api/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'message': 'User deleted'})
+
+@app.route('/api/providers', methods=['POST'])
+def create_provider():
+    data = request.get_json()
+    
+    # Validate required fields
+    required_fields = ['name', 'service_type', 'phone', 'email']
+    for field in required_fields:
+        if not data.get(field):
+            return jsonify({'error': f'Missing required field: {field}'}), 400
+    
+    # Check if email already exists
+    if ServiceProvider.query.filter_by(email=data.get('email')).first():
+        return jsonify({'error': 'Email already registered'}), 409
+    
+    provider = ServiceProvider(
+        name=data.get('name'),
+        service_type=data.get('service_type'),
+        phone=data.get('phone'),
+        email=data.get('email'),
+        address=data.get('address'),
+        experience_years=data.get('experience_years', 0),
+        hourly_rate=float(data.get('hourly_rate', 0.0)),
+        rating=float(data.get('rating', 0.0)),
+        total_bookings=data.get('total_bookings', 0),
+        status=data.get('status', 'active'),
+        registered=datetime.now().strftime('%Y-%m-%d')
+    )
+    db.session.add(provider)
+    db.session.commit()
+    return jsonify({'message': 'Provider created', 'provider': provider.to_dict()}), 201
+
+@app.route('/api/providers', methods=['GET'])
+def get_providers():
+    providers = ServiceProvider.query.all()
+    return jsonify([p.to_dict() for p in providers])
+
+@app.route('/api/providers/<int:provider_id>', methods=['PATCH'])
+def update_provider(provider_id):
+    provider = ServiceProvider.query.get_or_404(provider_id)
+    data = request.get_json()
+    
+    # Update fields if provided
+    updateable_fields = [
+        'name', 'service_type', 'phone', 'email', 'address', 
+        'experience_years', 'hourly_rate', 'rating', 'total_bookings', 'status'
+    ]
+    
+    for field in updateable_fields:
+        if field in data and data[field] is not None:
+            if field in ['experience_years', 'total_bookings']:
+                setattr(provider, field, int(data[field]))
+            elif field in ['hourly_rate', 'rating']:
+                setattr(provider, field, float(data[field]))
+            else:
+                setattr(provider, field, data[field])
+    
+    # Update the updated_at timestamp
+    provider.updated_at = datetime.utcnow()
+    
+    db.session.commit()
+    return jsonify({'message': 'Provider updated', 'provider': provider.to_dict()})
+
+@app.route('/api/providers/<int:provider_id>', methods=['DELETE'])
+def delete_provider(provider_id):
+    provider = ServiceProvider.query.get_or_404(provider_id)
+    db.session.delete(provider)
+    db.session.commit()
+    return jsonify({'message': 'Provider deleted'})
 
 if __name__ == '__main__':
     import sys
