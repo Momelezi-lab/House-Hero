@@ -10,13 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.pathname.endsWith("admin-dashboard.html") ||
     window.location.pathname.endsWith("admin-bookings.html");
   const isBookingPage = window.location.pathname.includes("book-");
-  if (
-    !isLoggedIn &&
-    !isLoginPage &&
-    !isSignupPage &&
-    !isAdminPage &&
-    !isBookingPage
-  ) {
+  const isInfoPage =
+    window.location.pathname.includes("how-") ||
+    window.location.pathname.includes("info/");
+
+  // Only redirect for admin pages if not logged in
+  if (!isLoggedIn && !isLoginPage && !isSignupPage && isAdminPage) {
     window.location.href = "pages/auth/login.html";
     return;
   }
