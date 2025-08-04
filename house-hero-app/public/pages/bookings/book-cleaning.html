@@ -45,12 +45,22 @@
         <div class="sidebar-name">Apiwe Fuzile</div>
       </div>
       <nav class="sidebar-nav">
-        <a href="../../pages/dashboard/profile.html" class="sidebar-link">profile</a>
-        <a href="../../pages/dashboard/settings.html" class="sidebar-link">settings</a>
-        <a href="../../pages/services/complaints.html" class="sidebar-link">complaints</a>
-        <a href="../../pages/info/contact.html" class="sidebar-link">get in touch</a>
+        <a href="../../pages/dashboard/profile.html" class="sidebar-link"
+          >profile</a
+        >
+        <a href="../../pages/dashboard/settings.html" class="sidebar-link"
+          >settings</a
+        >
+        <a href="../../pages/services/complaints.html" class="sidebar-link"
+          >complaints</a
+        >
+        <a href="../../pages/info/contact.html" class="sidebar-link"
+          >get in touch</a
+        >
         <a href="../../pages/info/faq.html" class="sidebar-link">F.A.Q</a>
-        <a href="#" class="sidebar-link logout-link" onclick="handleLogout()">⎋ logout</a>
+        <a href="#" class="sidebar-link logout-link" onclick="handleLogout()"
+          >⎋ logout</a
+        >
       </nav>
     </aside>
     <div id="sidebar-overlay" class="sidebar-overlay"></div>
@@ -130,7 +140,6 @@
       </form>
     </main>
     <script src="/js/config.js"></script>
-    <script src="/js/config.js"></script>
     <script src="/js/script.js"></script>
     <script>
       let gmap, gmarker, autocomplete;
@@ -197,10 +206,12 @@
             })
               .then((response) => response.json())
               .then((data) => {
+                console.log("Booking response:", data);
                 localStorage.setItem(
                   "lastBooking",
                   JSON.stringify(data.booking)
                 );
+                console.log("Saved booking to localStorage:", data.booking);
                 window.location.href = "booking-success.html";
               })
               .catch((error) => {

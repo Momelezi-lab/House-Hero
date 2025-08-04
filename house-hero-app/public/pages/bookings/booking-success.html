@@ -149,7 +149,11 @@
     </main>
     <script>
       // Load booking info from localStorage
-      const booking = JSON.parse(localStorage.getItem("lastBooking") || "{}");
+      console.log("Loading booking success page...");
+      const bookingData = localStorage.getItem("lastBooking");
+      console.log("Raw booking data from localStorage:", bookingData);
+      const booking = JSON.parse(bookingData || "{}");
+      console.log("Parsed booking data:", booking);
       const details = document.getElementById("booking-details");
       if (booking && booking.name) {
         details.innerHTML = `
@@ -160,8 +164,10 @@
           <li><strong>Service:</strong> <span class="booking-value">${booking.service || "Cleaning"}</span></li>
           <li><strong>Details:</strong> <span class="booking-value">${booking.details || "-"}</span></li>
         `;
+        console.log("Booking details displayed successfully");
       } else {
         details.innerHTML = "<li>No booking details found.</li>";
+        console.log("No booking details found in localStorage");
       }
     </script>
     <script src="/js/config.js"></script>
