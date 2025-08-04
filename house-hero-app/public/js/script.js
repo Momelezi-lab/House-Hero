@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     !isAdminPage &&
     !isBookingPage
   ) {
-    window.location.href = "/house-hero-app/pages/auth/login.html";
+    window.location.href = "pages/auth/login.html";
     return;
   }
 
