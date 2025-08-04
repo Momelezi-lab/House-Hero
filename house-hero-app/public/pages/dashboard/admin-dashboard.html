@@ -2268,6 +2268,13 @@
         document.getElementById("admin-content").style.display = "flex";
         loadDashboard();
         loadAllBookings();
+        // Render charts
+        if (typeof renderRevenueByServiceChart === "function") {
+          renderRevenueByServiceChart();
+        }
+        if (typeof renderComplaintsStatsChart === "function") {
+          renderComplaintsStatsChart();
+        }
       }
       // On page load, show the last active section from localStorage
       function showActiveAdminSection() {
@@ -2344,11 +2351,16 @@
           document.getElementById(nav.id).classList.add("active");
           document.getElementById(nav.section).style.display = "";
           // If dashboard, re-render analytics
-          if (
-            nav.id === "nav-dashboard" &&
-            typeof renderAdminAnalytics === "function"
-          ) {
-            renderAdminAnalytics();
+          if (nav.id === "nav-dashboard") {
+            if (typeof renderAdminAnalytics === "function") {
+              renderAdminAnalytics();
+            }
+            if (typeof renderRevenueByServiceChart === "function") {
+              renderRevenueByServiceChart();
+            }
+            if (typeof renderComplaintsStatsChart === "function") {
+              renderComplaintsStatsChart();
+            }
           }
           // If users section, load users
           if (nav.id === "nav-users") {
@@ -2369,7 +2381,7 @@
       async function loadDashboard() {
         try {
           const bookings = await fetchBackendBookings();
-          const complaints = await fetchComplaints();
+          const complaints = await fetchBackendComplaints();
           console.log("[DEBUG] Bookings fetched for dashboard:", bookings);
           console.log("[DEBUG] Complaints fetched for dashboard:", complaints);
           document.getElementById("total-bookings").textContent =
