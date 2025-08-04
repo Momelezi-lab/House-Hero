@@ -147,7 +147,11 @@ class ServiceProvider(db.Model):
 
 @app.route('/api/health')
 def health_check():
-    return jsonify({'status': 'ok'})
+    return jsonify({'status': 'healthy', 'message': 'House Hero Backend is running!'})
+
+@app.route('/')
+def home():
+    return jsonify({'message': 'House Hero Backend API', 'status': 'running'})
 
 @app.route('/api/signup', methods=['POST'])
 def signup():
@@ -409,4 +413,6 @@ if __name__ == '__main__':
             db.session.commit()
             print("Removed {} duplicate bookings.".format(len(duplicates)))
         else:
-            app.run(debug=True, port=5001)
+            # Get port from environment variable (for Render) or use 5001 for local
+            port = int(os.environ.get('PORT', 5001))
+            app.run(debug=False, host='0.0.0.0', port=port)
