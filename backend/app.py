@@ -19,13 +19,18 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # CORS configuration for production
-CORS(app, origins=[
-    "https://house-hero.netlify.app",           # Your Netlify frontend
-    "https://house-hero-backend.onrender.com",  # Your Render backend
-    "http://localhost:3000",                    # Local development
-    "http://127.0.0.1:5000",                   # Local development
-    "http://127.0.0.1:5001"                    # Local development
-])
+CORS(app, 
+     origins=[
+         "https://house-hero.netlify.app",           # Your Netlify frontend
+         "https://house-hero-backend.onrender.com",  # Your Render backend
+         "http://localhost:3000",                    # Local development
+         "http://127.0.0.1:5000",                   # Local development
+         "http://127.0.0.1:5001"                    # Local development
+     ],
+     methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization"],
+     supports_credentials=True
+)
 
 db = SQLAlchemy(app)
 
