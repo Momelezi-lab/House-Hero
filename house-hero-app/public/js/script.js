@@ -100,10 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Sidebar menu options functionality
-  const sidebarLinks = document.querySelectorAll(".sidebar-link");
-  sidebarLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
+  // Sidebar menu options functionality using event delegation
+  console.log("Setting up sidebar event delegation...");
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("sidebar-link")) {
+      const link = e.target;
       const linkText = link.textContent.toLowerCase().trim();
       console.log("Link clicked:", linkText);
       console.log("Link href:", link.href);
@@ -121,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
       // For all other links, let the href attribute handle navigation
-    });
+    }
   });
 
   const loginForm = document.getElementById("login-form");
