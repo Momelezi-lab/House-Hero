@@ -5,10 +5,7 @@
 [build.environment]
   NODE_VERSION = "18"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Removed redirect rule that was preventing navigation to actual HTML files
 
 [[headers]]
   for = "/*"
