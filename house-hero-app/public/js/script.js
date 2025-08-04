@@ -104,38 +104,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarLinks = document.querySelectorAll(".sidebar-link");
   sidebarLinks.forEach((link) => {
     link.addEventListener("click", (e) => {
-      e.preventDefault();
       const linkText = link.textContent.toLowerCase().trim();
       console.log("Link clicked:", linkText);
 
-      switch (linkText) {
-        case "🏠 home":
-          window.location.href = "/house-hero-app/public/index.html";
-          break;
-        case "profile":
-          window.location.href = "/house-hero-app/pages/dashboard/profile.html";
-          break;
-        case "settings":
-          window.location.href =
-            "/house-hero-app/pages/dashboard/settings.html";
-          break;
-        case "complaints":
-          window.location.href =
-            "/house-hero-app/pages/services/complaints.html";
-          break;
-        case "get in touch":
-          window.location.href = "/house-hero-app/pages/info/contact.html";
-          break;
-        case "f.a.q":
-          window.location.href = "/house-hero-app/pages/info/faq.html";
-          break;
-        case "⎋ logout":
-          console.log("Logout clicked!");
-          handleLogout();
-          break;
-        default:
-          console.log("Unknown menu option:", linkText);
+      // Only prevent default for logout, let other links navigate naturally
+      if (linkText === "⎋ logout") {
+        e.preventDefault();
+        console.log("Logout clicked!");
+        handleLogout();
       }
+      // For all other links, let the href attribute handle navigation
     });
   });
 
