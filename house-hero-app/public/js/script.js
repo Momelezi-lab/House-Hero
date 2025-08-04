@@ -106,12 +106,19 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("click", (e) => {
       const linkText = link.textContent.toLowerCase().trim();
       console.log("Link clicked:", linkText);
+      console.log("Link href:", link.href);
 
       // Only prevent default for logout, let other links navigate naturally
       if (linkText === "⎋ logout") {
         e.preventDefault();
         console.log("Logout clicked!");
         handleLogout();
+      } else {
+        // Close sidebar when navigating to other pages
+        console.log("Navigating to:", link.href);
+        if (typeof closeSidebar === "function") {
+          closeSidebar();
+        }
       }
       // For all other links, let the href attribute handle navigation
     });
