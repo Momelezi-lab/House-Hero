@@ -197,6 +197,9 @@
               details: document.getElementById("details").value,
               status: "pending",
             };
+            console.log("Submitting booking:", booking);
+            console.log("API URL:", `${API_BASE_URL}/api/bookings`);
+            
             fetch(`${API_BASE_URL}/api/bookings`, {
               method: "POST",
               headers: {
@@ -204,19 +207,29 @@
               },
               body: JSON.stringify(booking),
             })
-              .then((response) => response.json())
+              .then((response) => {
+                console.log("Response status:", response.status);
+                return response.json();
+              })
               .then((data) => {
-                console.log("Booking response:", data);
-                localStorage.setItem(
-                  "lastBooking",
-                  JSON.stringify(data.booking)
-                );
-                console.log("Saved booking to localStorage:", data.booking);
-                window.location.href = "booking-success.html";
+                console.log("✅ Booking response:", data);
+                
+                if (data.booking) {
+                  localStorage.setItem(
+                    "lastBooking",
+                    JSON.stringify(data.booking)
+                  );
+                  console.log("✅ Saved booking to localStorage:", data.booking);
+                  console.log("✅ Redirecting to booking-success.html");
+                  window.location.href = "booking-success.html";
+                } else {
+                  console.error("❌ No booking data in response:", data);
+                  alert("Booking failed! No booking data received.");
+                }
               })
               .catch((error) => {
+                console.error("❌ Booking error:", error);
                 alert("Booking failed! Please try again.");
-                console.error(error);
               });
           });
       });
