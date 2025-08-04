@@ -2270,20 +2270,20 @@
         loadAllBookings();
         // Render charts
         console.log("Initial dashboard load - rendering charts...");
-        if (typeof renderRevenueByServiceChart === "function") {
-          console.log("Calling renderRevenueByServiceChart on initial load...");
-          renderRevenueByServiceChart();
-        }
-        if (typeof renderComplaintsStatsChart === "function") {
-          console.log("Calling renderComplaintsStatsChart on initial load...");
-          // Add a small delay to ensure Chart.js is fully loaded
-          setTimeout(() => {
-            renderComplaintsStatsChart();
-          }, 500);
+        if (typeof waitForChartJS === "function") {
+          waitForChartJS(() => {
+            console.log("Chart.js ready, rendering charts...");
+            if (typeof renderRevenueByServiceChart === "function") {
+              console.log("Calling renderRevenueByServiceChart...");
+              renderRevenueByServiceChart();
+            }
+            if (typeof renderComplaintsStatsChart === "function") {
+              console.log("Calling renderComplaintsStatsChart...");
+              renderComplaintsStatsChart();
+            }
+          });
         } else {
-          console.error(
-            "renderComplaintsStatsChart function not found on initial load!"
-          );
+          console.error("waitForChartJS function not found!");
         }
       }
       // On page load, show the last active section from localStorage
@@ -2360,27 +2360,29 @@
           });
           document.getElementById(nav.id).classList.add("active");
           document.getElementById(nav.section).style.display = "";
-          // If dashboard, re-render analytics
-          if (nav.id === "nav-dashboard") {
-            console.log("Dashboard section clicked, re-rendering charts...");
-            if (typeof renderAdminAnalytics === "function") {
-              console.log("Calling renderAdminAnalytics...");
-              renderAdminAnalytics();
-            }
-            if (typeof renderRevenueByServiceChart === "function") {
-              console.log("Calling renderRevenueByServiceChart...");
-              renderRevenueByServiceChart();
-            }
-            if (typeof renderComplaintsStatsChart === "function") {
-              console.log("Calling renderComplaintsStatsChart...");
-              // Add a small delay to ensure Chart.js is fully loaded
-              setTimeout(() => {
-                renderComplaintsStatsChart();
-              }, 500);
-            } else {
-              console.error("renderComplaintsStatsChart function not found!");
-            }
+                  // If dashboard, re-render analytics
+        if (nav.id === "nav-dashboard") {
+          console.log("Dashboard section clicked, re-rendering charts...");
+          if (typeof renderAdminAnalytics === "function") {
+            console.log("Calling renderAdminAnalytics...");
+            renderAdminAnalytics();
           }
+          if (typeof waitForChartJS === "function") {
+            waitForChartJS(() => {
+              console.log("Chart.js ready, re-rendering charts...");
+              if (typeof renderRevenueByServiceChart === "function") {
+                console.log("Calling renderRevenueByServiceChart...");
+                renderRevenueByServiceChart();
+              }
+              if (typeof renderComplaintsStatsChart === "function") {
+                console.log("Calling renderComplaintsStatsChart...");
+                renderComplaintsStatsChart();
+              }
+            });
+          } else {
+            console.error("waitForChartJS function not found!");
+          }
+        }
           // If users section, load users
           if (nav.id === "nav-users") {
             loadUsers();

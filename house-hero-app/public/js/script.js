@@ -1167,24 +1167,16 @@ async function renderComplaintsStatsChart() {
       '<div style="color:#ef4444;text-align:center;margin:2rem 0;">Error loading complaints statistics.</div>';
   }
 }
-// Wait for Chart.js to be available before rendering charts
-function waitForChartJS() {
+// Chart.js availability check utility function
+function waitForChartJS(callback) {
   if (typeof Chart !== "undefined") {
-    console.log("Chart.js is available, rendering charts...");
-    if (document.getElementById("revenueServiceChart")) {
-      renderRevenueByServiceChart();
-    }
-    if (document.getElementById("complaintsStatsChart")) {
-      renderComplaintsStatsChart();
-    }
+    console.log("Chart.js is available");
+    if (callback) callback();
   } else {
     console.log("Chart.js not available yet, waiting...");
-    setTimeout(waitForChartJS, 100);
+    setTimeout(() => waitForChartJS(callback), 100);
   }
 }
-
-// Start waiting for Chart.js
-waitForChartJS();
 
 // Test functions for debugging
 window.testLogout = function () {
