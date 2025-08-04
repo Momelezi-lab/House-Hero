@@ -1020,83 +1020,102 @@ async function renderRevenueByServiceChart() {
 }
 // Complaints Statistics Bar Chart (ensure only called once)
 async function renderComplaintsStatsChart() {
-  if (document.getElementById("complaintsStatsChart")) {
-    try {
-      let complaints = await fetchBackendComplaints();
-      console.log("[DEBUG] Complaints fetched for chart:", complaints);
-      // Group by complaint type (normalize for display)
-      const typeCounts = {};
-      complaints.forEach((c) => {
-        let type = c.type || "Other";
-        // Normalize: replace dashes with spaces and capitalize words
-        type = type.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-        typeCounts[type] = (typeCounts[type] || 0) + 1;
-      });
-      const typeLabels = Object.keys(typeCounts);
-      const typeData = typeLabels.map((t) => typeCounts[t]);
-      console.log("[DEBUG] Complaints chart labels:", typeLabels);
-      console.log("[DEBUG] Complaints chart data:", typeData);
-      const chartContainer = document.getElementById(
-        "complaintsStatsChart"
-      ).parentElement;
-      if (typeLabels.length === 0) {
-        chartContainer.innerHTML =
-          '<div style="color:#ef4444;text-align:center;margin:2rem 0;">No complaints data to display.</div>';
-        return;
-      }
-      // Remove any previous chart canvas
-      const oldCanvas = document.getElementById("complaintsStatsChart");
-      if (oldCanvas) {
-        const newCanvas = oldCanvas.cloneNode(false);
-        oldCanvas.parentNode.replaceChild(newCanvas, oldCanvas);
-      }
-      const ctx = document
-        .getElementById("complaintsStatsChart")
-        .getContext("2d");
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: typeLabels,
-          datasets: [
-            {
-              label: "Complaints",
-              data: typeData,
-              backgroundColor: typeLabels.map(
-                (_, i) =>
-                  [
-                    "#ef4444",
-                    "#fbbf24",
-                    "#3b82f6",
-                    "#22c55e",
-                    "#a78bfa",
-                    "#f472b6",
-                    "#10b981",
-                  ][i % 7]
-              ),
-              borderRadius: 8,
-              maxBarThickness: 40,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            title: { display: true, text: "Complaints by Type" },
-          },
-          scales: {
-            y: { beginAtZero: true, precision: 0 },
-          },
-        },
-      });
-    } catch (error) {
-      console.error("Error loading complaints stats chart:", error);
-      const chartContainer = document.getElementById(
-        "complaintsStatsChart"
-      ).parentElement;
+  console.log("[DEBUG] renderComplaintsStatsChart called");
+
+  // Check if Chart.js is available
+  if (typeof Chart === "undefined") {
+    console.error("Chart.js not loaded yet");
+    return;
+  }
+
+  const chartElement = document.getElementById("complaintsStatsChart");
+  if (!chartElement) {
+    console.error("Complaints chart element not found");
+    return;
+  }
+
+  try {
+    console.log("[DEBUG] Fetching complaints data...");
+    let complaints = await fetchBackendComplaints();
+    console.log("[DEBUG] Complaints fetched for chart:", complaints);
+
+    // Group by complaint type (normalize for display)
+    const typeCounts = {};
+    complaints.forEach((c) => {
+      let type = c.type || "Other";
+      // Normalize: replace dashes with spaces and capitalize words
+      type = type.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+      typeCounts[type] = (typeCounts[type] || 0) + 1;
+    });
+
+    const typeLabels = Object.keys(typeCounts);
+    const typeData = typeLabels.map((t) => typeCounts[t]);
+    console.log("[DEBUG] Complaints chart labels:", typeLabels);
+    console.log("[DEBUG] Complaints chart data:", typeData);
+
+    const chartContainer = chartElement.parentElement;
+
+    if (typeLabels.length === 0) {
+      console.log("[DEBUG] No complaints data to display");
       chartContainer.innerHTML =
-        '<div style="color:#ef4444;text-align:center;margin:2rem 0;">Error loading complaints statistics.</div>';
+        '<div style="color:#ef4444;text-align:center;margin:2rem 0;">No complaints data to display.</div>';
+      return;
     }
+
+    // Clear any existing chart
+    const existingChart = chartElement.chart;
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
+    // Create new chart
+    console.log("[DEBUG] Creating new complaints chart...");
+    const ctx = chartElement.getContext("2d");
+    const newChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: typeLabels,
+        datasets: [
+          {
+            label: "Complaints",
+            data: typeData,
+            backgroundColor: typeLabels.map(
+              (_, i) =>
+                [
+                  "#ef4444",
+                  "#fbbf24",
+                  "#3b82f6",
+                  "#22c55e",
+                  "#a78bfa",
+                  "#f472b6",
+                  "#10b981",
+                ][i % 7]
+            ),
+            borderRadius: 8,
+            maxBarThickness: 40,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: "Complaints by Type" },
+        },
+        scales: {
+          y: { beginAtZero: true, precision: 0 },
+        },
+      },
+    });
+
+    // Store reference to chart
+    chartElement.chart = newChart;
+    console.log("[DEBUG] Complaints chart created successfully");
+  } catch (error) {
+    console.error("Error loading complaints stats chart:", error);
+    const chartContainer = chartElement.parentElement;
+    chartContainer.innerHTML =
+      '<div style="color:#ef4444;text-align:center;margin:2rem 0;">Error loading complaints statistics.</div>';
   }
 }
 // Call on page load

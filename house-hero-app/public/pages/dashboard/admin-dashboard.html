@@ -2276,7 +2276,10 @@
         }
         if (typeof renderComplaintsStatsChart === "function") {
           console.log("Calling renderComplaintsStatsChart on initial load...");
-          renderComplaintsStatsChart();
+          // Add a small delay to ensure Chart.js is fully loaded
+          setTimeout(() => {
+            renderComplaintsStatsChart();
+          }, 500);
         } else {
           console.error(
             "renderComplaintsStatsChart function not found on initial load!"
@@ -2370,7 +2373,10 @@
             }
             if (typeof renderComplaintsStatsChart === "function") {
               console.log("Calling renderComplaintsStatsChart...");
-              renderComplaintsStatsChart();
+              // Add a small delay to ensure Chart.js is fully loaded
+              setTimeout(() => {
+                renderComplaintsStatsChart();
+              }, 500);
             } else {
               console.error("renderComplaintsStatsChart function not found!");
             }
