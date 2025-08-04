@@ -7,12 +7,25 @@ from sqlalchemy import func
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
 
-# Database config
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
+# Production configuration
+if os.environ.get('DATABASE_URL'):
+    # For production (Render, Heroku, etc.)
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
+else:
+    # For local development
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# CORS configuration for production
+CORS(app, origins=[
+    "https://house-hero.netlify.app",           # Your Netlify frontend
+    "https://house-hero-backend.onrender.com",  # Your Render backend
+    "http://localhost:3000",                    # Local development
+    "http://127.0.0.1:5000",                   # Local development
+    "http://127.0.0.1:5001"                    # Local development
+])
 
 db = SQLAlchemy(app)
 

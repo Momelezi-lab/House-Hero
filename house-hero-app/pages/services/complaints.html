@@ -353,11 +353,12 @@
     </div>
 
     <!-- JavaScript -->
+    <script src="/house-hero-app/public/js/config.js"></script>
     <script src="/house-hero-app/public/js/script.js"></script>
     <script>
       // Complaints page specific JavaScript
       async function fetchBackendComplaints() {
-        const res = await fetch("http://127.0.0.1:5001/api/complaints");
+        const res = await fetch(`${API_BASE_URL}/api/complaints`);
         return await res.json();
       }
 
@@ -436,7 +437,7 @@
         };
 
         try {
-          const response = await fetch("http://127.0.0.1:5001/api/complaints", {
+          const response = await fetch(`${API_BASE_URL}/api/complaints`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(complaint),
@@ -492,7 +493,7 @@
 
         try {
           const response = await fetch(
-            `http://127.0.0.1:5001/api/complaints/${complaintId}`
+            `${API_BASE_URL}/api/complaints/${complaintId}`
           );
           if (!response.ok) {
             throw new Error("Failed to fetch complaint details");
@@ -501,27 +502,27 @@
           const complaint = await response.json();
 
           modalBody.innerHTML = `
-            <div class="complaint-details">
-              <div class="detail-item">
+          <div class="complaint-details">
+            <div class="detail-item">
                 <strong>Complaint ID:</strong> #${complaint.id}
-              </div>
-              <div class="detail-item">
+            </div>
+            <div class="detail-item">
                 <strong>Status:</strong> <span class="complaint-status ${complaint.status
                   .toLowerCase()
                   .replace(/ /g, "-")}">${
             complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1)
           }</span>
-              </div>
-              <div class="detail-item">
+            </div>
+            <div class="detail-item">
                 <strong>Submitted:</strong> ${complaint.date}
-              </div>
-              <div class="detail-item">
+            </div>
+            <div class="detail-item">
                 <strong>Last Updated:</strong> ${
                   complaint.updated_at
                     ? new Date(complaint.updated_at).toLocaleDateString()
                     : "N/A"
                 }
-              </div>
+            </div>
               ${
                 complaint.service_provider
                   ? `<div class="detail-item">
@@ -557,11 +558,11 @@
               </div>`
                   : ""
               }
-              <div class="detail-item">
-                <strong>Description:</strong>
+            <div class="detail-item">
+              <strong>Description:</strong>
                 <p>${complaint.description}</p>
-              </div>
-              <div class="detail-item">
+            </div>
+            <div class="detail-item">
                 <strong>Additional Information:</strong>
                 <ul>
                   <li>Anonymous: ${complaint.is_anonymous ? "Yes" : "No"}</li>
@@ -576,8 +577,8 @@
           modalBody.innerHTML = `
             <div class="error-message">
               <p>Error loading complaint details: ${error.message}</p>
-            </div>
-          `;
+          </div>
+        `;
         }
       }
 

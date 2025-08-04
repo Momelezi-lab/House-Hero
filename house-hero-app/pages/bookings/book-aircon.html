@@ -134,6 +134,7 @@
         </div>
       </form>
     </main>
+    <script src="/house-hero-app/public/js/config.js"></script>
     <script src="/house-hero-app/public/js/script.js"></script>
     <script>
       let gmap, gmarker, autocomplete;
@@ -191,7 +192,7 @@
               details: document.getElementById("details").value,
               status: "pending",
             };
-            fetch("http://127.0.0.1:5001/api/bookings", {
+            fetch(`${API_BASE_URL}/api/bookings`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

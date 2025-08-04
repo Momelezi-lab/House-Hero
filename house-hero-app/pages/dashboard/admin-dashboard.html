@@ -2470,7 +2470,7 @@
       // User management functions
       async function fetchUsers() {
         try {
-          const response = await fetch("http://127.0.0.1:5001/api/users");
+          const response = await fetch(`${API_BASE_URL}/api/users`);
           if (!response.ok) {
             throw new Error("Failed to fetch users");
           }
@@ -2735,12 +2735,9 @@
         }
 
         try {
-          const response = await fetch(
-            `http://127.0.0.1:5001/api/users/${userId}`,
-            {
-              method: "DELETE",
-            }
-          );
+          const response = await fetch(`${API_BASE_URL}/api/users/${userId}`, {
+            method: "DELETE",
+          });
 
           if (response.ok) {
             alert("User deleted successfully!");
@@ -2776,7 +2773,7 @@
       // Provider management functions
       async function fetchProviders() {
         try {
-          const response = await fetch("http://127.0.0.1:5001/api/providers");
+          const response = await fetch(`${API_BASE_URL}/api/providers`);
           if (!response.ok) {
             throw new Error("Failed to fetch providers");
           }
@@ -3130,7 +3127,7 @@
 
       async function addProvider(providerData) {
         try {
-          const response = await fetch("http://127.0.0.1:5001/api/providers", {
+          const response = await fetch(`${API_BASE_URL}/api/providers`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -3164,7 +3161,7 @@
 
         try {
           const response = await fetch(
-            `http://127.0.0.1:5001/api/providers/${providerId}`,
+            `${API_BASE_URL}/api/providers/${providerId}`,
             {
               method: "DELETE",
             }
@@ -3488,7 +3485,7 @@
 
         try {
           const response = await fetch(
-            `http://127.0.0.1:5001/api/complaints/${complaintId}`,
+            `${API_BASE_URL}/api/complaints/${complaintId}`,
             {
               method: "PATCH",
               headers: { "Content-Type": "application/json" },
@@ -4034,7 +4031,7 @@
             try {
               // Send the data to the backend
               const response = await fetch(
-                `http://127.0.0.1:5001/api/users/${userId}`,
+                `${API_BASE_URL}/api/users/${userId}`,
                 {
                   method: "PATCH",
                   headers: {
@@ -4244,7 +4241,7 @@
 
             try {
               const response = await fetch(
-                `http://127.0.0.1:5001/api/providers/${providerId}`,
+                `${API_BASE_URL}/api/providers/${providerId}`,
                 {
                   method: "PATCH",
                   headers: {
@@ -4304,7 +4301,7 @@
           event.preventDefault();
           event.stopPropagation();
         }
-        await fetch(`http://127.0.0.1:5001/api/bookings/${id}`, {
+        await fetch(`${API_BASE_URL}/api/bookings/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: "confirmed" }),
@@ -4320,7 +4317,7 @@
           event.preventDefault();
           event.stopPropagation();
         }
-        await fetch(`http://127.0.0.1:5001/api/bookings/${id}`, {
+        await fetch(`${API_BASE_URL}/api/bookings/${id}`, {
           method: "DELETE",
         });
         loadDashboard();
@@ -4330,5 +4327,6 @@
         showActiveAdminSection();
       };
     </script>
+    <script src="/house-hero-app/public/js/config.js"></script>
   </body>
 </html>
