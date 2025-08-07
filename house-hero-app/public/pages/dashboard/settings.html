@@ -2,491 +2,779 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <title>HouseHero | Settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings | HouseHero</title>
     <!-- Web App Meta -->
-    <meta name="theme-color" content="#22c55e" />
+    <meta name="theme-color" content="#3b82f6" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/styles.css" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3b82f6",
+              secondary: "#64748b",
+              accent: "#f59e0b",
+              success: "#10b981",
+              danger: "#ef4444",
+              warning: "#f59e0b",
+              info: "#3b82f6",
+              light: "#f8fafc",
+              dark: "#1f2937",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Dark mode styles */
+      .dark body {
+        background-color: #0f172a;
+        color: #f8fafc;
+      }
+      .dark .bg-white {
+        background-color: #1e293b;
+      }
+      .dark .text-gray-800 {
+        color: #f1f5f9;
+      }
+      .dark .text-gray-600 {
+        color: #cbd5e1;
+      }
+      .dark .border-gray-200 {
+        border-color: #334155;
+      }
+      .dark .hover\:bg-gray-50:hover {
+        background-color: #2d3748;
+      }
+      .dark .bg-gray-50 {
+        background-color: #1e293b;
+      }
+      .dark .bg-gray-100 {
+        background-color: #2d3748;
+      }
+      .dark .bg-gray-200 {
+        background-color: #4a5568;
+      }
+      .dark .peer-checked\:bg-blue-600:checked {
+        background-color: #3b82f6;
+      }
+      .dark .after\:bg-white::after {
+        background-color: #f8fafc;
+      }
+      .dark .after\:border-gray-300::after {
+        border-color: #4a5568;
+      }
+      .dark .bg-gradient-to-br {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      }
+      .dark .shadow-lg {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      }
+    </style>
   </head>
-  <body class="light">
+  <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
     <!-- Back Button -->
     <a
-      href="javascript:history.back()"
-      class="fixed top-4 left-4 z-50 bg-white hover:bg-gray-100 text-gray-700 font-bold py-2 px-3 rounded-full shadow-lg transition-colors duration-200"
+      href="../index.html"
+      class="fixed top-6 left-6 z-50 bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 font-bold py-3 px-4 rounded-full shadow-lg transition-all duration-200 hover:shadow-xl"
     >
-      &lt;
+      ← Back
     </a>
-    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
-      ☀️
+
+    <!-- Dark Mode Toggle -->
+    <button
+      id="dark-mode-toggle"
+      class="fixed bottom-6 right-6 z-50 bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 font-bold py-3 px-4 rounded-full shadow-lg transition-all duration-200 hover:shadow-xl"
+    >
+      🌙
     </button>
+
     <!-- Header -->
-    <header class="header">
-      <a href="#" class="menu-icon" id="menu-toggle">☰</a>
-      <div class="header-content">
-        <h1 class="main-title">Settings</h1>
-        <p class="subtitle">Customize your experience</p>
+    <header
+      class="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white py-16 px-6"
+    >
+      <div class="absolute inset-0 bg-black/10"></div>
+      <div class="relative max-w-6xl mx-auto text-center">
+        <div
+          class="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-6"
+        >
+          <span class="text-2xl">⚙️</span>
+        </div>
+        <h1 class="text-4xl font-bold mb-4">Settings</h1>
+        <p class="text-blue-100 text-lg max-w-2xl mx-auto">
+          Customize your HouseHero experience and manage your account
+          preferences
+        </p>
       </div>
     </header>
-    <!-- Sidebar Menu -->
-    <aside id="sidebar-menu" class="sidebar-menu">
-      <button class="close-btn" id="close-menu">×</button>
-      <div class="sidebar-profile">
-        <img
-          src="https://randomuser.me/api/portraits/men/1.jpg"
-          alt="User Avatar"
-          class="sidebar-avatar"
-        />
-        <div class="sidebar-name">Apiwe Fuzile</div>
+
+    <!-- Sidebar Menu Button -->
+    <button
+      id="sidebar-toggle"
+      class="fixed top-6 right-6 z-40 bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 font-bold py-3 px-4 rounded-full shadow-lg transition-all duration-200 hover:shadow-xl"
+    >
+      ☰ Menu
+    </button>
+
+    <!-- Sidebar -->
+    <aside
+      id="sidebar"
+      class="fixed top-0 right-0 h-full w-72 bg-white/95 backdrop-blur-md text-gray-800 transform translate-x-full transition-transform duration-300 ease-in-out z-50 shadow-2xl"
+    >
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-xl font-bold text-gray-800">Navigation</h2>
+          <button id="close-sidebar" class="text-gray-500 hover:text-gray-700">
+            ✕
+          </button>
+        </div>
+        <nav class="space-y-3">
+          <a
+            href="profile.html"
+            class="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all duration-200"
+          >
+            <span class="text-lg mr-3">👤</span>
+            <span class="font-medium">Profile</span>
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center py-3 px-4 bg-blue-100 text-blue-700 rounded-xl transition-all duration-200"
+          >
+            <span class="text-lg mr-3">⚙️</span>
+            <span class="font-medium">Settings</span>
+          </a>
+          <a
+            href="../services/complaints.html"
+            class="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all duration-200"
+          >
+            <span class="text-lg mr-3">📝</span>
+            <span class="font-medium">Complaints</span>
+          </a>
+          <a
+            href="../info/contact.html"
+            class="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all duration-200"
+          >
+            <span class="text-lg mr-3">📞</span>
+            <span class="font-medium">Contact</span>
+          </a>
+          <a
+            href="../info/faq.html"
+            class="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all duration-200"
+          >
+            <span class="text-lg mr-3">❓</span>
+            <span class="font-medium">FAQ</span>
+          </a>
+          <div class="border-t border-gray-200 pt-3 mt-6">
+            <a
+              href="#"
+              class="flex items-center py-3 px-4 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 logout-link"
+            >
+              <span class="text-lg mr-3">⎋</span>
+              <span class="font-medium">Logout</span>
+            </a>
+          </div>
+        </nav>
       </div>
-      <nav class="sidebar-nav">
-        <a href="../../index.html" class="sidebar-link">🏠 home</a>
-        <a href="../../pages/dashboard/profile.html" class="sidebar-link"
-          >profile</a
-        >
-        <a href="../../pages/dashboard/settings.html" class="sidebar-link"
-          >settings</a
-        >
-        <a href="../../pages/services/complaints.html" class="sidebar-link"
-          >complaints</a
-        >
-        <a href="../../pages/info/contact.html" class="sidebar-link"
-          >get in touch</a
-        >
-        <a href="../../pages/info/faq.html" class="sidebar-link">F.A.Q</a>
-        <a href="#" class="sidebar-link logout-link">⎋ logout</a>
-      </nav>
     </aside>
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Sidebar Overlay -->
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 hidden"
+    ></div>
 
     <!-- Main Content -->
-    <main class="main-section">
-      <!-- App Preferences -->
-      <div class="settings-section">
-        <h2 class="section-title">App Preferences</h2>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Dark Mode</h3>
-            <p>Use dark theme throughout the app</p>
+    <main class="max-w-6xl mx-auto px-6 py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- App Preferences -->
+        <div
+          class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 dark:bg-slate-800/90"
+        >
+          <div class="flex items-center mb-6">
+            <div
+              class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4"
+            >
+              <span class="text-xl">🎨</span>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+                App Preferences
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300">
+                Customize your app experience
+              </p>
+            </div>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="dark-mode-toggle" />
-            <span class="toggle-slider"></span>
-          </label>
+
+          <div class="space-y-6">
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-purple-600">🌙</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Dark Mode
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Use dark theme throughout the app
+                  </p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="dark-mode-toggle-main"
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-green-600">💾</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Auto-save Forms
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Automatically save form data as you type
+                  </p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="auto-save-toggle"
+                  checked
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-blue-600">📍</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Location Services
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Allow app to access your location
+                  </p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="location-toggle"
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-yellow-600">🔊</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Sound Effects
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Play sound effects for notifications
+                  </p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sound-toggle"
+                  checked
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+          </div>
         </div>
 
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Auto-save Forms</h3>
-            <p>Automatically save form data as you type</p>
+        <!-- Notifications -->
+        <div
+          class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 dark:bg-slate-800/90"
+        >
+          <div class="flex items-center mb-6">
+            <div
+              class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mr-4"
+            >
+              <span class="text-xl">🔔</span>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+                Notifications
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300">
+                Manage your notification preferences
+              </p>
+            </div>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="auto-save-toggle" checked />
-            <span class="toggle-slider"></span>
-          </label>
+
+          <div class="space-y-6">
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-blue-600">📱</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Push Notifications
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Receive notifications about service updates
+                  </p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="push-notifications-toggle"
+                  checked
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-green-600">📧</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Email Notifications
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Receive service confirmations via email
+                  </p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="email-notifications-toggle"
+                  checked
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-purple-600">💬</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    SMS Notifications
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Receive service updates via SMS
+                  </p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sms-notifications-toggle"
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-red-600">⏰</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Reminder Notifications
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Get reminded about upcoming appointments
+                  </p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="reminder-toggle"
+                  checked
+                  class="sr-only peer"
+                />
+                <div
+                  class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                ></div>
+              </label>
+            </div>
+          </div>
         </div>
 
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Location Services</h3>
-            <p>Allow app to access your location for better service matching</p>
+        <!-- Privacy & Security -->
+        <div
+          class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 dark:bg-slate-800/90"
+        >
+          <div class="flex items-center mb-6">
+            <div
+              class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mr-4"
+            >
+              <span class="text-xl">🔒</span>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+                Privacy & Security
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300">
+                Manage your account security
+              </p>
+            </div>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="location-toggle" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
 
-      <!-- Notifications -->
-      <div class="settings-section">
-        <h2 class="section-title">Notifications</h2>
+          <div class="space-y-6">
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-blue-600">🔐</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Two-Factor Authentication
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Add an extra layer of security
+                  </p>
+                </div>
+              </div>
+              <button
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+                onclick="setupTwoFactor()"
+              >
+                Setup 2FA
+              </button>
+            </div>
 
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Push Notifications</h3>
-            <p>Receive notifications about service updates</p>
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-green-600">🔑</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Change Password
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Update your account password
+                  </p>
+                </div>
+              </div>
+              <button
+                class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+                onclick="changePassword()"
+              >
+                Change
+              </button>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-purple-600">📥</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Data Export
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Download a copy of your data
+                  </p>
+                </div>
+              </div>
+              <button
+                class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+                onclick="exportData()"
+              >
+                Export
+              </button>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors dark:bg-slate-700/50 dark:hover:bg-slate-600/50"
+            >
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-4"
+                >
+                  <span class="text-red-600">🗑️</span>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Delete Account
+                  </h3>
+                  <p class="text-gray-600 text-sm dark:text-gray-300">
+                    Permanently delete your account
+                  </p>
+                </div>
+              </div>
+              <button
+                class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+                onclick="showDeleteModal()"
+              >
+                Delete
+              </button>
+            </div>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="push-notifications-toggle" checked />
-            <span class="toggle-slider"></span>
-          </label>
         </div>
 
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Email Notifications</h3>
-            <p>Receive service confirmations via email</p>
+        <!-- Account Information -->
+        <div
+          class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 dark:bg-slate-800/90"
+        >
+          <div class="flex items-center mb-6">
+            <div
+              class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mr-4"
+            >
+              <span class="text-xl">👤</span>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+                Account Information
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300">
+                Update your personal details
+              </p>
+            </div>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="email-notifications-toggle" checked />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
 
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>SMS Notifications</h3>
-            <p>Receive service updates via SMS</p>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="sms-notifications-toggle" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Reminder Notifications</h3>
-            <p>Get reminded about upcoming appointments</p>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="reminder-toggle" checked />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Privacy & Security -->
-      <div class="settings-section">
-        <h2 class="section-title">Privacy & Security</h2>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Biometric Login</h3>
-            <p>Use fingerprint or face ID to log in</p>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="biometric-toggle" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Two-Factor Authentication</h3>
-            <p>Add an extra layer of security to your account</p>
-          </div>
-          <button class="btn-secondary" onclick="setupTwoFactor()">
-            Setup
-          </button>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Data Sharing</h3>
-            <p>Allow HouseHero to share data with service providers</p>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="data-sharing-toggle" checked />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Service Preferences -->
-      <div class="settings-section">
-        <h2 class="section-title">Service Preferences</h2>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Preferred Service Time</h3>
-            <p>Set your preferred time for service appointments</p>
-          </div>
-          <select id="preferred-time" class="setting-select">
-            <option value="morning">Morning (8 AM - 12 PM)</option>
-            <option value="afternoon" selected>Afternoon (12 PM - 4 PM)</option>
-            <option value="evening">Evening (4 PM - 8 PM)</option>
-            <option value="anytime">Anytime</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Service Radius</h3>
-            <p>Maximum distance for service providers</p>
-          </div>
-          <select id="service-radius" class="setting-select">
-            <option value="5">5 km</option>
-            <option value="10" selected>10 km</option>
-            <option value="15">15 km</option>
-            <option value="20">20 km</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Auto-confirm Bookings</h3>
-            <p>Automatically confirm bookings within your preferred time</p>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="auto-confirm-toggle" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Payment Settings -->
-      <div class="settings-section">
-        <h2 class="section-title">Payment Settings</h2>
-
-        <div class="payment-methods">
-          <div class="payment-method">
-            <div class="payment-info">
-              <span class="payment-icon">💳</span>
+          <form class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3>Visa ending in 1234</h3>
-                <p>Expires 12/25</p>
+                <label
+                  class="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-300"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  value="John Doe"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-300"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  value="john.doe@example.com"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-300"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  value="+27 123 456 789"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-300"
+                  >Address</label
+                >
+                <input
+                  type="text"
+                  value="123 Main St, Johannesburg"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                />
               </div>
             </div>
-            <button class="btn-secondary">Edit</button>
-          </div>
-
-          <div class="payment-method">
-            <div class="payment-info">
-              <span class="payment-icon">🏦</span>
-              <div>
-                <h3>Bank Transfer</h3>
-                <p>Standard Bank - 1234567890</p>
-              </div>
+            <div class="flex justify-end pt-4">
+              <button
+                type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-200 hover:shadow-lg"
+              >
+                Save Changes
+              </button>
             </div>
-            <button class="btn-secondary">Edit</button>
-          </div>
-
-          <button class="btn-primary add-payment-btn">
-            + Add Payment Method
-          </button>
-        </div>
-      </div>
-
-      <!-- Language & Region -->
-      <div class="settings-section">
-        <h2 class="section-title">Language & Region</h2>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Language</h3>
-            <p>Choose your preferred language</p>
-          </div>
-          <select id="language-select" class="setting-select">
-            <option value="en" selected>English</option>
-            <option value="af">Afrikaans</option>
-            <option value="zu">Zulu</option>
-            <option value="xh">Xhosa</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Currency</h3>
-            <p>Select your preferred currency</p>
-          </div>
-          <select id="currency-select" class="setting-select">
-            <option value="ZAR" selected>South African Rand (R)</option>
-            <option value="USD">US Dollar ($)</option>
-            <option value="EUR">Euro (€)</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Time Zone</h3>
-            <p>Set your local time zone</p>
-          </div>
-          <select id="timezone-select" class="setting-select">
-            <option value="Africa/Johannesburg" selected>
-              South Africa (GMT+2)
-            </option>
-            <option value="UTC">UTC (GMT+0)</option>
-            <option value="America/New_York">Eastern Time (GMT-5)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Data Management -->
-      <div class="settings-section">
-        <h2 class="section-title">Data Management</h2>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Export Data</h3>
-            <p>Download a copy of your data</p>
-          </div>
-          <button class="btn-secondary" onclick="exportData()">Export</button>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <h3>Clear Cache</h3>
-            <p>Clear app cache and temporary files</p>
-          </div>
-          <button class="btn-secondary" onclick="clearCache()">Clear</button>
-        </div>
-
-        <div class="setting-item danger-zone">
-          <div class="setting-info">
-            <h3>Delete Account</h3>
-            <p>Permanently delete your account and all data</p>
-          </div>
-          <button class="btn-danger" onclick="showDeleteAccountModal()">
-            Delete
-          </button>
+          </form>
         </div>
       </div>
     </main>
 
-    <!-- Delete Account Modal -->
-    <div id="delete-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>Delete Account</h2>
-          <button class="close-modal" onclick="closeDeleteModal()">×</button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Are you sure you want to delete your account? This action cannot be
-            undone.
-          </p>
-          <p>
-            All your data, including service history and preferences, will be
-            permanently removed.
-          </p>
-        </div>
-        <div class="modal-actions">
-          <button class="btn-secondary" onclick="closeDeleteModal()">
-            Cancel
-          </button>
-          <button class="btn-danger" onclick="deleteAccount()">
-            Delete Account
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- JavaScript -->
-    <script src="/js/config.js"></script>
-    <script src="/js/script.js"></script>
     <script>
-      // Settings page specific JavaScript
-      document.addEventListener("DOMContentLoaded", function () {
-        // Load saved settings
-        loadSettings();
-
-        // Add event listeners for all toggles
-        const toggles = document.querySelectorAll(".toggle-switch input");
-        toggles.forEach((toggle) => {
-          toggle.addEventListener("change", function () {
-            saveSetting(this.id, this.checked);
-          });
-        });
-
-        // Add event listeners for selects
-        const selects = document.querySelectorAll(".setting-select");
-        selects.forEach((select) => {
-          select.addEventListener("change", function () {
-            saveSetting(this.id, this.value);
-          });
-        });
-      });
-
-      function loadSettings() {
-        // Load dark mode setting
+      // Dark mode functionality
+      function initDarkMode() {
         const darkModeToggle = document.getElementById("dark-mode-toggle");
-        const isDark = document.documentElement.classList.contains("dark");
-        darkModeToggle.checked = isDark;
-
-        // Load other settings from localStorage
-        const settings = JSON.parse(
-          localStorage.getItem("appSettings") || "{}"
+        const darkModeToggleMain = document.getElementById(
+          "dark-mode-toggle-main"
         );
 
-        Object.keys(settings).forEach((key) => {
-          const element = document.getElementById(key);
-          if (element) {
-            if (element.type === "checkbox") {
-              element.checked = settings[key];
-            } else {
-              element.value = settings[key];
-            }
-          }
-        });
-      }
-
-      function saveSetting(key, value) {
-        const settings = JSON.parse(
-          localStorage.getItem("appSettings") || "{}"
-        );
-        settings[key] = value;
-        localStorage.setItem("appSettings", JSON.stringify(settings));
-
-        // Special handling for dark mode
-        if (key === "dark-mode-toggle") {
-          const html = document.documentElement;
-          const toggleBtn = document.getElementById("toggle-dark");
-
-          if (value) {
-            html.classList.add("dark");
-            toggleBtn.textContent = "🌙";
-          } else {
-            html.classList.remove("dark");
-            toggleBtn.textContent = "☀️";
-          }
-          localStorage.setItem("theme", value ? "dark" : "light");
+        // Check for saved dark mode preference
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
+        if (isDarkMode) {
+          document.documentElement.classList.add("dark");
+          if (darkModeToggle) darkModeToggle.textContent = "☀️";
+          if (darkModeToggleMain) darkModeToggleMain.checked = true;
         }
 
-        showToast("Setting saved successfully!", "success");
+        // Toggle dark mode
+        function toggleDarkMode() {
+          const isDark = document.documentElement.classList.toggle("dark");
+          localStorage.setItem("darkMode", isDark);
+          if (darkModeToggle) darkModeToggle.textContent = isDark ? "☀️" : "🌙";
+        }
+
+        if (darkModeToggle) {
+          darkModeToggle.addEventListener("click", toggleDarkMode);
+        }
+        if (darkModeToggleMain) {
+          darkModeToggleMain.addEventListener("change", toggleDarkMode);
+        }
       }
 
+      // Sidebar functionality
+      function initSidebarMenu() {
+        const sidebarToggle = document.getElementById("sidebar-toggle");
+        const sidebar = document.getElementById("sidebar");
+        const sidebarOverlay = document.getElementById("sidebar-overlay");
+        const closeSidebar = document.getElementById("close-sidebar");
+
+        function toggleSidebar() {
+          sidebar.classList.toggle("translate-x-full");
+          sidebarOverlay.classList.toggle("hidden");
+        }
+
+        function closeSidebarMenu() {
+          sidebar.classList.add("translate-x-full");
+          sidebarOverlay.classList.add("hidden");
+        }
+
+        if (sidebarToggle) {
+          sidebarToggle.addEventListener("click", toggleSidebar);
+        }
+        if (closeSidebar) {
+          closeSidebar.addEventListener("click", closeSidebarMenu);
+        }
+        if (sidebarOverlay) {
+          sidebarOverlay.addEventListener("click", closeSidebarMenu);
+        }
+      }
+
+      // Initialize when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        initDarkMode();
+        initSidebarMenu();
+      });
+
+      // Placeholder functions for buttons
       function setupTwoFactor() {
-        showToast("Two-factor authentication setup would open here", "success");
+        alert("Two-Factor Authentication setup would open here");
+      }
+
+      function changePassword() {
+        alert("Password change dialog would open here");
       }
 
       function exportData() {
-        showToast(
-          "Data export started. You will receive an email shortly.",
-          "success"
-        );
+        alert("Data export would start here");
       }
 
-      function clearCache() {
-        if (confirm("Are you sure you want to clear the app cache?")) {
-          localStorage.removeItem("form_booking-form");
-          showToast("Cache cleared successfully!", "success");
+      function showDeleteModal() {
+        if (
+          confirm(
+            "Are you sure you want to delete your account? This action cannot be undone."
+          )
+        ) {
+          alert("Account deletion would proceed here");
         }
       }
-
-      function showDeleteAccountModal() {
-        document.getElementById("delete-modal").style.display = "flex";
-      }
-
-      function closeDeleteModal() {
-        document.getElementById("delete-modal").style.display = "none";
-      }
-
-      function deleteAccount() {
-        if (confirm("This is your final warning. Are you absolutely sure?")) {
-          localStorage.clear();
-          showToast("Account deleted. Redirecting to login...", "success");
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 2000);
-        }
-      }
-
-      // Close modal when clicking outside
-      document
-        .getElementById("delete-modal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) {
-            closeDeleteModal();
-          }
-        });
     </script>
   </body>
 </html>
