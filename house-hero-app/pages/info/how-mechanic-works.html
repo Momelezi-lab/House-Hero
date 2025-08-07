@@ -7,153 +7,213 @@
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <title>How Our Mechanic Service Works | HouseHero</title>
-    <meta name="theme-color" content="#22c55e" />
-    <link rel="stylesheet" href="/css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <!-- Web App Meta -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3b82f6",
+              secondary: "#64748b",
+              accent: "#f59e0b",
+              success: "#10b981",
+              danger: "#ef4444",
+              warning: "#f59e0b",
+              info: "#3b82f6",
+              light: "#f8fafc",
+              dark: "#1e293b",
+            },
+          },
+        },
+      };
+    </script>
     <style>
-      body, .light {
-        background: #f3f4f6;
+      /* Dark mode styles */
+      .dark body {
+        background-color: #1f2937;
+        color: #f9fafb;
       }
-      .dark body, body.dark {
-        background: #111827;
+
+      .dark .bg-white {
+        background-color: #374151;
       }
-      .login-header-banner-full {
-        background: #22c55e;
-        min-height: 90px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 0 0 18px 18px;
-        margin-bottom: 2.5rem;
-        box-shadow: 0 4px 16px rgba(34, 197, 94, 0.08);
+
+      .dark .text-gray-700 {
+        color: #d1d5db;
       }
-      .login-logo-row {
-        display: flex;
-        align-items: center;
-        gap: 1.2rem;
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: #fff;
+
+      .dark .text-gray-800 {
+        color: #f9fafb;
       }
-      .main-title {
-        color: #111;
-        font-size: 2rem;
-        font-weight: 800;
-        margin-bottom: 2rem;
-        text-align: center;
+
+      .dark .border-gray-300 {
+        border-color: #4b5563;
       }
-      .dark .main-title {
-        color: #fff;
+
+      .dark .bg-gray-50 {
+        background-color: #111827;
       }
-      .how-steps {
-        list-style: none;
-        padding: 0;
-        margin: 2rem 0;
+
+      .dark .text-gray-900 {
+        color: #f9fafb;
       }
-      .how-steps li {
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-        font-size: 1.1rem;
-        background: #fff;
-        border-radius: 12px;
-        padding: 1.4rem 1.2rem;
-        box-shadow: 0 2px 12px rgba(34, 197, 94, 0.10);
-        color: #222;
-        font-weight: 500;
+
+      .dark .text-gray-600 {
+        color: #e5e7eb;
       }
-      .dark .how-steps li {
-        background: #232a36;
-        color: #fff;
+
+      .dark .placeholder-gray-500::placeholder {
+        color: #6b7280;
       }
-      .how-steps .step-icon {
-        font-size: 1.7rem;
-        color: #22c55e;
-        flex-shrink: 0;
-        margin-top: 0.1em;
+
+      .dark input::placeholder {
+        color: #6b7280;
       }
-      .how-steps li:last-child {
-        margin-bottom: 0;
+
+      .dark textarea::placeholder {
+        color: #6b7280;
       }
-      .btn.login-btn {
-        display: block;
-        width: 100%;
-        max-width: 400px;
-        margin: 2.5rem auto 0 auto;
-        background: #22c55e;
-        color: #fff;
-        font-size: 1.2rem;
-        font-weight: 700;
-        border-radius: 18px;
-        padding: 1rem 0;
-        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.10);
-        border: none;
-        transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+
+      .dark select {
+        color: #1f2937;
       }
-      .btn.login-btn:hover {
-        background: #16a34a;
-        transform: scale(1.03);
-        box-shadow: 0 8px 24px rgba(34, 197, 94, 0.18);
-      }
-      @media (max-width: 600px) {
-        .main-title {
-          font-size: 1.3rem;
-        }
-        .login-header-banner-full {
-          min-height: 60px;
-        }
-        .how-steps li {
-          font-size: 1rem;
-          padding: 1rem;
-        }
+
+      .dark select option {
+        color: #1f2937;
       }
     </style>
   </head>
-  <body class="light">
-    <a href="../../public/index.html" class="back-btn" title="Back to Home"
-      >←</a
+  <body class="bg-gray-50 text-gray-900 min-h-screen">
+    <!-- Back Button -->
+    <a
+      href="../../public/index.html"
+      class="fixed top-4 left-4 z-50 bg-white hover:bg-gray-100 text-gray-700 font-bold py-2 px-3 rounded-full shadow-lg transition-colors duration-200"
     >
-    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">☀️</button>
-    <div class="login-header-banner-full">
-      <div class="login-logo-row">
-        <span class="login-logo-icon"><i class="fa-solid fa-car"></i></span>
-        <span class="login-logo-text">Mechanic Service</span>
+      &lt;
+    </a>
+
+    <!-- Dark Mode Toggle -->
+    <button
+      id="toggle-dark"
+      class="fixed bottom-4 right-4 z-50 bg-white hover:bg-gray-100 text-gray-700 font-bold py-3 px-4 rounded-full shadow-lg transition-colors duration-200 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+      title="Toggle Dark Mode"
+    >
+      ☀️
+    </button>
+
+    <!-- Header -->
+    <header
+      class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-4 shadow-lg relative"
+    >
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center">
+          <div class="flex items-center justify-center gap-4 mb-2">
+            <span class="text-3xl">🚗</span>
+            <h1 class="text-3xl md:text-4xl font-bold">Mechanic Service</h1>
+          </div>
+          <p class="text-lg text-blue-100">
+            Professional car repair and maintenance
+          </p>
+        </div>
       </div>
-    </div>
-    <main class="main-section" style="max-width: 600px; margin: 0 auto;">
-        <h1 class="main-title">How Our Mechanic Service Works</h1>
-        <ol class="how-steps">
-          <li>
-            <span class="step-icon"
-              ><i class="fa-solid fa-calendar-check"></i></span
-            >Book your car repair or service online.
-          </li>
-          <li>
-            <span class="step-icon"><i class="fa-solid fa-user-clock"></i></span
-            >We confirm your booking and send a mechanic to your location.
-          </li>
-          <li>
-            <span class="step-icon"
-              ><i class="fa-solid fa-screwdriver-wrench"></i></span
-            >Our mechanic arrives with the right tools and parts.
-          </li>
-          <li>
-            <span class="step-icon"><i class="fa-solid fa-thumbs-up"></i></span
-            >Car fixed! Pay securely after the job is done.
-          </li>
-        </ol>
-        <a
-          href="../bookings/book-mechanic.html"
-          class="btn login-btn"
-          style="margin-top: 2rem; text-align: center"
-          >Book Now</a
-        >
-      </main>
-    </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto p-6">
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+          How Our Mechanic Service Works
+        </h2>
+
+        <div class="space-y-4">
+          <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+            <span class="text-2xl text-blue-600 flex-shrink-0 mt-1">📅</span>
+            <div>
+              <h3 class="font-semibold text-gray-800 mb-1">Book Online</h3>
+              <p class="text-gray-600">
+                Book your car repair or service online at your convenience.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+            <span class="text-2xl text-blue-600 flex-shrink-0 mt-1">⏰</span>
+            <div>
+              <h3 class="font-semibold text-gray-800 mb-1">Confirmation</h3>
+              <p class="text-gray-600">
+                We confirm your booking and send a mechanic to your location.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+            <span class="text-2xl text-blue-600 flex-shrink-0 mt-1">🔧</span>
+            <div>
+              <h3 class="font-semibold text-gray-800 mb-1">Expert Service</h3>
+              <p class="text-gray-600">
+                Our mechanic arrives with the right tools and parts for the job.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+            <span class="text-2xl text-blue-600 flex-shrink-0 mt-1">👍</span>
+            <div>
+              <h3 class="font-semibold text-gray-800 mb-1">Job Complete</h3>
+              <p class="text-gray-600">
+                Car fixed! Pay securely after the job is done.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a
+            href="../bookings/book-mechanic.html"
+            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105"
+          >
+            Book Now
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <script src="/js/config.js"></script>
     <script src="/js/script.js"></script>
+    <script>
+      // Dark mode functionality
+      function initDarkMode() {
+        const toggleBtn = document.getElementById("toggle-dark");
+        const body = document.body;
+
+        // Check for saved dark mode preference or default to light mode
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
+
+        // Apply initial dark mode state
+        if (isDarkMode) {
+          body.classList.add("dark");
+          toggleBtn.innerHTML = "🌙";
+        } else {
+          body.classList.remove("dark");
+          toggleBtn.innerHTML = "☀️";
+        }
+
+        // Toggle dark mode
+        toggleBtn.addEventListener("click", function () {
+          body.classList.toggle("dark");
+          const isDark = body.classList.contains("dark");
+          localStorage.setItem("darkMode", isDark);
+          toggleBtn.innerHTML = isDark ? "🌙" : "☀️";
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        initDarkMode();
+      });
+    </script>
   </body>
 </html>

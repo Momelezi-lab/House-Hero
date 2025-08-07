@@ -11,631 +11,500 @@
     <meta name="theme-color" content="#22c55e" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3b82f6",
+              secondary: "#64748b",
+              accent: "#f59e0b",
+              success: "#10b981",
+              danger: "#ef4444",
+              warning: "#f59e0b",
+              info: "#3b82f6",
+              light: "#f8fafc",
+              dark: "#1e293b",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Dark mode styles */
+      .dark body {
+        background-color: #1f2937;
+        color: #f9fafb;
+      }
+
+      .dark .bg-white {
+        background-color: #374151;
+      }
+
+      .dark .text-gray-700 {
+        color: #d1d5db;
+      }
+
+      .dark .text-gray-800 {
+        color: #f9fafb;
+      }
+
+      .dark .border-gray-300 {
+        border-color: #4b5563;
+      }
+
+      .dark .bg-gray-50 {
+        background-color: #111827;
+      }
+
+      .dark .text-gray-900 {
+        color: #f9fafb;
+      }
+
+      .dark .text-gray-600 {
+        color: #e5e7eb;
+      }
+
+      .dark .placeholder-gray-500::placeholder {
+        color: #6b7280;
+      }
+
+      .dark input::placeholder {
+        color: #6b7280;
+      }
+
+      .dark textarea::placeholder {
+        color: #6b7280;
+      }
+
+      .dark select {
+        color: #1f2937;
+      }
+
+      .dark select option {
+        color: #1f2937;
+      }
+    </style>
   </head>
-  <body class="light">
-    <button id="toggle-dark" class="dark-mode-toggle" title="Toggle Dark Mode">
+  <body class="bg-gray-50 text-gray-900 min-h-screen">
+    <!-- Back Button -->
+    <a
+      href="/index.html"
+      class="fixed top-4 left-4 z-50 bg-white hover:bg-gray-100 text-gray-700 font-bold py-2 px-3 rounded-full shadow-lg transition-colors duration-200"
+    >
+      &lt;
+    </a>
+
+    <!-- Dark Mode Toggle -->
+    <button
+      id="toggle-dark"
+      class="fixed bottom-4 right-4 z-50 bg-white hover:bg-gray-100 text-gray-700 font-bold py-3 px-4 rounded-full shadow-lg transition-colors duration-200 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+      title="Toggle Dark Mode"
+    >
       ☀️
     </button>
+
     <!-- Header -->
-    <header class="header">
-      <a href="#" class="menu-icon" id="menu-toggle">☰</a>
-      <div class="header-content">
-        <h1 class="main-title">FAQ</h1>
-        <p class="subtitle">Frequently Asked Questions</p>
+    <header
+      class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-4 shadow-lg relative"
+    >
+      <div class="max-w-4xl mx-auto">
+        <a
+          href="#"
+          class="absolute top-4 right-4 text-2xl font-bold hover:text-blue-200 transition-colors duration-200"
+          id="menu-toggle"
+          >☰</a
+        >
+        <div class="text-center">
+          <h1 class="text-3xl md:text-4xl font-bold mb-2">Frequently Asked Questions</h1>
+          <p class="text-lg text-blue-100">Find answers to common questions</p>
+        </div>
       </div>
     </header>
+
     <!-- Sidebar Menu -->
-    <aside id="sidebar-menu" class="sidebar-menu">
-      <button class="close-btn" id="close-menu">×</button>
-      <div class="sidebar-profile">
+    <aside
+      id="sidebar-menu"
+      class="fixed top-0 right-0 h-full w-64 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-40"
+    >
+      <button
+        class="close-btn absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700"
+        id="close-menu"
+      >
+        ×
+      </button>
+      <div class="p-6 border-b border-gray-200">
         <img
           src="https://randomuser.me/api/portraits/men/1.jpg"
           alt="User Avatar"
-          class="sidebar-avatar"
+          class="w-16 h-16 rounded-full mx-auto mb-3"
         />
-        <div class="sidebar-name">Apiwe Fuzile</div>
+        <div class="text-center font-semibold text-gray-800">Apiwe Fuzile</div>
       </div>
-      <nav class="sidebar-nav">
-        <a href="/public/index.html" class="sidebar-link">🏠 home</a>
+      <nav class="p-4">
         <a
-          href="/house-hero-app/pages/dashboard/profile.html"
-          class="sidebar-link"
-          >profile</a
-        >
-        <a
-          href="/house-hero-app/pages/dashboard/settings.html"
-          class="sidebar-link"
-          >settings</a
+          href="../dashboard/profile.html"
+          class="block py-2 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 mb-2"
+          >Profile</a
         >
         <a
-          href="/house-hero-app/pages/services/complaints.html"
-          class="sidebar-link"
-          >complaints</a
+          href="../dashboard/settings.html"
+          class="block py-2 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 mb-2"
+          >Settings</a
         >
-        <a href="/house-hero-app/pages/info/contact.html" class="sidebar-link"
-          >get in touch</a
+        <a
+          href="../services/complaints.html"
+          class="block py-2 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 mb-2"
+          >Complaints</a
         >
-        <a href="/house-hero-app/pages/info/faq.html" class="sidebar-link"
+        <a
+          href="../info/contact.html"
+          class="block py-2 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 mb-2"
+          >Get in Touch</a
+        >
+        <a
+          href="../info/faq.html"
+          class="block py-2 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 mb-2"
           >F.A.Q</a
         >
-        <a href="#" class="sidebar-link logout-link">⎋ logout</a>
+        <a
+          href="../../public/index.html"
+          class="block py-2 px-4 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 logout-link"
+          >⎋ Logout</a
+        >
       </nav>
     </aside>
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Sidebar Overlay -->
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"
+    ></div>
 
     <!-- Main Content -->
-    <main class="main-section">
+    <main class="max-w-4xl mx-auto p-6">
       <!-- Search Section -->
-      <div class="faq-search-section">
-        <div class="search-container">
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Search FAQ</h2>
+          <p class="text-gray-600">Find answers to your questions quickly</p>
+        </div>
+        
+        <div class="max-w-md mx-auto">
+          <div class="relative">
           <input
             type="text"
             id="faq-search"
             placeholder="Search for questions..."
-            class="faq-search-input"
+              class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 text-gray-900"
           />
-          <button class="search-btn" onclick="searchFAQ()">🔍</button>
+            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+          </div>
         </div>
       </div>
 
       <!-- FAQ Categories -->
-      <div class="faq-categories">
-        <button class="category-btn active" data-category="all">
-          All Questions
+      <div class="space-y-6">
+        <!-- Booking & Services -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">📅 Booking & Services</h3>
+          
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">How do I book a service?</span>
+                <span class="text-gray-400">+</span>
         </button>
-        <button class="category-btn" data-category="booking">Booking</button>
-        <button class="category-btn" data-category="pricing">Pricing</button>
-        <button class="category-btn" data-category="cancellation">
-          Cancellation
-        </button>
-        <button class="category-btn" data-category="safety">Safety</button>
-        <button class="category-btn" data-category="payment">Payment</button>
-        <button class="category-btn" data-category="account">Account</button>
-      </div>
-
-      <!-- FAQ Content -->
-      <div class="faq-content">
-        <!-- Booking Section -->
-        <div class="faq-section" id="booking">
-          <h2 class="section-title">Booking Services</h2>
-
-          <div class="faq-item" data-category="booking">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>How do I book a service?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Booking a service is easy! Simply select the service you need
-                from our home page, choose your preferred date and time, fill in
-                your details, and confirm your booking. You'll receive a
-                confirmation email and SMS with all the details.
-              </p>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">To book a service, simply select the service you need from our homepage, choose your preferred date and time, fill in your details, and confirm your booking. You'll receive a confirmation email with all the details.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="booking">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>How far in advance should I book?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                We recommend booking at least 24 hours in advance for most
-                services. For weekend appointments or during peak seasons,
-                booking 2-3 days ahead is advisable. Emergency services like
-                locksmiths can often be arranged within a few hours.
-              </p>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">Can I cancel or reschedule my booking?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">Yes, you can cancel or reschedule your booking up to 24 hours before the scheduled service time. Simply go to your booking history and select the option to modify or cancel your appointment.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="booking">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>Can I book multiple services at once?</h3>
-              <span class="faq-toggle">+</span>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">What services do you offer?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">We offer a wide range of home services including cleaning, plumbing, electrical work, handyman services, gardening, locksmith services, mechanic services, pest control, air conditioning, and sneaker cleaning.</p>
             </div>
-            <div class="faq-answer">
-              <p>
-                Yes! You can book multiple services in a single session. Simply
-                add each service to your cart and schedule them for the same day
-                or different days. We also offer package deals for multiple
-                services.
-              </p>
-            </div>
-          </div>
-
-          <div class="faq-item" data-category="booking">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>What information do I need to provide when booking?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                You'll need to provide your name, phone number, email address,
-                service address, preferred date and time, and any specific
-                requirements or instructions for the service. For some services,
-                we may also need access information or special instructions.
-              </p>
             </div>
           </div>
         </div>
 
-        <!-- Pricing Section -->
-        <div class="faq-section" id="pricing">
-          <h2 class="section-title">Pricing & Costs</h2>
-
-          <div class="faq-item" data-category="pricing">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>How are service prices calculated?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Our pricing is based on several factors including the type of
-                service, duration, property size, location, and any special
-                requirements. We provide transparent pricing with no hidden
-                fees. You'll see the exact cost before confirming your booking.
-              </p>
+        <!-- Pricing & Payment -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">💰 Pricing & Payment</h3>
+          
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">How much do your services cost?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">Our pricing varies depending on the service type, duration, and complexity. You'll see the exact price when you book a service. We offer competitive rates and transparent pricing with no hidden fees.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="pricing">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>Do you offer any discounts or promotions?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Yes! We regularly offer promotions including first-time customer
-                discounts, referral bonuses, and seasonal deals. We also offer
-                package discounts when booking multiple services. Check our app
-                or website for current offers.
-              </p>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">What payment methods do you accept?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">We accept various payment methods including credit/debit cards, bank transfers, and cash payments. Payment is typically processed after the service is completed to your satisfaction.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="pricing">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>Are there any additional fees?</h3>
-              <span class="faq-toggle">+</span>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">Do you offer any discounts or packages?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">Yes, we offer various discounts for regular customers, bulk bookings, and seasonal promotions. We also have service packages that can save you money when booking multiple services together.</p>
             </div>
-            <div class="faq-answer">
-              <p>
-                Our quoted prices include all standard service costs. Additional
-                fees may apply for emergency services outside business hours,
-                travel to remote locations, or if additional materials are
-                required. Any extra costs will be clearly communicated before
-                the service begins.
-              </p>
-            </div>
-          </div>
-
-          <div class="faq-item" data-category="pricing">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>Can I get a quote before booking?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Absolutely! You can get an instant quote by entering your
-                service details on our website or app. For complex services, you
-                can also request a detailed quote by contacting our support
-                team. We're committed to transparent pricing.
-              </p>
             </div>
           </div>
         </div>
 
-        <!-- Cancellation Section -->
-        <div class="faq-section" id="cancellation">
-          <h2 class="section-title">Cancellation & Rescheduling</h2>
-
-          <div class="faq-item" data-category="cancellation">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>What is your cancellation policy?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                You can cancel or reschedule your booking free of charge up to
-                24 hours before the scheduled service time. Cancellations within
-                24 hours may incur a small fee. Emergency cancellations due to
-                unforeseen circumstances are handled on a case-by-case basis.
-              </p>
+        <!-- Service Providers -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">👷 Service Providers</h3>
+          
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">Are your service providers qualified and insured?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">Yes, all our service providers are thoroughly vetted, qualified, and insured. We conduct background checks and verify their credentials before they join our platform to ensure your safety and satisfaction.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="cancellation">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>How do I cancel or reschedule my booking?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                You can cancel or reschedule through your account dashboard, by
-                calling our support team, or through the confirmation email/SMS.
-                Simply provide your booking reference number and we'll help you
-                make the changes.
-              </p>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">What if I'm not satisfied with the service?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">If you're not satisfied with the service, please contact us immediately. We have a satisfaction guarantee and will work to resolve any issues. You can also submit a complaint through our complaints page.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="cancellation">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>What happens if the service provider cancels?</h3>
-              <span class="faq-toggle">+</span>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">Can I choose a specific service provider?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">While we can't guarantee a specific provider, you can request a preferred provider in the booking notes. We'll do our best to accommodate your request based on availability.</p>
             </div>
-            <div class="faq-answer">
-              <p>
-                If a service provider needs to cancel, we'll notify you
-                immediately and work to reschedule with another qualified
-                provider. If we can't find a suitable replacement, you'll
-                receive a full refund and we'll help you book for another time.
-              </p>
             </div>
           </div>
         </div>
 
-        <!-- Safety Section -->
-        <div class="faq-section" id="safety">
-          <h2 class="section-title">Safety & Security</h2>
-
-          <div class="faq-item" data-category="safety">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>How do you ensure the safety of your service providers?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                All our service providers undergo thorough background checks,
-                identity verification, and skill assessments. They carry
-                identification badges and are tracked during service visits. We
-                also have insurance coverage for all services provided.
-              </p>
+        <!-- Safety & Security -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">🛡️ Safety & Security</h3>
+          
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">How do you ensure my safety and security?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">We prioritize your safety through thorough background checks, verified service providers, real-time tracking, and secure payment processing. All providers are insured and bonded for your protection.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="safety">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>What if I'm not satisfied with the service quality?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                We stand behind the quality of our services. If you're not
-                satisfied, contact us within 24 hours and we'll work to resolve
-                the issue. This may include a re-service, partial refund, or
-                other appropriate compensation.
-              </p>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">What happens if there's damage to my property?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">All our service providers are insured, and we have a comprehensive damage protection policy. If any damage occurs during service, we'll work with you and our insurance to resolve the issue promptly.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="safety">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>Are your service providers insured?</h3>
-              <span class="faq-toggle">+</span>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">Is my personal information secure?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">Yes, we take data security seriously. All personal information is encrypted and stored securely. We never share your information with third parties without your explicit consent.</p>
             </div>
-            <div class="faq-answer">
-              <p>
-                Yes, all our service providers are fully insured. This includes
-                liability insurance and workers' compensation coverage. Your
-                property and our service providers are protected during all
-                service visits.
-              </p>
-            </div>
-          </div>
-
-          <div class="faq-item" data-category="safety">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>What COVID-19 safety measures do you have in place?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Our service providers follow strict COVID-19 protocols including
-                wearing masks, maintaining social distance, using hand
-                sanitizer, and disinfecting equipment. They also complete daily
-                health screenings before starting work.
-              </p>
             </div>
           </div>
         </div>
 
-        <!-- Payment Section -->
-        <div class="faq-section" id="payment">
-          <h2 class="section-title">Payment & Billing</h2>
-
-          <div class="faq-item" data-category="payment">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>What payment methods do you accept?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                We accept all major credit cards (Visa, MasterCard, American
-                Express), debit cards, bank transfers, and digital wallets like
-                PayPal and Apple Pay. Payment is processed securely through our
-                platform.
-              </p>
+        <!-- Technical Support -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">🔧 Technical Support</h3>
+          
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">I'm having trouble with the website/app</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">If you're experiencing technical issues, please try refreshing the page or clearing your browser cache. If the problem persists, contact our support team through the contact page or email us at support@househero.co.za</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="payment">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>When do I pay for the service?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Payment is processed after the service is completed and you've
-                confirmed satisfaction. For some services, a small deposit may
-                be required at booking. You'll receive an invoice within 24
-                hours of service completion.
-              </p>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">How do I reset my password?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">To reset your password, go to the login page and click on "Forgot Password". Enter your email address and follow the instructions sent to your email to create a new password.</p>
             </div>
           </div>
 
-          <div class="faq-item" data-category="payment">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>Can I get a refund if I'm not satisfied?</h3>
-              <span class="faq-toggle">+</span>
+            <div class="border border-gray-200 rounded-lg">
+              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
+                <span class="font-medium text-gray-800">Can I use the service without creating an account?</span>
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">While you can browse our services without an account, you'll need to create an account to book services, track your appointments, and access your booking history.</p>
             </div>
-            <div class="faq-answer">
-              <p>
-                Yes, we offer a satisfaction guarantee. If you're not completely
-                satisfied with the service, contact us within 24 hours and we'll
-                work to resolve the issue. This may include a full or partial
-                refund depending on the circumstances.
-              </p>
-            </div>
-          </div>
-
-          <div class="faq-item" data-category="payment">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>Do you offer payment plans?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                For larger projects or recurring services, we do offer payment
-                plans. These can be arranged through our support team. Standard
-                services are typically paid in full after completion.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Account Section -->
-        <div class="faq-section" id="account">
-          <h2 class="section-title">Account & Profile</h2>
-
-          <div class="faq-item" data-category="account">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>How do I create an account?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Creating an account is simple! Click the "Sign Up" button on our
-                website or app, enter your email address, create a password, and
-                verify your email. You can also sign up using your Google or
-                Facebook account for convenience.
-              </p>
-            </div>
-          </div>
-
-          <div class="faq-item" data-category="account">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>How do I update my profile information?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                You can update your profile information by going to your account
-                settings. Click on your profile picture or name, then select
-                "Edit Profile" to update your personal information, contact
-                details, and preferences.
-              </p>
-            </div>
-          </div>
-
-          <div class="faq-item" data-category="account">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>Can I have multiple addresses saved?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Yes! You can save multiple addresses in your account. This is
-                useful if you need services at different locations like your
-                home, office, or rental property. You can manage these addresses
-                in your account settings.
-              </p>
-            </div>
-          </div>
-
-          <div class="faq-item" data-category="account">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-              <h3>How do I delete my account?</h3>
-              <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                To delete your account, go to your account settings and select
-                "Delete Account." You'll need to confirm your decision and
-                provide a reason. Please note that this action is permanent and
-                cannot be undone.
-              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Still Need Help Section -->
-      <div class="help-section">
-        <h2 class="section-title">Still Need Help?</h2>
-        <p>
-          Can't find the answer you're looking for? Our support team is here to
-          help!
-        </p>
-
-        <div class="help-options">
-          <a href="/house-hero-app/pages/info/contact.html" class="btn-primary"
-            >Contact Support</a
-          >
-          <a
-            href="/house-hero-app/pages/services/complaints.html"
-            class="btn-secondary"
-            >Submit a Complaint</a
-          >
-        </div>
+      <!-- Contact Support -->
+      <div class="bg-blue-50 rounded-xl p-6 mt-6 text-center">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Still have questions?</h3>
+        <p class="text-gray-600 mb-4">Can't find the answer you're looking for? Our support team is here to help.</p>
+        <a
+          href="../info/contact.html"
+          class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105"
+        >
+          Contact Support
+        </a>
       </div>
     </main>
 
-    <!-- JavaScript -->
+    <script src="/js/config.js"></script>
     <script src="/js/script.js"></script>
     <script>
-      // FAQ page specific JavaScript
-      document.addEventListener("DOMContentLoaded", function () {
-        initializeFAQ();
-      });
+      // Dark mode functionality
+      function initDarkMode() {
+        const toggleBtn = document.getElementById("toggle-dark");
+        const body = document.body;
 
-      function initializeFAQ() {
-        // Category filtering
-        const categoryBtns = document.querySelectorAll(".category-btn");
-        categoryBtns.forEach((btn) => {
-          btn.addEventListener("click", function () {
-            const category = this.dataset.category;
-            filterByCategory(category);
+        // Check for saved dark mode preference or default to light mode
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
 
-            // Update active button
-            categoryBtns.forEach((b) => b.classList.remove("active"));
-            this.classList.add("active");
-          });
-        });
-
-        // Search functionality
-        const searchInput = document.getElementById("faq-search");
-        searchInput.addEventListener("input", function () {
-          searchFAQ();
-        });
-
-        // Handle hash navigation
-        if (window.location.hash) {
-          const targetSection = window.location.hash.substring(1);
-          const targetElement = document.getElementById(targetSection);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: "smooth" });
-            // Filter to show only that category
-            filterByCategory(targetSection);
-            categoryBtns.forEach((btn) => {
-              btn.classList.remove("active");
-              if (btn.dataset.category === targetSection) {
-                btn.classList.add("active");
-              }
-            });
-          }
-        }
-      }
-
-      function toggleFAQ(element) {
-        const answer = element.nextElementSibling;
-        const toggle = element.querySelector(".faq-toggle");
-
-        if (answer.style.maxHeight) {
-          answer.style.maxHeight = null;
-          toggle.textContent = "+";
+        // Apply initial dark mode state
+        if (isDarkMode) {
+          body.classList.add("dark");
+          toggleBtn.innerHTML = "🌙";
         } else {
-          answer.style.maxHeight = answer.scrollHeight + "px";
-          toggle.textContent = "−";
+          body.classList.remove("dark");
+          toggleBtn.innerHTML = "☀️";
         }
+
+        // Toggle dark mode
+        toggleBtn.addEventListener("click", function () {
+          body.classList.toggle("dark");
+          const isDark = body.classList.contains("dark");
+          localStorage.setItem("darkMode", isDark);
+          toggleBtn.innerHTML = isDark ? "🌙" : "☀️";
+        });
       }
 
-      function filterByCategory(category) {
-        const faqItems = document.querySelectorAll(".faq-item");
+      // Sidebar menu functionality
+      function initSidebarMenu() {
+        const menuToggle = document.getElementById("menu-toggle");
+        const sidebarMenu = document.getElementById("sidebar-menu");
+        const sidebarOverlay = document.getElementById("sidebar-overlay");
+        const closeMenu = document.getElementById("close-menu");
 
-        faqItems.forEach((item) => {
-          if (category === "all" || item.dataset.category === category) {
-            item.style.display = "block";
-          } else {
-            item.style.display = "none";
+        // Open menu
+        menuToggle.addEventListener("click", function (e) {
+          e.preventDefault();
+          sidebarMenu.classList.remove("translate-x-full");
+          sidebarOverlay.classList.remove("hidden");
+        });
+
+        // Close menu
+        function closeSidebarMenu() {
+          sidebarMenu.classList.add("translate-x-full");
+          sidebarOverlay.classList.add("hidden");
+        }
+
+        closeMenu.addEventListener("click", closeSidebarMenu);
+        sidebarOverlay.addEventListener("click", closeSidebarMenu);
+
+        // Close menu on escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            closeSidebarMenu();
           }
         });
       }
 
-      function searchFAQ() {
-        const searchTerm = document
-          .getElementById("faq-search")
-          .value.toLowerCase();
-        const faqItems = document.querySelectorAll(".faq-item");
+      // FAQ toggle functionality
+      function toggleFAQ(button) {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector('span:last-child');
+        
+        if (content.classList.contains('hidden')) {
+          content.classList.remove('hidden');
+          icon.textContent = '-';
+        } else {
+          content.classList.add('hidden');
+          icon.textContent = '+';
+        }
+      }
 
-        faqItems.forEach((item) => {
-          const question = item.querySelector("h3").textContent.toLowerCase();
-          const answer = item
-            .querySelector(".faq-answer p")
-            .textContent.toLowerCase();
+      // Search functionality
+      function initSearch() {
+        const searchInput = document.getElementById('faq-search');
+        const faqItems = document.querySelectorAll('.border.border-gray-200.rounded-lg');
+        
+        searchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase();
+          
+          faqItems.forEach(item => {
+            const question = item.querySelector('button span').textContent.toLowerCase();
+            const answer = item.querySelector('div p')?.textContent.toLowerCase() || '';
 
           if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-            item.style.display = "block";
-            // Highlight search term
-            if (searchTerm) {
-              highlightText(item, searchTerm);
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
             }
-          } else {
-            item.style.display = "none";
-          }
+          });
         });
-
-        // Update category buttons
-        const categoryBtns = document.querySelectorAll(".category-btn");
-        categoryBtns.forEach((btn) => btn.classList.remove("active"));
-        document.querySelector('[data-category="all"]').classList.add("active");
       }
 
-      function highlightText(element, searchTerm) {
-        const question = element.querySelector("h3");
-        const answer = element.querySelector(".faq-answer p");
-
-        // Remove existing highlights
-        question.innerHTML = question.innerHTML
-          .replace(/<mark>/g, "")
-          .replace(/<\/mark>/g, "");
-        answer.innerHTML = answer.innerHTML
-          .replace(/<mark>/g, "")
-          .replace(/<\/mark>/g, "");
-
-        // Add new highlights
-        const questionText = question.textContent;
-        const answerText = answer.textContent;
-
-        question.innerHTML = questionText.replace(
-          new RegExp(searchTerm, "gi"),
-          (match) => `<mark>${match}</mark>`
-        );
-        answer.innerHTML = answerText.replace(
-          new RegExp(searchTerm, "gi"),
-          (match) => `<mark>${match}</mark>`
-        );
-      }
-
-      // Expand FAQ item when navigating via hash
-      function expandFAQByHash() {
-        if (window.location.hash) {
-          const targetId = window.location.hash.substring(1);
-          const targetItem = document.querySelector(
-            `[data-category="${targetId}"]`
-          );
-          if (targetItem) {
-            const question = targetItem.querySelector(".faq-question");
-            toggleFAQ(question);
-          }
-        }
-      }
-
-      // Call on page load
-      setTimeout(expandFAQByHash, 500);
+      document.addEventListener("DOMContentLoaded", function () {
+        initDarkMode();
+        initSidebarMenu();
+        initSearch();
+      });
     </script>
   </body>
 </html>
