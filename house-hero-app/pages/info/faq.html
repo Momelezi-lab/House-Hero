@@ -90,7 +90,7 @@
   <body class="bg-gray-50 text-gray-900 min-h-screen">
     <!-- Back Button -->
     <a
-      href="/index.html"
+      href="../../public/index.html"
       class="fixed top-4 left-4 z-50 bg-white hover:bg-gray-100 text-gray-700 font-bold py-2 px-3 rounded-full shadow-lg transition-colors duration-200"
     >
       &lt;
@@ -117,7 +117,9 @@
           >☰</a
         >
         <div class="text-center">
-          <h1 class="text-3xl md:text-4xl font-bold mb-2">Frequently Asked Questions</h1>
+          <h1 class="text-3xl md:text-4xl font-bold mb-2">
+            Frequently Asked Questions
+          </h1>
           <p class="text-lg text-blue-100">Find answers to common questions</p>
         </div>
       </div>
@@ -190,16 +192,19 @@
           <h2 class="text-2xl font-bold text-gray-800 mb-2">Search FAQ</h2>
           <p class="text-gray-600">Find answers to your questions quickly</p>
         </div>
-        
+
         <div class="max-w-md mx-auto">
           <div class="relative">
-          <input
-            type="text"
-            id="faq-search"
-            placeholder="Search for questions..."
+            <input
+              type="text"
+              id="faq-search"
+              placeholder="Search for questions..."
               class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 text-gray-900"
-          />
-            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+            />
+            <span
+              class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+              >🔍</span
+            >
           </div>
         </div>
       </div>
@@ -208,185 +213,340 @@
       <div class="space-y-6">
         <!-- Booking & Services -->
         <div class="bg-white rounded-xl shadow-lg p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-4">📅 Booking & Services</h3>
-          
+          <h3 class="text-xl font-bold text-gray-800 mb-4">
+            📅 Booking & Services
+          </h3>
+
           <div class="space-y-4">
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">How do I book a service?</span>
-                <span class="text-gray-400">+</span>
-        </button>
-              <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">To book a service, simply select the service you need from our homepage, choose your preferred date and time, fill in your details, and confirm your booking. You'll receive a confirmation email with all the details.</p>
-            </div>
-          </div>
-
-            <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">Can I cancel or reschedule my booking?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >How do I book a service?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">Yes, you can cancel or reschedule your booking up to 24 hours before the scheduled service time. Simply go to your booking history and select the option to modify or cancel your appointment.</p>
+                <p class="text-gray-600">
+                  To book a service, simply select the service you need from our
+                  homepage, choose your preferred date and time, fill in your
+                  details, and confirm your booking. You'll receive a
+                  confirmation email with all the details.
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">What services do you offer?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >Can I cancel or reschedule my booking?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">We offer a wide range of home services including cleaning, plumbing, electrical work, handyman services, gardening, locksmith services, mechanic services, pest control, air conditioning, and sneaker cleaning.</p>
+                <p class="text-gray-600">
+                  Yes, you can cancel or reschedule your booking up to 24 hours
+                  before the scheduled service time. Simply go to your booking
+                  history and select the option to modify or cancel your
+                  appointment.
+                </p>
+              </div>
             </div>
+
+            <div class="border border-gray-200 rounded-lg">
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >What services do you offer?</span
+                >
+                <span class="text-gray-400">+</span>
+              </button>
+              <div class="hidden px-4 pb-3">
+                <p class="text-gray-600">
+                  We offer a wide range of home services including cleaning,
+                  plumbing, electrical work, handyman services, gardening,
+                  locksmith services, mechanic services, pest control, air
+                  conditioning, and sneaker cleaning.
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Pricing & Payment -->
         <div class="bg-white rounded-xl shadow-lg p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-4">💰 Pricing & Payment</h3>
-          
+          <h3 class="text-xl font-bold text-gray-800 mb-4">
+            💰 Pricing & Payment
+          </h3>
+
           <div class="space-y-4">
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">How much do your services cost?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >How much do your services cost?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">Our pricing varies depending on the service type, duration, and complexity. You'll see the exact price when you book a service. We offer competitive rates and transparent pricing with no hidden fees.</p>
+                <p class="text-gray-600">
+                  Our pricing varies depending on the service type, duration,
+                  and complexity. You'll see the exact price when you book a
+                  service. We offer competitive rates and transparent pricing
+                  with no hidden fees.
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">What payment methods do you accept?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >What payment methods do you accept?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">We accept various payment methods including credit/debit cards, bank transfers, and cash payments. Payment is typically processed after the service is completed to your satisfaction.</p>
+                <p class="text-gray-600">
+                  We accept various payment methods including credit/debit
+                  cards, bank transfers, and cash payments. Payment is typically
+                  processed after the service is completed to your satisfaction.
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">Do you offer any discounts or packages?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >Do you offer any discounts or packages?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">Yes, we offer various discounts for regular customers, bulk bookings, and seasonal promotions. We also have service packages that can save you money when booking multiple services together.</p>
-            </div>
+                <p class="text-gray-600">
+                  Yes, we offer various discounts for regular customers, bulk
+                  bookings, and seasonal promotions. We also have service
+                  packages that can save you money when booking multiple
+                  services together.
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Service Providers -->
         <div class="bg-white rounded-xl shadow-lg p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-4">👷 Service Providers</h3>
-          
+          <h3 class="text-xl font-bold text-gray-800 mb-4">
+            👷 Service Providers
+          </h3>
+
           <div class="space-y-4">
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">Are your service providers qualified and insured?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >Are your service providers qualified and insured?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">Yes, all our service providers are thoroughly vetted, qualified, and insured. We conduct background checks and verify their credentials before they join our platform to ensure your safety and satisfaction.</p>
+                <p class="text-gray-600">
+                  Yes, all our service providers are thoroughly vetted,
+                  qualified, and insured. We conduct background checks and
+                  verify their credentials before they join our platform to
+                  ensure your safety and satisfaction.
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">What if I'm not satisfied with the service?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >What if I'm not satisfied with the service?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">If you're not satisfied with the service, please contact us immediately. We have a satisfaction guarantee and will work to resolve any issues. You can also submit a complaint through our complaints page.</p>
+                <p class="text-gray-600">
+                  If you're not satisfied with the service, please contact us
+                  immediately. We have a satisfaction guarantee and will work to
+                  resolve any issues. You can also submit a complaint through
+                  our complaints page.
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">Can I choose a specific service provider?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >Can I choose a specific service provider?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">While we can't guarantee a specific provider, you can request a preferred provider in the booking notes. We'll do our best to accommodate your request based on availability.</p>
-            </div>
+                <p class="text-gray-600">
+                  While we can't guarantee a specific provider, you can request
+                  a preferred provider in the booking notes. We'll do our best
+                  to accommodate your request based on availability.
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Safety & Security -->
         <div class="bg-white rounded-xl shadow-lg p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-4">🛡️ Safety & Security</h3>
-          
+          <h3 class="text-xl font-bold text-gray-800 mb-4">
+            🛡️ Safety & Security
+          </h3>
+
           <div class="space-y-4">
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">How do you ensure my safety and security?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >How do you ensure my safety and security?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">We prioritize your safety through thorough background checks, verified service providers, real-time tracking, and secure payment processing. All providers are insured and bonded for your protection.</p>
+                <p class="text-gray-600">
+                  We prioritize your safety through thorough background checks,
+                  verified service providers, real-time tracking, and secure
+                  payment processing. All providers are insured and bonded for
+                  your protection.
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">What happens if there's damage to my property?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >What happens if there's damage to my property?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">All our service providers are insured, and we have a comprehensive damage protection policy. If any damage occurs during service, we'll work with you and our insurance to resolve the issue promptly.</p>
+                <p class="text-gray-600">
+                  All our service providers are insured, and we have a
+                  comprehensive damage protection policy. If any damage occurs
+                  during service, we'll work with you and our insurance to
+                  resolve the issue promptly.
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">Is my personal information secure?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >Is my personal information secure?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">Yes, we take data security seriously. All personal information is encrypted and stored securely. We never share your information with third parties without your explicit consent.</p>
-            </div>
+                <p class="text-gray-600">
+                  Yes, we take data security seriously. All personal information
+                  is encrypted and stored securely. We never share your
+                  information with third parties without your explicit consent.
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Technical Support -->
         <div class="bg-white rounded-xl shadow-lg p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-4">🔧 Technical Support</h3>
-          
+          <h3 class="text-xl font-bold text-gray-800 mb-4">
+            🔧 Technical Support
+          </h3>
+
           <div class="space-y-4">
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">I'm having trouble with the website/app</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >I'm having trouble with the website/app</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">If you're experiencing technical issues, please try refreshing the page or clearing your browser cache. If the problem persists, contact our support team through the contact page or email us at support@househero.co.za</p>
+                <p class="text-gray-600">
+                  If you're experiencing technical issues, please try refreshing
+                  the page or clearing your browser cache. If the problem
+                  persists, contact our support team through the contact page or
+                  email us at support@househero.co.za
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">How do I reset my password?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >How do I reset my password?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">To reset your password, go to the login page and click on "Forgot Password". Enter your email address and follow the instructions sent to your email to create a new password.</p>
+                <p class="text-gray-600">
+                  To reset your password, go to the login page and click on
+                  "Forgot Password". Enter your email address and follow the
+                  instructions sent to your email to create a new password.
+                </p>
+              </div>
             </div>
-          </div>
 
             <div class="border border-gray-200 rounded-lg">
-              <button class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200" onclick="toggleFAQ(this)">
-                <span class="font-medium text-gray-800">Can I use the service without creating an account?</span>
+              <button
+                class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                onclick="toggleFAQ(this)"
+              >
+                <span class="font-medium text-gray-800"
+                  >Can I use the service without creating an account?</span
+                >
                 <span class="text-gray-400">+</span>
               </button>
               <div class="hidden px-4 pb-3">
-                <p class="text-gray-600">While you can browse our services without an account, you'll need to create an account to book services, track your appointments, and access your booking history.</p>
-            </div>
+                <p class="text-gray-600">
+                  While you can browse our services without an account, you'll
+                  need to create an account to book services, track your
+                  appointments, and access your booking history.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -394,8 +554,13 @@
 
       <!-- Contact Support -->
       <div class="bg-blue-50 rounded-xl p-6 mt-6 text-center">
-        <h3 class="text-xl font-bold text-gray-800 mb-2">Still have questions?</h3>
-        <p class="text-gray-600 mb-4">Can't find the answer you're looking for? Our support team is here to help.</p>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">
+          Still have questions?
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Can't find the answer you're looking for? Our support team is here to
+          help.
+        </p>
         <a
           href="../info/contact.html"
           class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105"
@@ -468,33 +633,38 @@
       // FAQ toggle functionality
       function toggleFAQ(button) {
         const content = button.nextElementSibling;
-        const icon = button.querySelector('span:last-child');
-        
-        if (content.classList.contains('hidden')) {
-          content.classList.remove('hidden');
-          icon.textContent = '-';
+        const icon = button.querySelector("span:last-child");
+
+        if (content.classList.contains("hidden")) {
+          content.classList.remove("hidden");
+          icon.textContent = "-";
         } else {
-          content.classList.add('hidden');
-          icon.textContent = '+';
+          content.classList.add("hidden");
+          icon.textContent = "+";
         }
       }
 
       // Search functionality
       function initSearch() {
-        const searchInput = document.getElementById('faq-search');
-        const faqItems = document.querySelectorAll('.border.border-gray-200.rounded-lg');
-        
-        searchInput.addEventListener('input', function() {
-          const searchTerm = this.value.toLowerCase();
-          
-          faqItems.forEach(item => {
-            const question = item.querySelector('button span').textContent.toLowerCase();
-            const answer = item.querySelector('div p')?.textContent.toLowerCase() || '';
+        const searchInput = document.getElementById("faq-search");
+        const faqItems = document.querySelectorAll(
+          ".border.border-gray-200.rounded-lg"
+        );
 
-          if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-              item.style.display = 'block';
+        searchInput.addEventListener("input", function () {
+          const searchTerm = this.value.toLowerCase();
+
+          faqItems.forEach((item) => {
+            const question = item
+              .querySelector("button span")
+              .textContent.toLowerCase();
+            const answer =
+              item.querySelector("div p")?.textContent.toLowerCase() || "";
+
+            if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+              item.style.display = "block";
             } else {
-              item.style.display = 'none';
+              item.style.display = "none";
             }
           });
         });
